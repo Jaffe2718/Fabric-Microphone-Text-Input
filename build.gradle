@@ -65,9 +65,9 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}"}
     }
-    from {
-        configurations.runtimeClasspath.filter { it.name.endsWith('.jar') }.map { zipTree(it) }
-    }
+//    from {
+//        configurations.runtimeClasspath.filter { it.name.endsWith('.jar') }.map { zipTree(it) }
+//    }
 }
 
 // configure the maven publication
