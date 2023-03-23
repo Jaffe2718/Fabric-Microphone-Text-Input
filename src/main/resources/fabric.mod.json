@@ -1,0 +1,29 @@
+{
+    "schemaVersion": 1,
+    "id": "mcmti",
+    "version": "${version}",
+    "name": "Microphone Text Input for US English",
+    "description": "A fabric tool mod that provides American English speech recognition input",
+    "authors": [],
+    "contact": {
+        "homepage": "https://github.com/Jaffe2718",
+        "issues": "https://github.com/Jaffe2718/Fabric-Microphone-Text-Input/issues",
+        "sources": "https://github.com/Jaffe2718/Fabric-Microphone-Text-Input"
+    },
+    "license": "MIT",
+    "icon": "assets/mcmti/icon.png",
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            "github.jaffe2718.mcmti.client.MicrophoneTextInputClient"
+        ],
+        "main": [
+            "github.jaffe2718.mcmti.MicrophoneTextInput"
+        ]
+    },
+    "depends": {
+        "fabricloader": ">=0.14.9",
+        "fabric": "*",
+        "minecraft": "1.19.2"
+    }
+}
