@@ -58,14 +58,14 @@ public MicrophoneHandler() {
 3. The massage will be automatically sent.
 ### Tips
 The accuracy of speech recognition is related to the model called by the program, not to the program ontology. The more accurate the model, the more accurate the recognition. The model used by this mod is the default model provided by CMU Sphnix, which is not very accurate. If you want to use a more accurate model, you can download the model you want to use from [CMU Sphnix](https://cmusphinx.github.io/wiki/download/) or train your own model. Then you can change the model used by the mod by following the instructions in the [Developer Guide](#change-language-model).
-
+If you find a better acoustic language model, you can let me know at my [GitHub Issues](https://github.com/Jaffe2718/Fabric-Microphone-Text-Input/issues).
 ## About
 ### License
 This mod is licensed under the [MIT License](LICENSE)
 ### Author
 [Jaffe2718](https://github.com/Jaffe2718)
 ### Issue
-If you have any questions or suggestions, please submit an issue on [GitHub](https://github.com/Jaffe2718/Fabric-Microphone-Text-Input/issues).
+If you have any questions or suggestions, please submit an issue on [GitHub Issues](https://github.com/Jaffe2718/Fabric-Microphone-Text-Input/issues).
 ### Contact
 You can also contact me through the following methods:
 [Bilibili Jaffe-](https://space.bilibili.com/1671742926)
