@@ -3,7 +3,7 @@
 ![icon](src/main/resources/assets/mcmti/icon.png)
 ## Introduction
 ### Function Overview
-This mod allows you to use your microphone to input text into the game. It is a client-side mod, so it does not require any server-side setup.
+This mod allows you to use your microphone to input text and send player message. It is a client-side mod, so it does not require any server-side setup.
 ### How it Works
 The mod uses the Sphnix-4 from [CMU Sphnix](https://cmusphinx.github.io/) to convert your voice into text.
 This mod will automatically recognize your voice and convert it into text and send it to the game as a chat message if the user is pressing the `v` key.
