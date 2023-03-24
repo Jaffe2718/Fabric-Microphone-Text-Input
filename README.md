@@ -60,6 +60,8 @@ public MicrophoneHandler() {
 The accuracy of speech recognition is related to the model called by the program, not to the program ontology. The more accurate the model, the more accurate the recognition. The model used by this mod is the default model provided by CMU Sphnix, which is not very accurate. If you want to use a more accurate model, you can download the model you want to use from [CMU Sphnix](https://cmusphinx.github.io/wiki/download/) or train your own model. Then you can change the model used by the mod by following the instructions in the [Developer Guide](#change-language-model).
 If you find a better acoustic language model, you can let me know at my [GitHub Issues](https://github.com/Jaffe2718/Fabric-Microphone-Text-Input/issues).
 ## About
+### Repository
+[GitHub](https://github.com/Jaffe2718/Fabric-Microphone-Text-Input)
 ### License
 This mod is licensed under the [MIT License](LICENSE)
 ### Author
