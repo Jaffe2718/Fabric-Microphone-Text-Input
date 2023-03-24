@@ -1,7 +1,9 @@
 plugins {
     // main plugin
+    id 'java'
     id 'fabric-loom' version '1.0-SNAPSHOT'
     id 'maven-publish'
+    // other plugins
 }
 
 version = project.mod_version
@@ -28,8 +30,11 @@ dependencies {
         // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    implementation "edu.cmu.sphinx:sphinx4-core:5prealpha-SNAPSHOT"
-    implementation "edu.cmu.sphinx:sphinx4-data:5prealpha-SNAPSHOT"
+    modApiMapped "edu.cmu.sphinx:sphinx4-core:5prealpha-SNAPSHOT"
+    modApiMapped "edu.cmu.sphinx:sphinx4-data:5prealpha-SNAPSHOT"
+    modCompileClasspath("edu.cmu.sphinx:sphinx4-core:5prealpha-SNAPSHOT")
+    modCompileClasspath("edu.cmu.sphinx:sphinx4-data:5prealpha-SNAPSHOT")
+
 }
 
 processResources {
@@ -65,9 +70,13 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}"}
     }
-//    from {
-//        configurations.runtimeClasspath.filter { it.name.endsWith('.jar') }.map { zipTree(it) }
-//    }
+    from {
+        configurations.compileClasspath.findAll() {
+            it.name.endsWith(".jar") && it.name.contains("sphinx4")
+        }.collect {
+            zipTree(it)
+        }
+    }
 }
 
 // configure the maven publication
