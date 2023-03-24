@@ -5,11 +5,6 @@ import github.jaffe2718.mcmti.client.MicrophoneTextInputClient;
 import github.jaffe2718.mcmti.util.MicrophoneHandler;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.network.message.DecoratedContents;
-import net.minecraft.network.message.MessageType;
-import net.minecraft.network.message.SentMessage;
-import net.minecraft.network.message.SignedMessage;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
 public class MicrophoneEventRegister {
@@ -29,21 +24,21 @@ public class MicrophoneEventRegister {
     public static void registerEvents() {
         ClientTickEvents.END_CLIENT_TICK.register(
             (client) -> {
-                if (client.world != null && client.player!=null && client.getServer() != null) {
-                    ServerPlayerEntity self = client.getServer().getPlayerManager().getPlayer(client.player.getUuid());
-                    if (MicrophoneTextInputClient.vKeyBinding.isPressed()                               // If the key v is pressed.
-                            && self != null && (sendThread == null || !sendThread.isAlive())) {         // to avoid creating redundant threads.
-                        self.sendMessageToClient(Text.of("Recognizing audio..."), true);  // Send a message to the client to notify the player that the voice input is being recognized.
+                if (client.player!=null) {
+                    //MicrophoneTextInput.LOGGER.info("v:"+MicrophoneTextInputClient.vKeyBinding.isPressed());
+                    if (MicrophoneTextInputClient.vKeyBinding.isPressed()                                // If the key v is pressed.
+                            && (sendThread == null || !sendThread.isAlive())) {                          // to avoid creating redundant threads.
+                        client.player.sendMessage(Text.of("Recognizing audio..."), true);  // Send a message to the client to notify the player that the voice input is being recognized.
                         sendThread = new Thread(() -> {
-                            while (MicrophoneTextInputClient.vKeyBinding.isPressed()) {
+                            while (MicrophoneTextInputClient.vKeyBinding.isPressed()) {                 // When User press the key v
                                 String voiceInput = microphoneHandler.getResult();
-                                if (voiceInput != null && voiceInput.length() > 0) {                   // If the voice input is not empty.
-                                    self.sendChatMessage(new SentMessage.Chat(
-                                            SignedMessage.ofUnsigned(
-                                                    new DecoratedContents(microphoneHandler.getResult())
-                                            )
-                                    ), false, MessageType.params(MessageType.CHAT, self));
+                                if (voiceInput != null && voiceInput.length() > 0) {                    // If the voice input is not empty.
+                                    client.player.sendChatMessage(voiceInput, Text.of(voiceInput));
                                 }
+                            }
+                            String lastMessage = microphoneHandler.getResult();
+                            if (lastMessage.length() > 0) {
+                                client.player.sendChatMessage(lastMessage, Text.of(lastMessage));
                             }
                         });
                         sendThread.start();
@@ -52,9 +47,7 @@ public class MicrophoneEventRegister {
             });
 
         ClientLifecycleEvents.CLIENT_STOPPING.register(
-                (client) -> {
-                    microphoneHandler.stopRecognize();
-                }
+                (client) -> microphoneHandler.stopRecognize()
         );
     }
 }

@@ -16,9 +16,6 @@
     "entrypoints": {
         "client": [
             "github.jaffe2718.mcmti.client.MicrophoneTextInputClient"
-        ],
-        "main": [
-            "github.jaffe2718.mcmti.MicrophoneTextInput"
         ]
     },
     "depends": {
