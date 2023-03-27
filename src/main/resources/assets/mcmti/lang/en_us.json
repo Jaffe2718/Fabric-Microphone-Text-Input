@@ -1,0 +1,15 @@
+{
+    "mcmti.midnightconfig.title": "§bMicrophone Text Input Mod Configuration",
+    "mcmti.midnightconfig.labelConfig": "§eConfiguration",
+    "mcmti.midnightconfig.acousticModelPath": "absolute path of acoustic model",
+    "mcmti.midnightconfig.cacheSize": "audio cache size (unit: Byte)",
+    "mcmti.midnightconfig.sampleRate": "audio sample rate (unit: Hz)",
+    "mcmti.midnightconfig.encoding_repair": "error encoding repair (beta)",
+    "mcmti.midnightconfig.srcEncoding": "source encoding (beta)",
+    "mcmti.midnightconfig.dstEncoding": "destination encoding (beta)",
+    "mcmti.midnightconfig.about": "§eAbout",
+    "mcmti.midnightconfig.mod_name": "Mod Name:                    Fabric Microphone Text Input Mod",
+    "mcmti.midnightconfig.license":  "License:                                            §aMIT",
+    "mcmti.midnightconfig.author":   "Author:                                          §l§0§9Jaffe2718",
+    "mcmti.midnightconfig.version":  "Version:                                            1.1.0"
+}
