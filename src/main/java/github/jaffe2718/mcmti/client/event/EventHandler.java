@@ -62,6 +62,7 @@ public class EventHandler {
                                 } else if (microphoneHandler == null) {  // wait 10 seconds and try to initialize the microphone handler again
                                     listenThread.wait(10000);
                                     microphoneHandler = new MicrophoneHandler(new AudioFormat(ConfigUI.sampleRate, 16, 1, true, false));
+                                    microphoneHandler.startListening();  // Try to restart microphone
                                 } else {                                 // If the speech recognizer and the microphone handler are initialized successfully
                                     String tmp = speechRecognizer.getStringMsg(microphoneHandler.readData());
                                     if (!tmp.equals("") && !tmp.equals(lastResult) &&

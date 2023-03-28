@@ -33,7 +33,6 @@ dependencies {
 
     // Thrid party Java libraries
     implementation "com.alphacephei:vosk:${vosk_version}"
-    //implementation "ai.kitt.vosk:vosk:"
     }
 
 processResources {
