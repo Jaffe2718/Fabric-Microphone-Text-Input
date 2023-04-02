@@ -1,0 +1,33 @@
+{
+    "schemaVersion": 1,
+    "id": "mcmti",
+    "version": "${version}",
+    "name": "Fabric Microphone Text Input Mod",
+    "description": "",
+    "authors": [
+        "Jaffe2718"
+    ],
+    "contact": {
+        "homepage": "https://github.com/Jaffe2718",
+        "issues": "https://github.com/Jaffe2718/Fabric-Microphone-Text-Input/issues",
+        "sources": "https://github.com/Jaffe2718/Fabric-Microphone-Text-Input"
+    },
+    "license": "MIT",
+    "icon": "assets/mcmti/icon.png",
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            "github.jaffe2718.mcmti.client.MicrophoneTextInputClient"
+        ],
+        "main": [
+            "github.jaffe2718.mcmti.MicrophoneTextInputMain"
+        ]
+    },
+    "depends": {
+        "fabricloader": ">=0.14.8",
+        "fabric": "*",
+        "minecraft": "1.19.3",
+        "midnightlib": ">=1.1.0",
+        "modmenu": ">=5.0.0"
+    }
+}
