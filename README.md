@@ -10,7 +10,7 @@ This mod allows you to use your microphone to input text and send it as a player
 ### Operating Principles
 This mod uses [VOSK Offline Speech Recognition API](https://alphacephei.com/vosk/) to recognize the text from the microphone. The recognized text will be sent to the server as a player message when the user presses the `V` key.
 
-### What's New in 1.1.0
+### What's New in 1.1.x
 - Use [VOSK Offline Speech Recognition API](https://alphacephei.com/vosk/) to recognize text from the microphone instead of [CMU Sphnix](https://cmusphinx.github.io/), so that the recognition is more accurate and the recognition speed is faster.
 - Add a configuration UI by importing [MidnightLib](https://github.com/TeamMidnightDust/MidnightLib) so that you can configure the mod to choose the language model, and since 1.1.0 we will not provide the language model in the mod package, you need to download the language model from [VOSK Models](https://alphacephei.com/vosk/models).
 
