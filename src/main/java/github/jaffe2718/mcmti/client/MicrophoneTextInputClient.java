@@ -7,7 +7,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
-public class FabricMicrophoneTextInputClient implements ClientModInitializer {
+public class MicrophoneTextInputClient implements ClientModInitializer {
     public static KeyBinding vKeyBinding;
     /**
      * Runs the mod initializer on the client environment.

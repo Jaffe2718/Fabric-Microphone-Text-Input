@@ -29,7 +29,7 @@ public class SpeechRecognizer {
      */
     public String getStringMsg(byte[] data) {
         if (recognizer.acceptWaveForm(data, data.length)) {
-            // FabricMicrophoneTextInputMain.LOGGER.info(recognizer.getResult());
+            // MicrophoneTextInputMain.LOGGER.info(recognizer.getResult());
             return JsonParser.parseString(recognizer.getResult()).getAsJsonObject().get("text").getAsString();
         } else {
             return "";

@@ -6,7 +6,7 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FabricMicrophoneTextInputMain implements ModInitializer {
+public class MicrophoneTextInputMain implements ModInitializer {
 
     public static final String MOD_ID = "mcmti";
 

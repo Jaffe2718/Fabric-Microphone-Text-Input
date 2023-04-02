@@ -20,7 +20,7 @@ public class ConfigUI extends MidnightConfig{
     /**
      * Maximum cache of microphone audio in bytes.
      * Also the size of the cache used to store audio data, use bytes as the unit, the default is 4096 bytes.*/
-    @Entry(min = 1024, max = 32768) public static int cacheSize = 2048;    // The size of the cache used to store audio data, use bytes as the unit, the default is 4096 bytes
+    @Entry(min = 1024, max = 32768) public static int cacheSize = 4096;    // The size of the cache used to store audio data, use bytes as the unit, the default is 4096 bytes
 
     /**
      * The sample rate of the microphone, the default is 16000.

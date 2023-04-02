@@ -17,10 +17,10 @@
     "environment": "client",
     "entrypoints": {
         "client": [
-            "github.jaffe2718.mcmti.client.FabricMicrophoneTextInputClient"
+            "github.jaffe2718.mcmti.client.MicrophoneTextInputClient"
         ],
         "main": [
-            "github.jaffe2718.mcmti.FabricMicrophoneTextInputMain"
+            "github.jaffe2718.mcmti.MicrophoneTextInputMain"
         ]
     },
     "depends": {
