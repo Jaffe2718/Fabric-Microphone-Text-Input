@@ -8,10 +8,6 @@ import github.jaffe2718.mcmti.unit.SpeechRecognizer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.network.message.MessageType;
-import net.minecraft.network.message.SentMessage;
-import net.minecraft.network.message.SignedMessage;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import org.vosk.Model;
 
@@ -110,20 +106,12 @@ public class EventHandler {
 
     private static void handleEndClientTickEvent(MinecraftClient client) {     // When the client ticks, check if the user presses the key V
         if (client.player!=null &&                                             // If the player is not null
-                client.getServer() != null &&                                  // If the server exist
                 MicrophoneTextInputClient.vKeyBinding.isPressed() &&           // If the user presses the key V
                 microphoneHandler != null &&                                   // If the microphone initialization is successful
                 !lastResult.equals("")) {                                      // If the recognized text is not empty
-            // Send the recognized text to the server as a chat message automatically
-            //client.player.sendChatMessage(lastResult, Text.of(lastResult));
-            ServerPlayerEntity serverSelf = client.getServer().getPlayerManager().getPlayer(client.player.getUuid());
-            if (serverSelf!=null) {
-                SentMessage message = new SentMessage.Chat(SignedMessage.ofUnsigned(serverSelf.getUuid(), "§d⌈Speech Input⌋§f " + lastResult));
-                serverSelf.sendChatMessage(message,
-                        true,
-                        MessageType.params(MessageType.CHAT, serverSelf));
-                client.player.sendMessage(Text.of("§aMessage Sent"), true);
-            }
+            client.player.sendChatMessage("⌈Speech Input⌋ " + lastResult, Text.of("⌈Speech Input⌋ " + lastResult));
+            client.player.sendMessage(Text.of("§aMessage Sent"), true);
+
             lastResult = "";                                                   // Clear the recognized text
         }
     }
