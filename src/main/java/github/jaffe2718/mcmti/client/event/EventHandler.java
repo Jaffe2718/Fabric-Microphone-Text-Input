@@ -119,6 +119,8 @@ public class EventHandler {
     private static void handleStartClientTickEvent(MinecraftClient client) {  // handle another client tick event to notify the user that the speech recognition is in progress and the game is not frozen
         if (client.player!=null && MicrophoneTextInputClient.vKeyBinding.isPressed()) {  // If the user presses the key V
             client.player.sendMessage(Text.of("§eRecording & Recognizing..."), true);
+        } else if (lastResult.length() > 0) {
+            lastResult = "";
         }
     }
 
