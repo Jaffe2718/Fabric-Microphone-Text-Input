@@ -4,6 +4,7 @@
     "mcmti.midnightconfig.acousticModelPath": "声学模型的绝对路径",
     "mcmti.midnightconfig.cacheSize": "录制音频缓存大小（单位Byte）",
     "mcmti.midnightconfig.sampleRate": "录制音频的采样率（单位Hz）",
+    "mcmti.midnightconfig.prefix": "识别文本的前缀",
     "mcmti.midnightconfig.encoding_repair": "是否修复编码（测试版）",
     "mcmti.midnightconfig.srcEncoding": "源编码     （测试版）",
     "mcmti.midnightconfig.dstEncoding": "目标编码    （测试版）",

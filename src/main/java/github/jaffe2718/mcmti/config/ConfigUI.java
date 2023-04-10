@@ -30,6 +30,13 @@ public class ConfigUI extends MidnightConfig{
     @Entry(min = 8000, max = 48000) public static int sampleRate = 16000;  // The sample rate of the microphone, the default is 16000
 
     /**
+     * The prefix to prepend in front of chat messages.
+     * The default value is "⌈Speech Input⌋".
+     * You can change it to any string you want.
+     */
+    @Entry(width = 300) public static String prefix = "⌈Speech Input⌋";    // The prefix to prepend in front of chat messages
+
+    /**
      * This is a beta feature, it may cause errors.
      * Enable it to fix the encoding error, set this value to true.
      */

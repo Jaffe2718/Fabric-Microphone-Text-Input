@@ -4,6 +4,7 @@
     "mcmti.midnightconfig.acousticModelPath": "absolute path of acoustic model",
     "mcmti.midnightconfig.cacheSize": "audio cache size (unit: Byte)",
     "mcmti.midnightconfig.sampleRate": "audio sample rate (unit: Hz)",
+    "mcmti.midnightconfig.prefix": "prefix of the recognized text",
     "mcmti.midnightconfig.encoding_repair": "error encoding repair (beta)",
     "mcmti.midnightconfig.srcEncoding": "source encoding (beta)",
     "mcmti.midnightconfig.dstEncoding": "destination encoding (beta)",

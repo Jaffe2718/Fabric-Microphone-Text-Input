@@ -110,7 +110,7 @@ public class EventHandler {
                 microphoneHandler != null &&                                   // If the microphone initialization is successful
                 !lastResult.equals("")) {                                      // If the recognized text is not empty
             // Send the recognized text to the server as a chat message automatically
-            client.player.networkHandler.sendChatMessage("⌈Speech Input⌋ " + lastResult);
+            client.player.networkHandler.sendChatMessage(ConfigUI.prefix + " " + lastResult);
             client.player.sendMessage(Text.of("§aMessage Sent"), true);
             lastResult = "";                                                   // Clear the recognized text
         }
