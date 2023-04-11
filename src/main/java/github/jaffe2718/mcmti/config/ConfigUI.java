@@ -30,6 +30,14 @@ public class ConfigUI extends MidnightConfig{
     @Entry(min = 8000, max = 48000) public static int sampleRate = 16000;  // The sample rate of the microphone, the default is 16000
 
     /**
+     * This configuration determines whether to automatically send voice recognition messages.<br>
+     * Default to true<br>
+     * If true, the identified message will be automatically sent out<br>
+     * If it is false, the message will be entered into the message sending column for users to edit, requiring users to manually send it
+     * */
+    @Entry public static boolean autoSend = true;
+
+    /**
      * The prefix to prepend in front of chat messages.
      * The default value is "⌈Speech Input⌋".
      * You can change it to any string you want.

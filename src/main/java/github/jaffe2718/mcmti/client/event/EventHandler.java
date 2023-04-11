@@ -8,7 +8,9 @@ import github.jaffe2718.mcmti.unit.SpeechRecognizer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.text.Text;
+import org.lwjgl.glfw.GLFW;
 import org.vosk.Model;
 
 import javax.sound.sampled.AudioFormat;
@@ -50,7 +52,12 @@ public class EventHandler {
                     if (MinecraftClient.getInstance().player != null) {
                         MinecraftClient.getInstance().player.sendMessage(Text.of("§cAcoustic Model Load Failed"), true);
                     }
-                    listenThread.wait(10000);
+                    // listenThread.wait(10000);
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException ie) {
+                        continue;
+                    }
                     speechRecognizer = new SpeechRecognizer(new Model(ConfigUI.acousticModelPath), ConfigUI.sampleRate);
                 } else if (microphoneHandler == null) {  // wait 10 seconds and try to initialize the microphone handler again
                     listenThread.wait(10000);
@@ -110,8 +117,13 @@ public class EventHandler {
                 microphoneHandler != null &&                                   // If the microphone initialization is successful
                 !lastResult.equals("")) {                                      // If the recognized text is not empty
             // Send the recognized text to the server as a chat message automatically
-            client.player.networkHandler.sendChatMessage(ConfigUI.prefix + " " + lastResult);
-            client.player.sendMessage(Text.of("§aMessage Sent"), true);
+            if (ConfigUI.autoSend) {
+                client.player.networkHandler.sendChatMessage(ConfigUI.prefix + " " + lastResult);
+                client.player.sendMessage(Text.of("§aMessage Sent"), true);
+            } else {
+                client.setScreen(new ChatScreen(ConfigUI.prefix + " " + lastResult));
+                if (client.currentScreen!=null) client.currentScreen.applyKeyPressNarratorDelay();
+            }
             lastResult = "";                                                   // Clear the recognized text
         }
     }
