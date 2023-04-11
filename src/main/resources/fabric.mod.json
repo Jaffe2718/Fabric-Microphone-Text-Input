@@ -3,7 +3,7 @@
     "id": "mcmti",
     "version": "${version}",
     "name": "Fabric Microphone Text Input Mod",
-    "description": "",
+    "description": "A mod that provides speech recognition input and automatically converts it into text chat messages",
     "authors": [
         "Jaffe2718"
     ],
