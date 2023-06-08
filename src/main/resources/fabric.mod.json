@@ -27,8 +27,8 @@
     "depends": {
         "fabricloader": ">=0.14.8",
         "fabric": "*",
-        "minecraft": "1.19.4",
-        "midnightlib": ">=1.2.1",
-        "modmenu": ">=6.0.0"
+        "minecraft": "1.20.x",
+        "midnightlib": ">=1.4.0",
+        "modmenu": ">=7.0.0"
     }
 }
