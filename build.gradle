@@ -5,6 +5,8 @@ plugins {
 
 version = project.mod_version
 group = project.maven_group
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
 
 repositories {
     mavenCentral()
@@ -33,6 +35,7 @@ dependencies {
 
     // Thrid party Java libraries
     implementation "com.alphacephei:vosk:${vosk_version}"
+    include "com.alphacephei:vosk:${vosk_version}"
     }
 
 processResources {
@@ -71,13 +74,6 @@ java {
 jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}"}
-    }
-    from {
-        configurations.compileClasspath.findAll() {
-            it.name.endsWith(".jar") && it.name.contains("vosk") && !it.name.contains("sources") && !it.name.contains("javadoc")  // 直接编译源码
-        }.collect {
-            zipTree(it)
-        }
     }
 }
 
