@@ -1,7 +1,10 @@
 # **Fabric Microphone Text Input Mod Developer Documentation**
+![Stars](https://img.shields.io/github/stars/Jaffe2718/Fabric-Microphone-Text-Input?style=flat-square)
+![Forks](https://img.shields.io/github/forks/Jaffe2718/Fabric-Microphone-Text-Input?style=flat-square)
+![Issues](https://img.shields.io/github/issues/Jaffe2718/Fabric-Microphone-Text-Input)
+![License](https://img.shields.io/github/license/Jaffe2718/Fabric-Microphone-Text-Input?style=flat-square)
 ### 　　　　　　　　　1.1.x
 ![image](src/main/resources/assets/mcmti/icon.png)
-
 ## Introduction
 
 ### Functionality
