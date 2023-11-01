@@ -10,7 +10,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.text.Text;
-import org.lwjgl.glfw.GLFW;
 import org.vosk.Model;
 
 import javax.sound.sampled.AudioFormat;
@@ -65,7 +64,7 @@ public class EventHandler {
                     microphoneHandler.startListening();  // Try to restart microphone
                 } else {                                 // If the speech recognizer and the microphone handler are initialized successfully
                     String tmp = speechRecognizer.getStringMsg(microphoneHandler.readData());
-                    if (!tmp.equals("") && !tmp.equals(lastResult) &&
+                    if (!tmp.isEmpty() && !tmp.equals(lastResult) &&
                             MicrophoneTextInputClient.vKeyBinding.isPressed()) {   // Read audio data from the microphone and send it to the speech recognizer for recognition
                         if (ConfigUI.encoding_repair) {
                             lastResult = SpeechRecognizer.repairEncoding(tmp, ConfigUI.srcEncoding, ConfigUI.dstEncoding);
@@ -115,7 +114,7 @@ public class EventHandler {
         if (client.player!=null &&                                             // If the player is not null
                 MicrophoneTextInputClient.vKeyBinding.isPressed() &&           // If the user presses the key V
                 microphoneHandler != null &&                                   // If the microphone initialization is successful
-                !lastResult.equals("")) {                                      // If the recognized text is not empty
+                !lastResult.isEmpty()) {                                      // If the recognized text is not empty
             // Send the recognized text to the server as a chat message automatically
             if (ConfigUI.autoSend) {
                 client.player.networkHandler.sendChatMessage(ConfigUI.prefix + " " + lastResult);
@@ -131,7 +130,7 @@ public class EventHandler {
     private static void handleStartClientTickEvent(MinecraftClient client) {  // handle another client tick event to notify the user that the speech recognition is in progress and the game is not frozen
         if (client.player!=null && MicrophoneTextInputClient.vKeyBinding.isPressed()) {  // If the user presses the key V
             client.player.sendMessage(Text.of("§eRecording & Recognizing..."), true);
-        } else if (lastResult.length() > 0) {
+        } else if (!lastResult.isEmpty()) {
             lastResult = "";
         }
     }
