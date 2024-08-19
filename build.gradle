@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.0-SNAPSHOT'
+    id 'fabric-loom' version '1.7-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -43,11 +43,18 @@ processResources {
     filteringCharset "UTF-8"
 
     filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+               "compatibility_fabricloader_versions": compatibility_fabricloader_versions,
+               "compatibility_mc_versions": compatibility_mc_versions,
+               "compatibility_midnightlib_versions": compatibility_midnightlib_versions
+    }
+
+    filesMatching("assets/mcmti/lang/*.json") {
         expand "version": project.version
     }
 }
 
-def targetJavaVersion = 17
+def targetJavaVersion = 21
 tasks.withType(JavaCompile).configureEach {
     // ensure that the encoding is set to UTF-8, no matter what the system default is
     // this fixes some edge cases with special characters not displaying correctly
@@ -61,6 +68,9 @@ tasks.withType(JavaCompile).configureEach {
 
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
     if (JavaVersion.current() < javaVersion) {
         toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
     }

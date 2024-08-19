@@ -5,11 +5,32 @@
     "name": "Fabric Microphone Text Input Mod",
     "description": "A mod that provides speech recognition input and automatically converts it into text chat messages",
     "authors": [
-        "Jaffe2718",
-        "IsAvaible"
+        {
+            "name": "Jaffe2718",
+            "contact": {
+                "email": "qqyttwqeei@163.com",
+                "homepage": "https://space.bilibili.com/1671742926"
+            }
+        }
+    ],
+    "contributors": [
+        {
+            "name": "Jaffe2718",
+            "contact": {
+                "email": "qqyttwqeei@163.com",
+                "homepage": "https://space.bilibili.com/1671742926"
+            }
+        },
+        {
+            "name": "IsAvaible",
+            "contact": {
+                "email": "simon.felix.conrad@proton.me",
+                "homepage": "https://github.com/IsAvaible"
+            }
+        }
     ],
     "contact": {
-        "homepage": "https://github.com/Jaffe2718",
+        "homepage": "https://space.bilibili.com/1671742926",
         "issues": "https://github.com/Jaffe2718/Fabric-Microphone-Text-Input/issues",
         "sources": "https://github.com/Jaffe2718/Fabric-Microphone-Text-Input"
     },
@@ -25,10 +46,10 @@
         ]
     },
     "depends": {
-        "fabricloader": ">=0.14.12",
+        "fabricloader": "${compatibility_fabricloader_versions}",
         "fabric-lifecycle-events-v1": "*",
         "fabric-key-binding-api-v1": "*",
-        "minecraft": "1.20.2",
-        "midnightlib": ">=1.5.0"
+        "minecraft": "${compatibility_mc_versions}",
+        "midnightlib": "${compatibility_midnightlib_versions}"
     }
 }
