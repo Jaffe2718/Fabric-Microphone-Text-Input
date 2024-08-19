@@ -22,12 +22,12 @@ This mod uses [VOSK Offline Speech Recognition API](https://alphacephei.com/vosk
 4. Open the project in IntelliJ IDEA and wait for it to finish loading.
 
 ### Configuration List
-| Dependency            | Type                               | Recommended Configuration      | Description                                                           |
-| --------------------- | ---------------------------------- | ------------------------------ | --------------------------------------------------------------------- |
-| JDK17                 | Development Kit                    | Java SE Development Kit 17.0.6 | The Java development environment toolkit on which the project depends |
-| IntelliJ IDEA         | Integrated Development Environment | Latest Version                 | The IDE used to develop the project                                   |
-| git                   | Version Control System             | Latest Version                 | The version control system used to manage the project                 |
-| Minecraft Development | IntelliJ IDEA Plugin               | Latest Version                 | The plugin used to develop Minecraft mods                             |
+| Dependency          | Type                               | Recommended Configuration    | Description                                                           |
+| ------------------- | ---------------------------------- |------------------------------| --------------------------------------------------------------------- |
+| JDK                 | Development Kit                    | Java SE Development Kit 21.x | The Java development environment toolkit on which the project depends |
+| IntelliJ IDEA       | Integrated Development Environment | Latest Version               | The IDE used to develop the project                                   |
+| git                 | Version Control System             | Latest Version               | The version control system used to manage the project                 |
+| Minecraft Development | IntelliJ IDEA Plugin               | Latest Version               | The plugin used to develop Minecraft mods                             |
 
 ### FAQ
 #### Q: Why the program cannot to recognize the text from the microphone?
