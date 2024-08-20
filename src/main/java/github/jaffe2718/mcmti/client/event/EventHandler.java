@@ -1,6 +1,5 @@
 package github.jaffe2718.mcmti.client.event;
 
-import github.jaffe2718.mcmti.MicrophoneTextInputMain;
 import github.jaffe2718.mcmti.client.MicrophoneTextInputClient;
 import github.jaffe2718.mcmti.config.ConfigUI;
 import github.jaffe2718.mcmti.unit.MicrophoneHandler;
@@ -10,6 +9,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.NotNull;
 import org.vosk.Model;
 
 import javax.sound.sampled.AudioFormat;
@@ -44,6 +44,11 @@ public class EventHandler {
         ClientLifecycleEvents.CLIENT_STOPPING.register(EventHandler::handleClientStopEvent);
     }
 
+    /**
+     * This method is the task of the thread that listens to the microphone.
+     * It is used to read audio data from the microphone and send it to the speech recognizer for recognition.
+     * @see EventHandler#handelClientStartEvent(MinecraftClient)
+     */
     private static void listenThreadTask() {
         while (true) {
             try {
@@ -65,7 +70,7 @@ public class EventHandler {
                 } else {                                 // If the speech recognizer and the microphone handler are initialized successfully
                     String tmp = speechRecognizer.getStringMsg(microphoneHandler.readData());
                     if (!tmp.isEmpty() && !tmp.equals(lastResult) &&
-                            MicrophoneTextInputClient.vKeyBinding.isPressed()) {   // Read audio data from the microphone and send it to the speech recognizer for recognition
+                            MicrophoneTextInputClient.micKeyBinding.isPressed()) {   // Read audio data from the microphone and send it to the speech recognizer for recognition
                         if (ConfigUI.encoding_repair) {
                             lastResult = SpeechRecognizer.repairEncoding(tmp, ConfigUI.srcEncoding, ConfigUI.dstEncoding);
                         } else {                                        // default configuration without encoding repair
@@ -74,34 +79,44 @@ public class EventHandler {
                     }
                 }
             } catch (Exception e) {
-                MicrophoneTextInputMain.LOGGER.error(e.getMessage());
+                MicrophoneTextInputClient.LOGGER.error(e.getMessage());
             }
         }
     }
 
-    private static void handelClientStartEvent(MinecraftClient client) {     // when the client launch
-        MicrophoneTextInputMain.LOGGER.info("Loading acoustic model from " + ConfigUI.acousticModelPath + "   ..."); // Log the path of the acoustic model
+    /**
+     * This method is used to handle the game start event.
+     * It is used to initialize the speech recognizer and the microphone handler.
+     * @param client The Minecraft client
+     */
+    private static void handelClientStartEvent(MinecraftClient client) {     // when the client launches, initialize the speech recognizer and the microphone handler
+        MicrophoneTextInputClient.LOGGER.info("Loading acoustic model from " + ConfigUI.acousticModelPath + "   ..."); // Log the path of the acoustic model
         try {                                  // Initialize the speech recognizer
             speechRecognizer = new SpeechRecognizer(new Model(ConfigUI.acousticModelPath), ConfigUI.sampleRate);
-            MicrophoneTextInputMain.LOGGER.info("Acoustic model loaded successfully!");
+            MicrophoneTextInputClient.LOGGER.info("Acoustic model loaded successfully!");
         }catch (Exception e1) {
-            MicrophoneTextInputMain.LOGGER.error(e1.getMessage());
+            MicrophoneTextInputClient.LOGGER.error(e1.getMessage());
         }
         try {                                   // Initialize the microphone handler, single channel, 16 bits per sample, signed, little endian
             microphoneHandler = new MicrophoneHandler(new AudioFormat(ConfigUI.sampleRate, 16, 1, true, false));
             microphoneHandler.startListening();
-            MicrophoneTextInputMain.LOGGER.info("Microphone handler initialized successfully!");
+            MicrophoneTextInputClient.LOGGER.info("Microphone handler initialized successfully!");
         } catch (Exception e2) {
-            MicrophoneTextInputMain.LOGGER.error(e2.getMessage());
+            MicrophoneTextInputClient.LOGGER.error(e2.getMessage());
         }
         if (ConfigUI.encoding_repair) {         // If the encoding repair function is enabled, log a warning
-            MicrophoneTextInputMain.LOGGER.warn(
+            MicrophoneTextInputClient.LOGGER.warn(
                     String.format("(test function) Trt to resolve error encoding from %s to %s...", ConfigUI.srcEncoding, ConfigUI.dstEncoding));
         }
         listenThread = new Thread(EventHandler::listenThreadTask);
         listenThread.start();
     }
 
+    /**
+     * This method is used to handle the game stop event.
+     * It is used to stop the thread that listens to the microphone and stop listening to the microphone.
+     * @param client The Minecraft client
+     */
     private static void handleClientStopEvent(MinecraftClient client) {
         listenThread.interrupt();                 // Stop the thread that listens to the microphone
         microphoneHandler.stopListening();        // Stop listening to the microphone
@@ -110,11 +125,16 @@ public class EventHandler {
         listenThread = null;                      // Clear the thread
     }
 
-    private static void handleEndClientTickEvent(MinecraftClient client) {     // When the client ticks, check if the user presses the key V
-        if (client.player!=null &&                                             // If the player is not null
-                MicrophoneTextInputClient.vKeyBinding.isPressed() &&           // If the user presses the key V
-                microphoneHandler != null &&                                   // If the microphone initialization is successful
-                !lastResult.isEmpty()) {                                      // If the recognized text is not empty
+    /**
+     * This method is used to handle the game end tick event.
+     * It is used to detect that the user presses the key V to initiate speech recognition and send a message.
+     * @param client The Minecraft client
+     */
+    private static void handleEndClientTickEvent(@NotNull MinecraftClient client) {     // When the client ticks, check if the user presses the key V
+        if (client.player != null &&                                             // If the player is not null
+                MicrophoneTextInputClient.micKeyBinding.isPressed() &&           // If the user presses the key V
+                microphoneHandler != null &&                                     // If the microphone initialization is successful
+                !lastResult.isEmpty()) {                                         // If the recognized text is not empty
             // Send the recognized text to the server as a chat message automatically
             if (ConfigUI.autoSend) {
                 client.player.networkHandler.sendChatMessage(ConfigUI.prefix + " " + lastResult);
@@ -127,8 +147,13 @@ public class EventHandler {
         }
     }
 
-    private static void handleStartClientTickEvent(MinecraftClient client) {  // handle another client tick event to notify the user that the speech recognition is in progress and the game is not frozen
-        if (client.player!=null && MicrophoneTextInputClient.vKeyBinding.isPressed()) {  // If the user presses the key V
+    /**
+     * This method is used to handle the game start tick event.
+     * It is used to notify the user that the speech recognition is in progress and the game is not frozen.
+     * @param client The Minecraft client
+     */
+    private static void handleStartClientTickEvent(@NotNull MinecraftClient client) {  // handle another client tick event to notify the user that the speech recognition is in progress and the game is not frozen
+        if (client.player!=null && MicrophoneTextInputClient.micKeyBinding.isPressed()) {  // If the user presses the key V
             client.player.sendMessage(Text.of("§eRecording & Recognizing..."), true);
         } else if (!lastResult.isEmpty()) {
             lastResult = "";

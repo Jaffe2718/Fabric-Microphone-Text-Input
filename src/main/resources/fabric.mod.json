@@ -2,7 +2,7 @@
     "schemaVersion": 1,
     "id": "mcmti",
     "version": "${version}",
-    "name": "Fabric Microphone Text Input Mod",
+    "name": "Microphone Text Input",
     "description": "A mod that provides speech recognition input and automatically converts it into text chat messages",
     "authors": [
         {
@@ -42,7 +42,7 @@
             "github.jaffe2718.mcmti.client.MicrophoneTextInputClient"
         ],
         "main": [
-            "github.jaffe2718.mcmti.MicrophoneTextInputMain"
+
         ]
     },
     "depends": {
@@ -51,5 +51,16 @@
         "fabric-key-binding-api-v1": "*",
         "minecraft": "${compatibility_mc_versions}",
         "midnightlib": "${compatibility_midnightlib_versions}"
+    },
+    "suggests": {
+        "modmenu": "*"
+    },
+    "custom": {
+        "modmenu": {
+            "links": {
+                "mcmti.modrinth": "https://modrinth.com/mod/microphone-text-input"
+            },
+            "update_checker": true
+        }
     }
 }

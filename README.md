@@ -1,4 +1,4 @@
-# **Fabric Microphone Text Input Mod Developer Documentation**
+# **Microphone Text Input Mod Developer Documentation**
 ### 　　　　　　　　　1.1.x
 ![image](src/main/resources/assets/mcmti/icon.png)
 

@@ -32,7 +32,7 @@ public class MicrophoneHandler {
         if (count > 0) {
             return buffer;
         } else {
-            return null;
+            return new byte[0];
         }
     }
 
