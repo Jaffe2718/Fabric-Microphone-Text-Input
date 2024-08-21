@@ -2,13 +2,14 @@ package github.jaffe2718.mcmti.config;
 
 import eu.midnightdust.lib.config.MidnightConfig;
 
+import java.nio.charset.Charset;
+
 /**
  * The configuration file of the mod.
  * for more information, please visit the wiki page
- * @see <a href="https://github.com/TeamMidnightDust/MidnightLib/wiki/Using-MidnightConfig">MidnightConfig Wiki</a>
+ * @see <a href="https://www.midnightdust.eu/wiki/midnightlib/">MidnightConfig Wiki</a>
  */
 public class ConfigUI extends MidnightConfig{
-//    @Comment(centered = true) public static Comment labelConfig;
 
     /**
      * The path of the acoustic model.
@@ -48,7 +49,7 @@ public class ConfigUI extends MidnightConfig{
      * This is a beta feature, it may cause errors.
      * Enable it to fix the encoding error, set this value to true.
      */
-    @Entry(category = "config") public static boolean encoding_repair = false;                  // beta feature, may cause errors
+    @Entry(category = "config") public static boolean encodingRepair = false;                  // beta feature, may cause errors
 
     /**
      * This is a beta feature, it may cause errors.
@@ -56,7 +57,7 @@ public class ConfigUI extends MidnightConfig{
      * The default value is the system encoding.
      * You can change it as the encoding of your source file.
      */
-    @Entry(category = "config") public static String srcEncoding = System.getProperty("file.encoding");   // use system encoding as default
+    @Entry(category = "config") public static String srcEncoding = Charset.defaultCharset().displayName();   // use system encoding as default
 
     /**
      * This is a beta feature, it may cause errors.
@@ -64,9 +65,9 @@ public class ConfigUI extends MidnightConfig{
      * The default value is the system encoding.
      * You can change it as the encoding of your destination file.
      */
-    @Entry(category = "config") public static String dstEncoding = System.getProperty("file.encoding");   // use system encoding as default
+    @Entry(category = "config") public static String dstEncoding = Charset.defaultCharset().displayName();   // use system encoding as default
 
-    @Comment(category = "about") public static Comment mod_name;
+    @Comment(category = "about") public static Comment modName;
     @Comment(category = "about") public static Comment license;
     @Comment(category = "about") public static Comment author;
     @Comment(category = "about") public static Comment version;

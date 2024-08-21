@@ -71,7 +71,7 @@ public class EventHandler {
                     String tmp = speechRecognizer.getStringMsg(microphoneHandler.readData());
                     if (!tmp.isEmpty() && !tmp.equals(lastResult) &&
                             MicrophoneTextInputClient.micKeyBinding.isPressed()) {   // Read audio data from the microphone and send it to the speech recognizer for recognition
-                        if (ConfigUI.encoding_repair) {
+                        if (ConfigUI.encodingRepair) {
                             lastResult = SpeechRecognizer.repairEncoding(tmp, ConfigUI.srcEncoding, ConfigUI.dstEncoding);
                         } else {                                        // default configuration without encoding repair
                             lastResult = tmp;                           // restore the recognized text
@@ -104,7 +104,7 @@ public class EventHandler {
         } catch (Exception e2) {
             MicrophoneTextInputClient.LOGGER.error(e2.getMessage());
         }
-        if (ConfigUI.encoding_repair) {         // If the encoding repair function is enabled, log a warning
+        if (ConfigUI.encodingRepair) {         // If the encoding repair function is enabled, log a warning
             MicrophoneTextInputClient.LOGGER.warn(
                     String.format("(test function) Trt to resolve error encoding from %s to %s...", ConfigUI.srcEncoding, ConfigUI.dstEncoding));
         }
