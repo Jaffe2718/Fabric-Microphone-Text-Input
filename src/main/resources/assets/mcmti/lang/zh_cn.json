@@ -24,6 +24,7 @@
     "mcmti.midnightconfig.title": "麦克风语音识别转文字消息 配置",
     "mcmti.midnightconfig.version": "版 本:                                           ${version}",
     "mcmti.midnightconfig.vosk": "§e请从 https://alphacephei.com/vosk/models 下载声学模型",
+    "mcmti.modrinth": "Modrinth",
     "message.mcmti.acousticModelLoadFailed": "§c声学模型加载失败",
     "message.mcmti.messageSent": "§a消息已发送",
     "message.mcmti.recordingAndRecognizing": "§e正在录制和识别语音...",

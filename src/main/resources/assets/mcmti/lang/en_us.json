@@ -24,6 +24,7 @@
     "mcmti.midnightconfig.author":   "Author:                                          §l§0§9Jaffe2718",
     "mcmti.midnightconfig.version":  "Version:                                            ${version}",
     "mcmti.midnightconfig.vosk":    "§ePlease download the acoustic model from https://alphacephei.com/vosk/models",
+    "mcmti.modrinth": "Modrinth",
     "message.mcmti.acousticModelLoadFailed": "§cAcoustic Model Load Failed",
     "message.mcmti.messageSent": "§aMessage Sent",
     "message.mcmti.recordingAndRecognizing": "§eRecording & Recognizing...",

@@ -58,7 +58,7 @@
     "custom": {
         "modmenu": {
             "links": {
-                "mcmti.modrinth": "https://modrinth.com/mod/microphone-text-input"
+                "mcmti.modrinth": "https://modrinth.com/mod/mcmti"
             },
             "update_checker": true
         }
