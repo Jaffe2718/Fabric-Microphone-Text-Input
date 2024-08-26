@@ -1,5 +1,6 @@
 {
     "mcmti.midnightconfig.acousticModelPath": "声学模型的绝对路径",
+    "mcmti.midnightconfig.acousticModelPath.fileChooser": "选择声学模型文件夹",
     "mcmti.midnightconfig.acousticModelPath.tooltip": "§e声学模型的绝对路径，请从VOSK Models官网下载声学模型",
     "mcmti.midnightconfig.autoSend": "消息自动发送",
     "mcmti.midnightconfig.autoSend.tooltip": "§e是否自动发送识别的文本，如果为是，则会自动发送语音识别的文本，如果为否，则会在聊天栏显示识别的文本",
@@ -23,6 +24,9 @@
     "mcmti.midnightconfig.title": "麦克风语音识别转文字消息 配置",
     "mcmti.midnightconfig.version": "版 本:                                           ${version}",
     "mcmti.midnightconfig.vosk": "§e请从 https://alphacephei.com/vosk/models 下载声学模型",
+    "message.mcmti.acousticModelLoadFailed": "§c声学模型加载失败",
+    "message.mcmti.messageSent": "§a消息已发送",
+    "message.mcmti.recordingAndRecognizing": "§e正在录制和识别语音...",
     "modmenu.nameTranslation.mcmti": "麦克风语音识别转文字消息",
     "modmenu.descriptionTranslation.mcmti": "一个提供语音识别输入并自动转换为文本聊天消息的模组",
     "key.mcmti.mic": "麦克风语音识别转文字消息"

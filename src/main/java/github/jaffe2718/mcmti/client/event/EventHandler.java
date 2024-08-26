@@ -10,9 +10,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
-import org.vosk.Model;
 
-import javax.sound.sampled.AudioFormat;
+import java.util.Objects;
 
 /**
  * This class is used to register response processing for game events.
@@ -49,23 +48,26 @@ public class EventHandler {
      * It is used to read audio data from the microphone and send it to the speech recognizer for recognition.
      * @see EventHandler#handelClientStartEvent(MinecraftClient)
      */
+    @SuppressWarnings("BusyWait")
     private static void listenThreadTask() {
         while (true) {
             try {
-                if (speechRecognizer == null) {         // wait 10 seconds and try to initialize the speech recognizer again
+                if (speechRecognizer == null ||
+                        speechRecognizer.sampleRate != ConfigUI.sampleRate ||
+                        !Objects.equals(speechRecognizer.acousticModelPath, ConfigUI.acousticModelPath)) { // wait 10 seconds and try to initialize the speech recognizer again
                     if (MinecraftClient.getInstance().player != null) {
-                        MinecraftClient.getInstance().player.sendMessage(Text.of("§cAcoustic Model Load Failed"), true);
+                        MinecraftClient.getInstance().player.sendMessage(Text.translatable("message.mcmti.acousticModelLoadFailed"), true);
                     }
-                    // listenThread.wait(10000);
                     try {
                         Thread.sleep(10000);
                     } catch (InterruptedException ie) {
                         continue;
                     }
-                    speechRecognizer = new SpeechRecognizer(new Model(ConfigUI.acousticModelPath), ConfigUI.sampleRate);
-                } else if (microphoneHandler == null) {  // wait 10 seconds and try to initialize the microphone handler again
+                    speechRecognizer = new SpeechRecognizer(ConfigUI.acousticModelPath, ConfigUI.sampleRate);
+                } else if (microphoneHandler == null ||
+                        microphoneHandler.sampleRate != ConfigUI.sampleRate) {  // wait 10 seconds and try to initialize the microphone handler again
                     listenThread.wait(10000);
-                    microphoneHandler = new MicrophoneHandler(new AudioFormat(ConfigUI.sampleRate, 16, 1, true, false));
+                    microphoneHandler = new MicrophoneHandler(ConfigUI.sampleRate);
                     microphoneHandler.startListening();  // Try to restart microphone
                 } else {                                 // If the speech recognizer and the microphone handler are initialized successfully
                     String tmp = speechRecognizer.getStringMsg(microphoneHandler.readData());
@@ -92,13 +94,13 @@ public class EventHandler {
     private static void handelClientStartEvent(MinecraftClient client) {     // when the client launches, initialize the speech recognizer and the microphone handler
         MicrophoneTextInputClient.LOGGER.info("Loading acoustic model from " + ConfigUI.acousticModelPath + "   ..."); // Log the path of the acoustic model
         try {                                  // Initialize the speech recognizer
-            speechRecognizer = new SpeechRecognizer(new Model(ConfigUI.acousticModelPath), ConfigUI.sampleRate);
+            speechRecognizer = new SpeechRecognizer(ConfigUI.acousticModelPath, ConfigUI.sampleRate);
             MicrophoneTextInputClient.LOGGER.info("Acoustic model loaded successfully!");
         }catch (Exception e1) {
             MicrophoneTextInputClient.LOGGER.error(e1.getMessage());
         }
         try {                                   // Initialize the microphone handler, single channel, 16 bits per sample, signed, little endian
-            microphoneHandler = new MicrophoneHandler(new AudioFormat(ConfigUI.sampleRate, 16, 1, true, false));
+            microphoneHandler = new MicrophoneHandler(ConfigUI.sampleRate);
             microphoneHandler.startListening();
             MicrophoneTextInputClient.LOGGER.info("Microphone handler initialized successfully!");
         } catch (Exception e2) {
@@ -138,7 +140,7 @@ public class EventHandler {
             // Send the recognized text to the server as a chat message automatically
             if (ConfigUI.autoSend) {
                 client.player.networkHandler.sendChatMessage(ConfigUI.prefix + " " + lastResult);
-                client.player.sendMessage(Text.of("§aMessage Sent"), true);
+                client.player.sendMessage(Text.translatable("message.mcmti.messageSent"), true);
             } else {
                 client.setScreen(new ChatScreen(ConfigUI.prefix + " " + lastResult));
                 if (client.currentScreen!=null) client.currentScreen.applyKeyPressNarratorDelay();
@@ -154,7 +156,7 @@ public class EventHandler {
      */
     private static void handleStartClientTickEvent(@NotNull MinecraftClient client) {  // handle another client tick event to notify the user that the speech recognition is in progress and the game is not frozen
         if (client.player!=null && MicrophoneTextInputClient.micKeyBinding.isPressed()) {  // If the user presses the key V
-            client.player.sendMessage(Text.of("§eRecording & Recognizing..."), true);
+            client.player.sendMessage(Text.translatable("message.mcmti.recordingAndRecognizing"), true);
         } else if (!lastResult.isEmpty()) {
             lastResult = "";
         }

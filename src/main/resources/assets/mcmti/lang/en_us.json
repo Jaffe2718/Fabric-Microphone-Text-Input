@@ -1,5 +1,6 @@
 {
     "mcmti.midnightconfig.acousticModelPath": "absolute path of acoustic model",
+    "mcmti.midnightconfig.acousticModelPath.fileChooser": "Select the directory of the acoustic model",
     "mcmti.midnightconfig.acousticModelPath.tooltip": "§eThe absolute path of the acoustic model. Please download the acoustic model from VOSK Models",
     "mcmti.midnightconfig.autoSend": "automatic message sending",
     "mcmti.midnightconfig.autoSend.tooltip": "§eAutomatically send the recognized text to the chat box. If this option is disabled, you need to manually send the recognized message.",
@@ -23,5 +24,8 @@
     "mcmti.midnightconfig.author":   "Author:                                          §l§0§9Jaffe2718",
     "mcmti.midnightconfig.version":  "Version:                                            ${version}",
     "mcmti.midnightconfig.vosk":    "§ePlease download the acoustic model from https://alphacephei.com/vosk/models",
+    "message.mcmti.acousticModelLoadFailed": "§cAcoustic Model Load Failed",
+    "message.mcmti.messageSent": "§aMessage Sent",
+    "message.mcmti.recordingAndRecognizing": "§eRecording & Recognizing...",
     "key.mcmti.mic": "Microphone Text Input"
 }

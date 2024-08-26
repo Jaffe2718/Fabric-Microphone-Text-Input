@@ -11,8 +11,12 @@ import javax.sound.sampled.TargetDataLine;
  * This class is used to handle the recording of audio data from the microphone.
  * @author Jaffe2718*/
 public class MicrophoneHandler {
-    private TargetDataLine line;             // The line that reads the audio data from the microphone
-    public MicrophoneHandler(AudioFormat format) throws Exception {
+    private final TargetDataLine line;             // The line that reads the audio data from the microphone
+    public final int sampleRate;                   // The sample rate of the microphone
+
+    public MicrophoneHandler(int sampleRate) throws Exception {
+        this.sampleRate = sampleRate;
+        AudioFormat format = new AudioFormat(sampleRate, 16, 1, true, false);
         this.line = (TargetDataLine) AudioSystem.getLine(new DataLine.Info(TargetDataLine.class, format));
         line.open(format);
     }

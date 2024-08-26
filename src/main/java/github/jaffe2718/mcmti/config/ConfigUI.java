@@ -2,6 +2,7 @@ package github.jaffe2718.mcmti.config;
 
 import eu.midnightdust.lib.config.MidnightConfig;
 
+import javax.swing.JFileChooser;
 import java.nio.charset.Charset;
 
 /**
@@ -16,7 +17,9 @@ public class ConfigUI extends MidnightConfig{
      * You can download the acoustic model from the following link:
      * @see <a href="https://alphacephei.com/vosk/models">Vosk Models</a>
      */
-    @Entry(category = "config", width = 300) public static String acousticModelPath = "absolute/path/to/your/acoustic/model";
+    @Entry(category = "config",
+            selectionMode = JFileChooser.DIRECTORIES_ONLY)
+    public static String acousticModelPath = "absolute/path/to/your/acoustic/model";
 
     /**
      * Maximum cache of microphone audio in bytes.
@@ -67,10 +70,10 @@ public class ConfigUI extends MidnightConfig{
      */
     @Entry(category = "config") public static String dstEncoding = Charset.defaultCharset().displayName();   // use system encoding as default
 
-    @Comment(category = "about") public static Comment modName;
-    @Comment(category = "about") public static Comment license;
-    @Comment(category = "about") public static Comment author;
-    @Comment(category = "about") public static Comment version;
-    @Comment(category = "about") public static Comment vosk;
+    @Comment(category = "about") @SuppressWarnings("unused") public static Comment modName;
+    @Comment(category = "about") @SuppressWarnings("unused") public static Comment license;
+    @Comment(category = "about") @SuppressWarnings("unused") public static Comment author;
+    @Comment(category = "about") @SuppressWarnings("unused") public static Comment version;
+    @Comment(category = "about") @SuppressWarnings("unused") public static Comment vosk;
 
 }

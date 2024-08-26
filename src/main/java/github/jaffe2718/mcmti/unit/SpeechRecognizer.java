@@ -1,9 +1,12 @@
 package github.jaffe2718.mcmti.unit;
 
 import com.google.gson.JsonParser;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.vosk.Model;
 import org.vosk.Recognizer;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -13,13 +16,14 @@ import java.io.UnsupportedEncodingException;
  */
 public class SpeechRecognizer {
     public Recognizer recognizer;
+    public final int sampleRate;
+    public final String acousticModelPath;
 
-    public SpeechRecognizer(Model model, int sampleRate) throws Exception{
-        if (model != null) {
-            recognizer = new Recognizer(model, sampleRate);
-        } else {
-            throw new Exception("Acoustic model not loaded.");
-        }
+    public SpeechRecognizer(String acousticModelPath, int sampleRate) throws IOException {
+        this.sampleRate = sampleRate;
+        this.acousticModelPath = acousticModelPath;
+        Model model = new Model(acousticModelPath);
+        recognizer = new Recognizer(model, sampleRate);
     }
 
     /**
@@ -28,12 +32,8 @@ public class SpeechRecognizer {
      * @return {@link java.lang.String} message
      */
     public String getStringMsg(byte[] data) {
-        if (recognizer.acceptWaveForm(data, data.length)) {
-            // MicrophoneTextInputMain.LOGGER.info(recognizer.getResult());
-            return JsonParser.parseString(recognizer.getResult()).getAsJsonObject().get("text").getAsString();
-        } else {
-            return "";
-        }
+        return recognizer.acceptWaveForm(data, data.length) ?
+                JsonParser.parseString(recognizer.getResult()).getAsJsonObject().get("text").getAsString() : "";
     }
 
     /**
@@ -45,7 +45,8 @@ public class SpeechRecognizer {
      * @return {@link java.lang.String} message
      * @throws UnsupportedEncodingException Unsupported encoding
      */
-    public static String repairEncoding(String str, String srcEncoding, String dstEncoding) throws UnsupportedEncodingException {
+    @Contract("_, _, _ -> new")
+    public static @NotNull String repairEncoding(@NotNull String str, String srcEncoding, String dstEncoding) throws UnsupportedEncodingException {
         return new String(str.getBytes(srcEncoding), dstEncoding);
     }
 }
