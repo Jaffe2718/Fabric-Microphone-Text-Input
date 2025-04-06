@@ -13,11 +13,6 @@ repositories {
     maven { url "https://api.modrinth.com/maven" }
     maven { url "https://maven.terraformersmc.com/releases"}
     maven { url "https://mvnrepository.com/artifact/"}
-    // Add repositories to retrieve artifacts from in here.
-    // You should only use this when depending on other mods because
-    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-    // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-    // for more information about repositories.
 }
 
 dependencies {
@@ -30,13 +25,11 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     // Thrid party mod libraries
-    modApi("com.terraformersmc:modmenu:${modmenu_version}") { exclude(module: "fabric-api") }
-    modImplementation "maven.modrinth:midnightlib:${midnightlib_version}+${project.minecraft_version}-fabric"
+    modImplementation "maven.modrinth:midnightlib:${midnightlib_version}"
 
     // Thrid party Java libraries
-    implementation "com.alphacephei:vosk:${vosk_version}"
-    include "com.alphacephei:vosk:${vosk_version}"
-    }
+    implementation include ("com.alphacephei:vosk:${vosk_version}")
+}
 
 processResources {
     inputs.property "version", project.version
@@ -86,7 +79,8 @@ jar {
 // configure the maven publication
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        create("mavenJava", MavenPublication) {
+            artifactId = project.archives_base_name
             from components.java
         }
     }

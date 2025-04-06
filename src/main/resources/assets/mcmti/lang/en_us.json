@@ -26,7 +26,10 @@
     "mcmti.midnightconfig.vosk":    "§ePlease download the acoustic model from https://alphacephei.com/vosk/models",
     "mcmti.modrinth": "Modrinth",
     "message.mcmti.acousticModelLoadFailed": "§cAcoustic Model Load Failed",
+    "message.mcmti.microphoneInitFailed": "§cMicrophone Initialization Failed",
     "message.mcmti.messageSent": "§aMessage Sent",
     "message.mcmti.recordingAndRecognizing": "§eRecording & Recognizing...",
+    "modmenu.nameTranslation.mcmti": "Microphone Text Input",
+    "modmenu.descriptionTranslation.mcmti": "A mod that provides speech recognition input and automatically converts it into text chat messages",
     "key.mcmti.mic": "Microphone Text Input"
 }

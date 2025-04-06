@@ -60,7 +60,9 @@ public class ConfigUI extends MidnightConfig{
      * The default value is the system encoding.
      * You can change it as the encoding of your source file.
      */
-    @Entry(category = "config") public static String srcEncoding = Charset.defaultCharset().displayName();   // use system encoding as default
+    @Entry(category = "config")
+    @Condition(requiredOption = "encodingRepair")
+    public static String srcEncoding = Charset.defaultCharset().displayName();   // use system encoding as default
 
     /**
      * This is a beta feature, it may cause errors.
@@ -68,7 +70,9 @@ public class ConfigUI extends MidnightConfig{
      * The default value is the system encoding.
      * You can change it as the encoding of your destination file.
      */
-    @Entry(category = "config") public static String dstEncoding = Charset.defaultCharset().displayName();   // use system encoding as default
+    @Entry(category = "config")
+    @Condition(requiredOption = "encodingRepair")
+    public static String dstEncoding = Charset.defaultCharset().displayName();   // use system encoding as default
 
     @Comment(category = "about") @SuppressWarnings("unused") public static Comment modName;
     @Comment(category = "about") @SuppressWarnings("unused") public static Comment license;
