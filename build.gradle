@@ -28,7 +28,10 @@ dependencies {
     modImplementation "maven.modrinth:midnightlib:${midnightlib_version}"
 
     // Thrid party Java libraries
-    implementation include ("com.alphacephei:vosk:${vosk_version}")
+//    implementation include ("com.alphacephei:vosk:${vosk_version}")
+
+    //
+    implementation "io.github.givimad:whisper-jni:${whisper_jni_version}"
 }
 
 processResources {
