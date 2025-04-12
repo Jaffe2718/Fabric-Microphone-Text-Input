@@ -30,7 +30,7 @@ dependencies {
     modImplementation "maven.modrinth:midnightlib:${midnightlib_version}"
 
     //
-    implementation "io.github.givimad:whisper-jni:${whisper_jni_version}"
+    implementation include("io.github.givimad:whisper-jni:${whisper_jni_version}")
 }
 
 processResources {

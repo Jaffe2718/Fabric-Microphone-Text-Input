@@ -55,7 +55,7 @@ experience.
 | Enable Advanced Config  | `mcmti.midnightconfig.advancedConfig`          | `github.jaffe2718.mcmti.config.McmtiConfig.advancedConfig`          | `boolean`                                              | `false`       | Enable advanced configuration.                                                                                                                                                                                           |
 | whisperjni.libdir       | `mcmti.midnightconfig.whisperjniLibdir`        | `github.jaffe2718.mcmti.config.McmtiConfig.whisperjniLibdir`        | `String`                                               | `""`          | Set the Java runtime property `io.github.givimad.whisperjni.libdir` to [use custom whisper-jni external library](#use-external-library). Keep empty to use default. Restart the game after changing this value to apply. |
 | nThreads                | `mcmti.midnightconfig.nThreads`                | `github.jaffe2718.mcmti.config.McmtiConfig.nThreads`                | `int`                                                  | `0`           | Number of threads to use for the operation of the Whisper model. `0` for max cores.                                                                                                                                      |
-| audioCtx            | `mcmti.midnightconfig.audioCtx`            | `github.jaffe2718.mcmti.config.McmtiConfig.audioCtx`            | `int`                                                  | `0`           | Audio context size for the Whisper model. `0` means use default.                                                                                                                                                         |
+| audioCtx                | `mcmti.midnightconfig.audioCtx`                | `github.jaffe2718.mcmti.config.McmtiConfig.audioCtx`                | `int`                                                  | `0`           | Audio context size for the Whisper model. `0` means use default.                                                                                                                                                         |
 | nMaxTextCtx             | `mcmti.midnightconfig.nMaxTextCtx`             | `github.jaffe2718.mcmti.config.McmtiConfig.nMaxTextCtx`             | `int`                                                  | `16384`       | Max tokens to use from past text as prompt for the decoder.                                                                                                                                                              |
 | offsetMs                | `mcmti.midnightconfig.offsetMs`                | `github.jaffe2718.mcmti.config.McmtiConfig.offsetMs`                | `int`                                                  | `0`           | Offset in ms to start recording from.                                                                                                                                                                                    |
 | durationMs              | `mcmti.midnightconfig.durationMs`              | `github.jaffe2718.mcmti.config.McmtiConfig.durationMs`              | `int`                                                  | `0`           | Audio duration to process in ms. `0` means use default.                                                                                                                                                                  |
@@ -108,9 +108,11 @@ the configuration file `mcmti.json` or setting the mod configuration `whisperjni
 the mod in Minecraft.
 The directory must contain the whisper-jni and whisper-cpp libraries.
 
-On Windows an external `whisper.dll` it's automatically used if it exists in some of the directories in the `$env:PATH` variable.
+On Windows an external `whisper.dll` it's automatically used if it exists in some of the directories in the `$env:PATH`
+variable.
 
-You can clone the [whisper-jni](https://github.com/GiviMAD/whisper-jni) repository and build the native library yourself.
+You can clone the [whisper-jni](https://github.com/GiviMAD/whisper-jni) repository and build the native library
+yourself.
 You can also build CUDA version of whisper-jni native library.
 
 For more details, see [whisper-jni](https://github.com/GiviMAD/whisper-jni#use-external-whisper-shared-library)
