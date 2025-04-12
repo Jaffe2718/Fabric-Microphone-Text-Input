@@ -1,75 +1,120 @@
 package github.jaffe2718.mcmti.util;
 
-import github.jaffe2718.mcmti.client.MicrophoneTextInputClient;
-import github.jaffe2718.mcmti.config.MicrophoneTextInputConfig;
+import eu.midnightdust.lib.config.MidnightConfig;
+import github.jaffe2718.mcmti.client.MicrophoneTextInput;
+import github.jaffe2718.mcmti.client.gui.screen.AdvancedConfigWarningScreen;
+import github.jaffe2718.mcmti.config.McmtiConfig;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
+
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
+import java.util.concurrent.locks.LockSupport;
 
 
 public abstract class EventSystem {
 
     public static void register() {
-        ClientLifecycleEvents.CLIENT_STOPPING.register(minecraftClient -> {
-            AudioRecorder.destroy();
+        ClientTickEvents.END_CLIENT_TICK.register(EventSystem::onConfigAltered);
+        ClientTickEvents.END_WORLD_TICK.register(EventSystem::showRecognizeStatus);
+        ClientLifecycleEvents.CLIENT_STOPPING.register(client -> {
             SpeechRecognizer.destroy();
+            AudioRecorder.destroy();
         });
-//        ClientTickEvents.START_WORLD_TICK.register(EventSystem::onConfigAltered);
-        Thread.ofVirtual().start(EventSystem::recognizeTask);
-        Thread.ofVirtual().start(EventSystem::onConfigAltered);
+        Thread.ofVirtual().start(EventSystem::recognizeTask).setName("thread.mcmti.recognizer.loop");
     }
 
-    @SuppressWarnings("InfiniteLoopStatement")
-    public static void onConfigAltered() {
-        while (true) {
-            if (!MicrophoneTextInputConfig.model.equals(SpeechRecognizer.instance().modelPath)
-                    || !MicrophoneTextInputConfig.grammar.equals(SpeechRecognizer.instance().grammarPath)) {
-                SpeechRecognizer.init();
+    private static void showRecognizeStatus(ClientWorld world) {
+        if (MinecraftClient.getInstance().player instanceof ClientPlayerEntity player
+                && MinecraftClient.getInstance().currentScreen == null) {
+            if (AudioRecorder.instance() == null) {
+                player.sendMessage(Text.translatable("message.mcmti.audioInputDeviceLoadFailed"), true);
+            } else if (SpeechRecognizer.instance() == null) {
+                player.sendMessage(Text.translatable("message.mcmti.whisperModelLoadFailed"), true);
+            } else if (McmtiConfig.mode != McmtiConfig.Mode.AUTO_SEND
+                    && MicrophoneTextInput.RECOGNIZE_KEY.isPressed()) {
+                player.sendMessage(Text.translatable("message.mcmti.recordingAudio"), true);
             }
+//            else if (isVirtualThreadRunning("thread.mcmti.recognizing")) {
+//                player.sendMessage(Text.translatable("message.mcmti.recognizing"), true);
+//            }
         }
+    }
+
+    private static void onConfigAltered(MinecraftClient client) {
+        if (McmtiConfig.advancedConfig
+                && !MicrophoneTextInput.advancedConfig
+                && MinecraftClient.getInstance().currentScreen instanceof MidnightConfig.MidnightConfigScreen) {  // advanced config enabled
+            MinecraftClient.getInstance().setScreen(new AdvancedConfigWarningScreen(MinecraftClient.getInstance().currentScreen));
+        }
+        if (!McmtiConfig.model.equals(SpeechRecognizer.modelPath)
+                || !McmtiConfig.grammar.equals(SpeechRecognizer.grammarPath)) {
+            SpeechRecognizer.init();
+        }
+        MicrophoneTextInput.advancedConfig = McmtiConfig.advancedConfig;    // synchronize with config
     }
 
     @SuppressWarnings("InfiniteLoopStatement")
     private static void recognizeTask() {
-        MicrophoneTextInputClient.LOGGER.info("Recognize thread started");
+        MicrophoneTextInput.LOGGER.info("Recognize thread started");
+        @Nullable Thread vthread = null;
         while (true) {
-            if (MinecraftClient.getInstance().player instanceof ClientPlayerEntity player
-                    && MinecraftClient.getInstance().currentScreen == null) {
-                switch (MicrophoneTextInputConfig.mode) {
-                    case AUTO_SEND -> {
-                        float[] audio = AudioRecorder.recordCycle();
-                        Thread.ofVirtual().start(()->{
-                            String result = SpeechRecognizer.recognize(audio);
-                            if (!result.isEmpty()) {
-                                player.networkHandler.sendChatMessage(MicrophoneTextInputConfig.prefix + result);
+            try {
+                if (MinecraftClient.getInstance().player instanceof ClientPlayerEntity player
+                        && MinecraftClient.getInstance().currentScreen == null
+                        && AudioRecorder.instance() != null
+                        && SpeechRecognizer.instance() != null) {
+                    switch (McmtiConfig.mode) {
+                        case AUTO_SEND -> {
+                            float[] audio = AudioRecorder.recordCycle();
+                            Thread.ofVirtual().start(() -> {
+                                String result = SpeechRecognizer.recognize(audio);
+                                if (!result.isEmpty()) {
+                                    player.sendMessage(Text.translatable("message.mcmti.messageSent"), true);
+                                    player.networkHandler.sendChatMessage(McmtiConfig.prefix + result);
+                                }
+                            });
+                        }
+                        case RELEASE_KEY_TO_SEND -> {
+                            if (MicrophoneTextInput.RECOGNIZE_KEY.isPressed()) {
+                                float[] audio = AudioRecorder.record();   // loop until key released
+                                vthread = Thread.ofVirtual().start(() -> {
+                                    String result = SpeechRecognizer.recognize(audio);
+                                    if (!result.isEmpty()) {
+                                        player.sendMessage(Text.translatable("message.mcmti.messageSent"), true);
+                                        player.networkHandler.sendChatMessage(McmtiConfig.prefix + result);
+                                    }
+                                });
+                            } else if (vthread != null && vthread.isAlive()) {
+                                player.sendMessage(Text.translatable("message.mcmti.recognizing"), true);
                             }
-                        });
-                    }
-                    case RELEASE_KEY_TO_SEND -> {
-                        if (MicrophoneTextInputClient.RECOGNIZE_KEY.isPressed()) {
-                            float[] audio = AudioRecorder.record();
-                            Thread.ofVirtual().start(()->{
-                                String result = SpeechRecognizer.recognize(audio);
-                                if (!result.isEmpty()) {
-                                    player.networkHandler.sendChatMessage(MicrophoneTextInputConfig.prefix + result);
-                                }
-                            });
+                        }
+                        case RELEASE_KEY_TO_INPUT -> {
+                            if (MicrophoneTextInput.RECOGNIZE_KEY.isPressed()) {
+                                float[] audio = AudioRecorder.record();
+                                vthread = Thread.ofVirtual().start(() -> {
+                                    String result = SpeechRecognizer.recognize(audio);
+                                    if (!result.isEmpty()) {
+                                        MinecraftClient.getInstance().setScreen(new ChatScreen(McmtiConfig.prefix + result));
+                                    }
+                                });
+                            } else if (vthread != null && vthread.isAlive()) {
+                                player.sendMessage(Text.translatable("message.mcmti.recognizing"), true);
+                            }
                         }
                     }
-                    case RELEASE_KEY_TO_INPUT -> {
-                        if (MicrophoneTextInputClient.RECOGNIZE_KEY.isPressed()) {
-                            float[] audio = AudioRecorder.record();
-                            Thread.ofVirtual().start(()->{
-                                String result = SpeechRecognizer.recognize(audio);
-                                if (!result.isEmpty()) {
-                                    MinecraftClient.getInstance().setScreen(new ChatScreen(MicrophoneTextInputConfig.prefix + result));
-                                }
-                            });
-                        }
-                    }
+                } else {
+                    LockSupport.parkNanos(10000000L);
                 }
+            } catch (Throwable t) {
+                MicrophoneTextInput.LOGGER.error("Error in recognize task", t);
             }
         }
     }

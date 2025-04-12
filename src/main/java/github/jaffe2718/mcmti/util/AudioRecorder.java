@@ -1,7 +1,7 @@
 package github.jaffe2718.mcmti.util;
 
-import github.jaffe2718.mcmti.client.MicrophoneTextInputClient;
-import github.jaffe2718.mcmti.config.MicrophoneTextInputConfig;
+import github.jaffe2718.mcmti.client.MicrophoneTextInput;
+import github.jaffe2718.mcmti.config.McmtiConfig;
 import org.jetbrains.annotations.NotNull;
 
 import javax.sound.sampled.*;
@@ -27,8 +27,12 @@ public class AudioRecorder {
         try {
             INSTANCE = new AudioRecorder();
         } catch (LineUnavailableException e) {
-            MicrophoneTextInputClient.LOGGER.error("Failed to initialize audio recorder", e);
+            MicrophoneTextInput.LOGGER.error("Failed to initialize audio recorder", e);
         }
+    }
+
+    public static AudioRecorder instance() {
+        return INSTANCE;
     }
 
     protected AudioRecorder() throws LineUnavailableException {
@@ -36,7 +40,7 @@ public class AudioRecorder {
         line.open(AUDIO_FORMAT);
     }
 
-    private static float[] toFloatArray(byte[] data) {
+    private static float @NotNull [] toFloatArray(byte @NotNull [] data) {
         float[] result = new float[data.length / 2];
         ShortBuffer shortBuffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer();
         for (int i = 0; i < result.length; i++) {
@@ -47,7 +51,7 @@ public class AudioRecorder {
 
     public static float @NotNull [] recordCycle() {
         INSTANCE.line.start();
-        byte[] buf = new byte[MicrophoneTextInputConfig.recordCycleMs * 32];
+        byte[] buf = new byte[McmtiConfig.recordCycleMs * 32];
         int read = INSTANCE.line.read(buf, 0, buf.length);
         INSTANCE.line.stop();
         INSTANCE.line.flush();
@@ -60,14 +64,13 @@ public class AudioRecorder {
     public static float @NotNull [] record() {
         ByteArrayOutputStream dynamicBuffer = new ByteArrayOutputStream();
         byte[] chunk = new byte[0];
-        switch (MicrophoneTextInputConfig.mode) {
+        switch (McmtiConfig.mode) {
             case AUTO_SEND -> throw new AssertionError("cannot record in AUTO_SEND mode");
-            case RELEASE_KEY_TO_SEND -> chunk = new byte[MicrophoneTextInputConfig.recordCacheSizeSend];
-            case RELEASE_KEY_TO_INPUT -> chunk = new byte[MicrophoneTextInputConfig.recordCacheSizeInput];
+            case RELEASE_KEY_TO_SEND -> chunk = new byte[McmtiConfig.recordBufferSizeSend];
+            case RELEASE_KEY_TO_INPUT -> chunk = new byte[McmtiConfig.recordBufferSizeInput];
         }
-
         INSTANCE.line.start();
-        while (MicrophoneTextInputClient.RECOGNIZE_KEY.isPressed()) {
+        while (MicrophoneTextInput.RECOGNIZE_KEY.isPressed()) {
             int read = INSTANCE.line.read(chunk, 0, chunk.length);
             if (read > 0) {
                 dynamicBuffer.write(chunk, 0, read);

@@ -39,7 +39,7 @@
     "environment": "client",
     "entrypoints": {
         "client": [
-            "github.jaffe2718.mcmti.client.MicrophoneTextInputClient"
+            "github.jaffe2718.mcmti.client.MicrophoneTextInput"
         ]
     },
     "depends": {
@@ -55,7 +55,9 @@
     "custom": {
         "modmenu": {
             "links": {
-                "mcmti.modrinth": "https://modrinth.com/mod/mcmti"
+                "mcmti.modrinth": "https://modrinth.com/mod/mcmti",
+                "mcmti.whisperjni": "https://github.com/GiviMAD/whisper-jni",
+                "mcmti.huggingface.ggerganov.whisper_cpp.model": "https://huggingface.co/ggerganov/whisper.cpp/tree/main"
             },
             "update_checker": true
         }

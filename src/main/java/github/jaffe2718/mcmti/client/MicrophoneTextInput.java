@@ -1,32 +1,41 @@
 package github.jaffe2718.mcmti.client;
 
 import eu.midnightdust.lib.config.MidnightConfig;
-import github.jaffe2718.mcmti.config.MicrophoneTextInputConfig;
+import github.jaffe2718.mcmti.config.McmtiConfig;
 import github.jaffe2718.mcmti.util.AudioRecorder;
 import github.jaffe2718.mcmti.util.EventSystem;
 import github.jaffe2718.mcmti.util.SpeechRecognizer;
 import io.github.givimad.whisperjni.*;
-import io.netty.channel.unix.Errors;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
-import org.lwjgl.glfw.GLFW;
+import net.minecraft.client.util.InputUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
-
-public class MicrophoneTextInputClient implements ClientModInitializer {
+public class MicrophoneTextInput implements ClientModInitializer {
 
     public static final String MOD_ID = "mcmti";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final KeyBinding RECOGNIZE_KEY = new KeyBinding("key.mcmti.recognize", GLFW.GLFW_KEY_V, "key.categories.mcmti");
+    public static final KeyBinding RECOGNIZE_KEY = new KeyBinding("key.mcmti.recognize", InputUtil.Type.KEYSYM, InputUtil.GLFW_KEY_V, "key.categories.mcmti");
+
+    /**
+     * listen to config change
+     * @see McmtiConfig#advancedConfig
+     * */
+    public static volatile boolean advancedConfig = false;
 
     @Override
     public void onInitializeClient() {
-        MidnightConfig.init(MOD_ID, MicrophoneTextInputConfig.class);
+        MidnightConfig.init(MOD_ID, McmtiConfig.class);
+        advancedConfig = McmtiConfig.advancedConfig;
         try {
+            if (McmtiConfig.advancedConfig && !McmtiConfig.whisperjniLibdir.isBlank()) {
+                System.setProperty("io.github.givimad.whisperjni.libdir", McmtiConfig.whisperjniLibdir);
+            }
             WhisperJNI.loadLibrary();
             WhisperJNI.setLibraryLogger(null);
         } catch (IOException ignored) {}

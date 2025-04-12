@@ -3,12 +3,13 @@ package github.jaffe2718.mcmti.config;
 import eu.midnightdust.lib.config.MidnightConfig;
 import io.github.givimad.whisperjni.WhisperFullParams;
 import io.github.givimad.whisperjni.WhisperSamplingStrategy;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.nio.charset.Charset;
 
-public class MicrophoneTextInputConfig extends MidnightConfig {
+public class McmtiConfig extends MidnightConfig {
 
     public enum Mode {
         AUTO_SEND,
@@ -16,49 +17,50 @@ public class MicrophoneTextInputConfig extends MidnightConfig {
         RELEASE_KEY_TO_INPUT,
     }
 
-    @Entry(selectionMode = JFileChooser.FILES_ONLY)
+    @Entry(category = "general", selectionMode = JFileChooser.FILES_ONLY)
     public static String model = "/absolute/path/to/ggml-model.bin";
 
-    @Entry(width = 15)
+    @Entry(category = "general", width = 15)
     public static String language = "en";
 
-    @Entry
+    @Entry(category = "general")
     public static Mode mode = Mode.RELEASE_KEY_TO_SEND;
 
-    @Entry(min = 1024, max = 65536)
+    @Entry(category = "general", min = 1024, max = 65536)
     @Condition(requiredOption = "mode", requiredValue = "AUTO_SEND")
     public static int recordCycleMs = 5000;    // unit: ms, (sampleRate = 16000Hz), default: 5s
 
-    @Entry(min = 64, max = 4096)
+    @Entry(category = "general", min = 64, max = 4096)
     @Condition(requiredOption = "mode", requiredValue = "RELEASE_KEY_TO_SEND")
-    public static int recordCacheSizeSend = 1024;    // unit: byte, default: 1024 bytes
+    public static int recordBufferSizeSend = 1024;    // unit: byte, default: 1024 bytes
 
-    @Entry(min = 64, max = 4096)
+    @Entry(category = "general", min = 64, max = 4096)
     @Condition(requiredOption = "mode", requiredValue = "RELEASE_KEY_TO_INPUT")
-    public static int recordCacheSizeInput = 1024;    // unit: byte, default: 1024 bytes
+    public static int recordBufferSizeInput = 1024;    // unit: byte, default: 1024 bytes
 
-
-
-
-    @Entry(category = "text")
+    @Entry(category = "general")
     public static String prefix = "⌈Speech Input⌋";
 
-    @Entry(category = "text")
+    @Entry(category = "general")
     public static boolean encodingRepair = false;
 
-    @Entry(category = "text")
+    @Entry(category = "general")
     @Condition(requiredOption = "encodingRepair")
     public static String srcEncoding = Charset.defaultCharset().displayName();   // use system encoding as default
 
-    @Entry(category = "text")
+    @Entry(category = "general")
     @Condition(requiredOption = "encodingRepair")
     public static String dstEncoding = Charset.defaultCharset().displayName();   // use system encoding as default
 
 
 
-
+    @ApiStatus.Experimental
     @Entry(category = "advanced")
     public static boolean advancedConfig = false;
+
+    @Entry(category = "advanced", selectionMode = JFileChooser.DIRECTORIES_ONLY, max = 4096)
+    @Condition(requiredOption = "advancedConfig")
+    public static String whisperjniLibdir = "";               // empty for default
 
     /**
      * Number of thread, 0 for max cores
@@ -182,49 +184,31 @@ public class MicrophoneTextInputConfig extends MidnightConfig {
     /**
      * Initial decoding temperature
      */
-    @Entry(category = "advanced")
+    @Entry(category = "advanced", min = 0f, max = 2f, isSlider = true, precision = 200)
     @Condition(requiredOption = "advancedConfig")
     public static float temperature = 0.0f;
 
-    /**
-     * Refer to library
-     */
     @Entry(category = "advanced")
     @Condition(requiredOption = "advancedConfig")
     public static float maxInitialTs = 1.0f;
 
-    /**
-     * Refer to library
-     */
     @Entry(category = "advanced")
     @Condition(requiredOption = "advancedConfig")
     public static float lengthPenalty = -1.0f;
 
-    /**
-     * Refer to library
-     */
-    @Entry(category = "advanced")
+    @Entry(category = "advanced", min = 0f)
     @Condition(requiredOption = "advancedConfig")
     public static float temperatureInc =   0.4f;
 
-    /**
-     * Refer to library
-     */
-    @Entry(category = "advanced")
+    @Entry(category = "advanced", min = 0f)
     @Condition(requiredOption = "advancedConfig")
     public static float entropyThold =   2.4f;
 
-    /**
-     * Refer to library
-     */
-    @Entry(category = "advanced")
+    @Entry(category = "advanced", max = 0f)
     @Condition(requiredOption = "advancedConfig")
     public static float logprobThold =  -1.0f;
 
-    /**
-     * Refer to library
-     */
-    @Entry(category = "advanced")
+    @Entry(category = "advanced", min = 0f, max = 1f, isSlider = true, precision = 200)
     @Condition(requiredOption = "advancedConfig")
     public static float noSpeechThold =   0.6f;
 
@@ -238,7 +222,7 @@ public class MicrophoneTextInputConfig extends MidnightConfig {
     /**
      * Specific to bean search sampling strategy
      */
-    @Entry(category = "advanced")
+    @Entry(category = "advanced", min = 1)
     @Condition(requiredOption = "advancedConfig")
     public static int beamSearchBeamSize = 2;
 
@@ -256,7 +240,7 @@ public class MicrophoneTextInputConfig extends MidnightConfig {
     /**
      * Penalty for non grammar tokens.
      */
-    @Entry(category = "advanced")
+    @Entry(category = "advanced", min = 0)
     @Condition(requiredOption = "advancedConfig")
     public static float grammarPenalty = 100f;
 
