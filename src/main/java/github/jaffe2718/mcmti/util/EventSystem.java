@@ -13,9 +13,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadInfo;
-import java.lang.management.ThreadMXBean;
 import java.util.concurrent.locks.LockSupport;
 
 
@@ -42,9 +39,6 @@ public abstract class EventSystem {
                     && MicrophoneTextInput.RECOGNIZE_KEY.isPressed()) {
                 player.sendMessage(Text.translatable("message.mcmti.recordingAudio"), true);
             }
-//            else if (isVirtualThreadRunning("thread.mcmti.recognizing")) {
-//                player.sendMessage(Text.translatable("message.mcmti.recognizing"), true);
-//            }
         }
     }
 

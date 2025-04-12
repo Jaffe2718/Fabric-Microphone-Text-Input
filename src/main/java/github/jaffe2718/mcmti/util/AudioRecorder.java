@@ -62,13 +62,9 @@ public class AudioRecorder {
     }
 
     public static float @NotNull [] record() {
+        assert McmtiConfig.mode != McmtiConfig.Mode.AUTO_SEND;
         ByteArrayOutputStream dynamicBuffer = new ByteArrayOutputStream();
-        byte[] chunk = new byte[0];
-        switch (McmtiConfig.mode) {
-            case AUTO_SEND -> throw new AssertionError("cannot record in AUTO_SEND mode");
-            case RELEASE_KEY_TO_SEND -> chunk = new byte[McmtiConfig.recordBufferSizeSend];
-            case RELEASE_KEY_TO_INPUT -> chunk = new byte[McmtiConfig.recordBufferSizeInput];
-        }
+        byte[] chunk = new byte[McmtiConfig.recordBufferSize];
         INSTANCE.line.start();
         while (MicrophoneTextInput.RECOGNIZE_KEY.isPressed()) {
             int read = INSTANCE.line.read(chunk, 0, chunk.length);

@@ -17,8 +17,8 @@ public class McmtiConfig extends MidnightConfig {
         RELEASE_KEY_TO_INPUT,
     }
 
-    @Entry(category = "general", selectionMode = JFileChooser.FILES_ONLY)
-    public static String model = "/absolute/path/to/ggml-model.bin";
+    @Entry(category = "general", selectionMode = JFileChooser.FILES_ONLY, width = 4096, fileExtensions = {"bin", "ggml"})
+    public static String model = "";
 
     @Entry(category = "general", width = 15)
     public static String language = "en";
@@ -31,12 +31,8 @@ public class McmtiConfig extends MidnightConfig {
     public static int recordCycleMs = 5000;    // unit: ms, (sampleRate = 16000Hz), default: 5s
 
     @Entry(category = "general", min = 64, max = 4096)
-    @Condition(requiredOption = "mode", requiredValue = "RELEASE_KEY_TO_SEND")
-    public static int recordBufferSizeSend = 1024;    // unit: byte, default: 1024 bytes
-
-    @Entry(category = "general", min = 64, max = 4096)
-    @Condition(requiredOption = "mode", requiredValue = "RELEASE_KEY_TO_INPUT")
-    public static int recordBufferSizeInput = 1024;    // unit: byte, default: 1024 bytes
+//    @Condition(requiredOption = "mode", requiredValue = {"RELEASE_KEY_TO_SEND", "RELEASE_KEY_TO_INPUT"})
+    public static int recordBufferSize = 1024;    // unit: byte, default: 1024 bytes
 
     @Entry(category = "general")
     public static String prefix = "⌈Speech Input⌋";
@@ -58,7 +54,7 @@ public class McmtiConfig extends MidnightConfig {
     @Entry(category = "advanced")
     public static boolean advancedConfig = false;
 
-    @Entry(category = "advanced", selectionMode = JFileChooser.DIRECTORIES_ONLY, max = 4096)
+    @Entry(category = "advanced", selectionMode = JFileChooser.DIRECTORIES_ONLY, width = 4096)
     @Condition(requiredOption = "advancedConfig")
     public static String whisperjniLibdir = "";               // empty for default
 
@@ -79,7 +75,7 @@ public class McmtiConfig extends MidnightConfig {
     /**
      * Max tokens to use from past text as prompt for the decoder
      */
-    @Entry(category = "advanced")
+    @Entry(category = "advanced", min = 1024)
     @Condition(requiredOption = "advancedConfig")
     public static int nMaxTextCtx = 16384;
 
@@ -121,7 +117,7 @@ public class McmtiConfig extends MidnightConfig {
     /**
      * Initial prompt
      */
-    @Entry(category = "advanced", width = 2048)
+    @Entry(category = "advanced", width = 4096)
     @Condition(requiredOption = "advancedConfig")
     public static String initialPrompt = "";
 
@@ -179,7 +175,7 @@ public class McmtiConfig extends MidnightConfig {
      */
     @Entry(category = "advanced")
     @Condition(requiredOption = "advancedConfig")
-    public static boolean suppressNonSpeechTokens;
+    public static boolean suppressNonSpeechTokens = true;
 
     /**
      * Initial decoding temperature
@@ -233,7 +229,7 @@ public class McmtiConfig extends MidnightConfig {
     @Condition(requiredOption = "advancedConfig")
     public static float beamSearchPatience = -1.0f;
 
-    @Entry(category = "advanced", selectionMode = JFileChooser.FILES_ONLY)
+    @Entry(category = "advanced", selectionMode = JFileChooser.FILES_ONLY, fileExtensions = {"gbnf"})
     @Condition(requiredOption = "advancedConfig")
     public static String grammar = "";        // No grammar if the field is empty
 

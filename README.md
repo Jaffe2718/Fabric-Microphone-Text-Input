@@ -1,123 +1,131 @@
 # **Microphone Text Input Mod Developer Documentation**
-### 　　　　　　　　　1.2.x
-![image](src/main/resources/assets/mcmti/icon.png)
+
+### 　　　　　　　　　2.x
+
+<img alt="image" src="src/main/resources/assets/mcmti/icon.png"/>
 
 ## Introduction
 
-### Functionality
-This mod allows you to use your microphone to input text and send it as a player message. It is a client-side mod, so it does not require any server-side setup.
+The Microphone Text Input Mod is a Fabric mod designed for Minecraft clients. It provides speech recognition input
+functionality and automatically converts spoken words into text chat messages, enhancing the in - game communication
+experience.
 
-### Operating Principles
-This mod uses [VOSK Offline Speech Recognition API](https://alphacephei.com/vosk/) to recognize the text from the microphone. The recognized text will be sent to the server as a player message when the user presses the `V` key.
+## Features
 
-### What's New in 1.2.x
-- optimized the acoustic model and microphone loading mechanism;
-- optimized the UI;
+- **Multiple Modes**: Supports different operation modes, including `AUTO_SEND`, `RELEASE_KEY_TO_SEND`, and
+  `RELEASE_KEY_TO_INPUT`.
+- **Advanced Configuration**: Allows users to adjust advanced parameters related to the Whisper library, such as the
+  number of threads, audio context size, and sampling strategy.
 
-## Developer Guide
-### Setup
-1. Install Java Development Kit 21;
-2. Install IntelliJ IDEA;
-3. Clone the project from my GitHub Repository;
-4. Open the project in IntelliJ IDEA and wait for it to finish loading.
+## Dependencies
 
-### Configuration List
-| Dependency          | Type                               | Recommended Configuration    | Description                                                           |
-| ------------------- | ---------------------------------- |------------------------------| --------------------------------------------------------------------- |
-| JDK                 | Development Kit                    | Java SE Development Kit 21.x | The Java development environment toolkit on which the project depends |
-| IntelliJ IDEA       | Integrated Development Environment | Latest Version               | The IDE used to develop the project                                   |
-| git                 | Version Control System             | Latest Version               | The version control system used to manage the project                 |
-| Minecraft Development | IntelliJ IDEA Plugin               | Latest Version               | The plugin used to develop Minecraft mods                             |
+- **Java**: Version `21` or higher.
+- **Fabric Loader**: see [fabric.mod.json](src/main/resources/fabric.mod.json)
+- **Minecraft**: see [gradle.properties](gradle.properties)
+- **MidnightLib**: see [gradle.properties](gradle.properties)
 
-### FAQ
-#### Q: Why the program cannot to recognize the text from the microphone?
-##### A: The program cannot recognize the text from the microphone may be caused by the following reasons:
-- The microphone cannot be used due to incorrect microphone settings on the computer;
-> For example, if your operating system is Windows 11, you need to check you settings in the `Control Panel` -> `Microsoft.Sound` -> `Recording`, and make sure that the microphone can be used normally.
-> ![image](doc/Control_Panel.png)
-> And then you need to check in the `Settings` -> `System` -> `Sound` -> `Input`, and make sure that the sound input device is correct.
-> ![image](doc/Settings.png)
-- Java cannot access the microphone due to incorrect Java permission settings;
-> For example, if your operating system is Windows 11, you need to check you settings in the `Settings` > `Privacy & security` > `Microphone`,and make sure `Microphone access` is turned on.
-> ![image](doc/Settings1.png)
-> Then you need to check in the `Settings` > `Privacy & security` > `Microphone`, and make sure that `Let desktop apps access your microphone` is turned on.
-> ![image](doc/Settings2.png)
-> For more information, please refer to [Fix microphone problems](https://support.microsoft.com/en-us/windows/fix-microphone-problems-5f230348-106d-bfa4-1db5-336f35576011#WindowsVersion=Windows_11)
-- The language model is not selected correctly;
-> if you are a developer, you can check the `mcmti.json` file in the `run/config` folder in your project, and make sure that the `acousticModelPath` is the absolute path of the language model. Here is an example:
-> ```json
-> {
-> "acousticModelPath": "E:\\Coding\\Java\\MDK\\Fabric-Microphone-Text-Input\\models\\vosk-model-small-cn-0.22",
-> "cacheSize": 3072,
-> "sampleRate": 16000,
-> "encoding_repair": false,
-> "srcEncoding": "UTF-8",
-> "dstEncoding": "UTF-8"
-> }
-> ```
-> If you want to change the language model, you can download the language model from [VOSK Models](https://alphacephei.com/vosk/models), and then change the `acousticModelPath` to the absolute path of the language model.
-#### Q: Why speech recognition can recognize normally, but the output is messy code?
-##### A: The output is messy code may refer to the default encoding for your project, IDE, or system.
-> - Check the encoding of the project.
-> > In `build.gradle` you can check `tasks.withType(JavaCompile).configureEach` and add `it.options.encoding = 'UTF-8'`. There is an example:
-> > ```groovy
-> > tasks.withType(JavaCompile).configureEach {
-> >    it.options.encoding = 'UTF-8'
-> > }
-> > ```
-> - Check the encoding of the IDE.
-> > In IntelliJ IDEA you can check the encoding of the project in the `File` -> `Settings` -> `Editor` -> `File Encodings`, and make sure that the `Project Encoding` is `UTF-8`.
-> > ![image](doc/IDEA-Encoding.png)
-> > And then you can check the encoding of the IDE in the `Help` -> `Edit Custom VM Options`, and make sure that `-Dfile.encoding=UTF-8` is added to the end of the file.
-> - Check the encoding of the system.
-> > For example, if your operating system is Windows 11, you can check the encoding of the system in `Control Panel` -> `Clock, Language, and Region` -> `Region` -> `Administrative` -> `Change system locale`, and use `Beta: Use Unicode UTF-8 for worldwide language support` instead of `Beta: Use Unicode UTF-8 for worldwide language support` like this:
-> > ![image](doc/W11-region.png)
-#### Q: Why the mod in the develop environment can work normally, but the mod Jar cause a crash in the game?
-##### A: This is most likely due to developers referencing third-party libraries that are not mods, and they were not compiled together when compiling Jar files. To solve this problem, you can add the following code to the `build.gradle` file:
-> ```groovy
-> jar {
->    from {
->       configurations.compileClasspath.findAll() {
->           it.name.endsWith(".jar") && it.name.contains("name of yor third-party library")
->       }.collect {
->           zipTree(it)
->       }
-> }
+## Configuration
 
+### Keybinding
 
-## User Guide
+| Keybinding Name | Recognize              |
+|-----------------|------------------------|
+| Category        | `key.categories.mcmti` |
+| Translation Key | `mcmti.key.recognize`  |
+| Default Key     | `V`                    |
 
-### 1. Installation
-> 1. Download the appropriate version of Minecraft with Fabric loader;
-> 2. Install the appropriate version of the [Fabric API](https://modrinth.com/mod/fabric-api) and [MidnightLib](https://modrinth.com/mod/midnightlib) and [Mod Menu](https://modrinth.com/mod/modmenu) as dependencies;
-> 3. Download the 1.1.0 version of the mod from [GitHub Releases](https://github.com/Jaffe2718/Fabric-Microphone-Text-Input/releases) or [Modrinth](https://modrinth.com/mod/microphone-text-input);
-> 4. Put the downloaded mod JAR file into the `mods` folder of the Minecraft installation directory;
-### 2. Configuration
-> notice: Since 1.1.0, we will not provide the language model in the mod package, you need to download the language model from [VOSK Models](https://alphacephei.com/vosk/models).This mod will not work properly without the correct configuration.
-> 1. Download the language model from [VOSK Models](https://alphacephei.com/vosk/models) and extract it. The recommended path is `...\.minecraft\versions\YOUR_GAME_VERSION\.mcmti\models`, if the folders do not exist, you need to create them.
-> 2. Launch Minecraft and enter the game;
-> 3. Click the `Mods` button in the main menu;
-> 4. Click the settings button of the `Fabric Microphone Text Input` mod,
-> ![image](doc/ModSettingBtn.png)
-> Then you will enter the configuration UI of `Fabric Microphone Text Input Mod`;
-> 5. Fill the absolute path of the language model like this:
-> > ![image](doc/Config_abs_path.png)
-> and ensure to click the `Done` button to save the configuration.
-> 6. Restart Minecraft and enter the game.
-> 7. Enter the game and press `V` to recognize the text and automatically send as a chat message.
-> 8. If the message is messy code, please try the error coding repair function, this is an example:
-> > ![image](doc/ErrorEnR.png)
-> > Warning: This function is an experimental function, and it may cause the recognition to fail.
+### General Settings
 
-## About
-### Repository
-[GitHub](https://github.com/Jaffe2718/Fabric-Microphone-Text-Input)
-### License
-This mod is licensed under the [MIT License](LICENSE)
-### Author
-[Jaffe2718](https://github.com/Jaffe2718)
-### Issue
-If you have any questions or suggestions, please submit an issue on [GitHub Issues](https://github.com/Jaffe2718/Fabric-Microphone-Text-Input/issues).
-### Contact
-You can also contact me through the following methods:
-[Bilibili Jaffe-](https://space.bilibili.com/1671742926)
+| Setting                   | Translation Key                         | Field                                                        | Type                                             | Default Value                            | Description                                                                |
+|---------------------------|-----------------------------------------|--------------------------------------------------------------|--------------------------------------------------|------------------------------------------|----------------------------------------------------------------------------|
+| GGML Whisper Model        | `mcmti.midnightconfig.model`            | `github.jaffe2718.mcmti.config.McmtiConfig.model`            | `String`                                         | `""`                                     | Path to the GGML Whisper model.                                            |
+| Language                  | `mcmti.midnightconfig.language`         | `github.jaffe2718.mcmti.config.McmtiConfig.language`         | `String`                                         | `"en"`                                   | Language for speech recognition.                                           |
+| Mode                      | `mcmti.midnightconfig.mode`             | `github.jaffe2718.mcmti.config.McmtiConfig.mode`             | `github.jaffe2718.mcmti.config.McmtiConfig.Mode` | `"RELEASE_KEY_TO_SEND"`                  | Mod's work mode.                                                           |
+| Record Cycle (ms)         | `mcmti.midnightconfig.recordCycleMs`    | `github.jaffe2718.mcmti.config.McmtiConfig.recordCycleMs`    | `int`                                            | `5000`                                   | Record cycle in milliseconds.                                              |
+| Record Buffer Size (byte) | `mcmti.midnightconfig.recordBufferSize` | `github.jaffe2718.mcmti.config.McmtiConfig.recordBufferSize` | `int`                                            | `1024`                                   | Record buffer size in bytes.                                               |
+| Prefix                    | `mcmti.midnightconfig.prefix`           | `github.jaffe2718.mcmti.config.McmtiConfig.prefix`           | `String`                                         | `"⌈Speech Input⌋"`                       | Prefix added to the recognized text.                                       |
+| Encoding Repair           | `mcmti.midnightconfig.encodingRepair`   | `github.jaffe2718.mcmti.config.McmtiConfig.encodingRepair`   | `boolean`                                        | `false`                                  | Enable encoding repair.                                                    |
+| Source Encoding           | `mcmti.midnightconfig.srcEncoding`      | `github.jaffe2718.mcmti.config.McmtiConfig.srcEncoding`      | `String`                                         | `Charset.defaultCharset().displayName()` | Source encoding for text. Applies only if encoding repair is enabled.      |
+| Destination Encoding      | `mcmti.midnightconfig.dstEncoding`      | `github.jaffe2718.mcmti.config.McmtiConfig.dstEncoding`      | `String`                                         | `Charset.defaultCharset().displayName()` | Destination encoding for text. Applies only if encoding repair is enabled. |
+
+### Advanced Settings
+
+| Setting                 | Translation Key                                | Field                                                               | Type                                                   | Default Value | Description                                                                                                                                                                                                              |
+|-------------------------|------------------------------------------------|---------------------------------------------------------------------|--------------------------------------------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Enable Advanced Config  | `mcmti.midnightconfig.advancedConfig`          | `github.jaffe2718.mcmti.config.McmtiConfig.advancedConfig`          | `boolean`                                              | `false`       | Enable advanced configuration.                                                                                                                                                                                           |
+| whisperjni.libdir       | `mcmti.midnightconfig.whisperjniLibdir`        | `github.jaffe2718.mcmti.config.McmtiConfig.whisperjniLibdir`        | `String`                                               | `""`          | Set the Java runtime property `io.github.givimad.whisperjni.libdir` to [use custom whisper-jni external library](#use-external-library). Keep empty to use default. Restart the game after changing this value to apply. |
+| nThreads                | `mcmti.midnightconfig.nThreads`                | `github.jaffe2718.mcmti.config.McmtiConfig.nThreads`                | `int`                                                  | `0`           | Number of threads to use for the operation of the Whisper model. `0` for max cores.                                                                                                                                      |
+| audioCtx            | `mcmti.midnightconfig.audioCtx`            | `github.jaffe2718.mcmti.config.McmtiConfig.audioCtx`            | `int`                                                  | `0`           | Audio context size for the Whisper model. `0` means use default.                                                                                                                                                         |
+| nMaxTextCtx             | `mcmti.midnightconfig.nMaxTextCtx`             | `github.jaffe2718.mcmti.config.McmtiConfig.nMaxTextCtx`             | `int`                                                  | `16384`       | Max tokens to use from past text as prompt for the decoder.                                                                                                                                                              |
+| offsetMs                | `mcmti.midnightconfig.offsetMs`                | `github.jaffe2718.mcmti.config.McmtiConfig.offsetMs`                | `int`                                                  | `0`           | Offset in ms to start recording from.                                                                                                                                                                                    |
+| durationMs              | `mcmti.midnightconfig.durationMs`              | `github.jaffe2718.mcmti.config.McmtiConfig.durationMs`              | `int`                                                  | `0`           | Audio duration to process in ms. `0` means use default.                                                                                                                                                                  |
+| translate               | `mcmti.midnightconfig.translate`               | `github.jaffe2718.mcmti.config.McmtiConfig.translate`               | `boolean`                                              | `false`       | Translate the text to the default language.                                                                                                                                                                              |
+| noTimestamps            | `mcmti.midnightconfig.noTimestamps`            | `github.jaffe2718.mcmti.config.McmtiConfig.noTimestamps`            | `boolean`                                              | `false`       | Do not generate timestamps.                                                                                                                                                                                              |
+| detectLanguage          | `mcmti.midnightconfig.detectLanguage`          | `github.jaffe2718.mcmti.config.McmtiConfig.detectLanguage`          | `boolean`                                              | `false`       | Detect the language of the input audio.                                                                                                                                                                                  |
+| initialPrompt           | `mcmti.midnightconfig.initialPrompt`           | `github.jaffe2718.mcmti.config.McmtiConfig.initialPrompt`           | `String`                                               | `""`          | Initial text to use as a prompt for the whisper.                                                                                                                                                                         |
+| noContext               | `mcmti.midnightconfig.noContext`               | `github.jaffe2718.mcmti.config.McmtiConfig.noContext`               | `boolean`                                              | `true`        | Do not use past transcription (if any) as initial prompt for the decoder.                                                                                                                                                |
+| singleSegment           | `mcmti.midnightconfig.singleSegment`           | `github.jaffe2718.mcmti.config.McmtiConfig.singleSegment`           | `boolean`                                              | `false`       | Force single segment output (useful for streaming).                                                                                                                                                                      |
+| printSpecial            | `mcmti.midnightconfig.printSpecial`            | `github.jaffe2718.mcmti.config.McmtiConfig.printSpecial`            | `boolean`                                              | `false`       | Print special tokens.                                                                                                                                                                                                    |
+| printProgress           | `mcmti.midnightconfig.printProgress`           | `github.jaffe2718.mcmti.config.McmtiConfig.printProgress`           | `boolean`                                              | `true`        | Print progress information.                                                                                                                                                                                              |
+| printRealtime           | `mcmti.midnightconfig.printRealtime`           | `github.jaffe2718.mcmti.config.McmtiConfig.printRealtime`           | `boolean`                                              | `false`       | Print results from within whisper.cpp (avoid it, use callback instead).                                                                                                                                                  |
+| printTimestamps         | `mcmti.midnightconfig.printTimestamps`         | `github.jaffe2718.mcmti.config.McmtiConfig.printTimestamps`         | `boolean`                                              | `true`        | Print timestamps for each text segment when printing realtime.                                                                                                                                                           |
+| suppressBlank           | `mcmti.midnightconfig.suppressBlank`           | `github.jaffe2718.mcmti.config.McmtiConfig.suppressBlank`           | `boolean`                                              | `true`        | Decoder option.                                                                                                                                                                                                          |
+| suppressNonSpeechTokens | `mcmti.midnightconfig.suppressNonSpeechTokens` | `github.jaffe2718.mcmti.config.McmtiConfig.suppressNonSpeechTokens` | `boolean`                                              | `true`        | Tokenizer option.                                                                                                                                                                                                        |
+| temperature             | `mcmti.midnightconfig.temperature`             | `github.jaffe2718.mcmti.config.McmtiConfig.temperature`             | `float`                                                | `0.0f`        | Initial decoding temperature.                                                                                                                                                                                            |
+| maxInitialTs            | `mcmti.midnightconfig.maxInitialTs`            | `github.jaffe2718.mcmti.config.McmtiConfig.maxInitialTs`            | `float`                                                | `1.0f`        | Maximum initial timestamp.                                                                                                                                                                                               |
+| lengthPenalty           | `mcmti.midnightconfig.lengthPenalty`           | `github.jaffe2718.mcmti.config.McmtiConfig.lengthPenalty`           | `float`                                                | `-1.0f`       | Length penalty.                                                                                                                                                                                                          |
+| temperatureInc          | `mcmti.midnightconfig.temperatureInc`          | `github.jaffe2718.mcmti.config.McmtiConfig.temperatureInc`          | `float`                                                | `0.4f`        | Temperature increment.                                                                                                                                                                                                   |
+| entropyThold            | `mcmti.midnightconfig.entropyThold`            | `github.jaffe2718.mcmti.config.McmtiConfig.entropyThold`            | `float`                                                | `2.4f`        | Entropy threshold (similar to OpenAI's "compression_ratio_threshold").                                                                                                                                                   |
+| logprobThold            | `mcmti.midnightconfig.logprobThold`            | `github.jaffe2718.mcmti.config.McmtiConfig.logprobThold`            | `float`                                                | `-1.0f`       | Log probability threshold.                                                                                                                                                                                               |
+| noSpeechThold           | `mcmti.midnightconfig.noSpeechThold`           | `github.jaffe2718.mcmti.config.McmtiConfig.noSpeechThold`           | `float`                                                | `0.6f`        | No speech threshold.                                                                                                                                                                                                     |
+| greedyBestOf            | `mcmti.midnightconfig.greedyBestOf`            | `github.jaffe2718.mcmti.config.McmtiConfig.greedyBestOf`            | `int`                                                  | `-1`          | Specific to greedy sampling strategy.                                                                                                                                                                                    |
+| beamSearchBeamSize      | `mcmti.midnightconfig.beamSearchBeamSize`      | `github.jaffe2718.mcmti.config.McmtiConfig.beamSearchBeamSize`      | `int`                                                  | `2`           | Specific to bean search sampling strategy.                                                                                                                                                                               |
+| beamSearchPatience      | `mcmti.midnightconfig.beamSearchPatience`      | `github.jaffe2718.mcmti.config.McmtiConfig.beamSearchPatience`      | `float`                                                | `-1.0f`       | Specific to bean search sampling strategy.                                                                                                                                                                               |
+| grammar                 | `mcmti.midnightconfig.grammar`                 | `github.jaffe2718.mcmti.config.McmtiConfig.grammar`                 | `String`                                               | `""`          | Grammar file path. Empty means no grammar.                                                                                                                                                                               |
+| grammarPenalty          | `mcmti.midnightconfig.grammarPenalty`          | `github.jaffe2718.mcmti.config.McmtiConfig.grammarPenalty`          | `float`                                                | `100.0f`      | Penalty for non grammar tokens.                                                                                                                                                                                          |
+| whisperSamplingStrategy | `mcmti.midnightconfig.whisperSamplingStrategy` | `github.jaffe2718.mcmti.config.McmtiConfig.whisperSamplingStrategy` | `io.github.givimad.whisperjni.WhisperSamplingStrategy` | `BEAN_SEARCH` | The `WhisperContext` enum to configure whisper's sampling strategy.                                                                                                                                                      |
+
+- For more info,
+  see [WhisperFullParams.java](https://github.com/GiviMAD/whisper-jni/blob/main/src/main/java/io/github/givimad/whisperjni/WhisperFullParams.java)
+
+> WARNING: Activating the advanced configuration will change the default parameters of the Whisper model configuration,
+> which will have a critical impact on the speech recognition results. Inappropriate configuration of advanced
+> parameters can lead to problems such as speech recognition failure, high computer resource usage, and program crashes.
+> Please use with caution.
+
+## Usage
+
+1. Install the mod and download the [GGML Whisper model](https://huggingface.co/ggerganov/whisper.cpp/tree/main).
+2. Configure the mod according to your needs in the configuration menu.
+3. Use the keybinding you set (default is `V`) to start recording and speech recognition.
+4. If the mode is set to `AUTO_SEND`, the recognized text will be automatically sent as a chat message. If set to
+   `RELEASE_KEY_TO_SEND` or `RELEASE_KEY_TO_INPUT`, follow the corresponding key - release actions.
+
+## Use External Library
+
+Set the property `io.github.givimad.whisperjni.libdir` to an alternative directory by setting `whisperjniLibdir` in
+the configuration file `mcmti.json` or setting the mod configuration `whisperjni.libdir` in the configuration menu of
+the mod in Minecraft.
+The directory must contain the whisper-jni and whisper-cpp libraries.
+
+On Windows an external `whisper.dll` it's automatically used if it exists in some of the directories in the `$env:PATH` variable.
+
+You can clone the [whisper-jni](https://github.com/GiviMAD/whisper-jni) repository and build the native library yourself.
+You can also build CUDA version of whisper-jni native library.
+
+For more details, see [whisper-jni](https://github.com/GiviMAD/whisper-jni#use-external-whisper-shared-library)
+and [whisper.cpp](https://github.com/ggml-org/whisper.cpp).
+
+## Troubleshooting
+
+- **Audio Input Device Load Failed**: Check if your audio input device is properly connected and configured.
+- **Whisper Model Load Failed**: Make sure the path to the GGML Whisper model is correct.
+
+## Contributing
+
+If you'd like to contribute to this project, please feel free to submit issues or pull requests
+on [GitHub](https://github.com/Jaffe2718/Fabric-Microphone-Text-Input).
+
+## License
+
+This mod is released under the [MIT License](LICENSE).
