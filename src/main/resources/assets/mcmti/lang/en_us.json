@@ -1,8 +1,6 @@
 {
     "key.categories.mcmti": "Microphone Text Input",
     "key.mcmti.recognize": "Recognize",
-    "mcmti.gui.config.advanced.cancel": "Cancel",
-    "mcmti.gui.config.advanced.confirm": "Confirm",
     "mcmti.gui.config.advanced.warn": "WARNING: Activating the advanced configuration will change the default parameters of the Whisper model configuration, which will have a critical impact on the speech recognition results. Inappropriate configuration of advanced parameters can lead to problems such as speech recognition failure, high computer resource usage, and program crashes. Please use with caution.",
     "mcmti.gui.config.advanced.warn.title": "§l§cEnable Advanced Config",
     "mcmti.huggingface.ggerganov.whisper_cpp.model": "Download GGML Whisper Model",
@@ -102,5 +100,7 @@
     "message.mcmti.messageSent": "§aMessage Sent",
     "message.mcmti.recognizing": "§eRecognizing...",
     "message.mcmti.recordingAudio": "§eRecording Audio...",
-    "message.mcmti.whisperModelLoadFailed": "§cWhisper Model Load Failed"
+    "message.mcmti.whisperModelLoadFailed": "§cWhisper Model Load Failed",
+    "modmenu.descriptionTranslation.mcmti": "Speech recognition chat message input tool for Minecraft.",
+    "modmenu.nameTranslation.mcmti": "Microphone Text Input"
 }

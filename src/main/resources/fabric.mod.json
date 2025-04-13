@@ -3,7 +3,7 @@
     "id": "mcmti",
     "version": "${version}",
     "name": "Microphone Text Input",
-    "description": "A mod that provides speech recognition input and automatically converts it into text chat messages",
+    "description": "Speech recognition chat message input tool for Minecraft.",
     "authors": [
         {
             "name": "Jaffe2718",

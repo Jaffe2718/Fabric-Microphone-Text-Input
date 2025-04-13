@@ -18,8 +18,8 @@ public class AdvancedConfigWarningScreen extends ConfirmScreen {
         super(AdvancedConfigWarningScreen::checkConfirmed,
                 Text.translatable("mcmti.gui.config.advanced.warn.title"),
                 Text.translatable("mcmti.gui.config.advanced.warn"),
-                Text.translatable("mcmti.gui.config.advanced.confirm"),
-                Text.translatable("mcmti.gui.config.advanced.cancel"));
+                Text.translatable("gui.proceed").withColor(0xFF5555),
+                Text.translatable("gui.cancel"));
         this.parent = parent;
     }
 
