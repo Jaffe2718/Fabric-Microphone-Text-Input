@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Path;
 
-public class SpeechRecognizer {
+public final class SpeechRecognizer {
     public static final WhisperJNI WHISPER = new WhisperJNI();
     private static volatile SpeechRecognizer INSTANCE;
 
@@ -76,7 +76,7 @@ public class SpeechRecognizer {
         return "";
     }
 
-    protected SpeechRecognizer() throws IOException {
+    private SpeechRecognizer() throws IOException {
         this.ctx = WHISPER.init(Path.of(modelPath));
         if (!grammarPath.isEmpty()) {
             this.grammar = WHISPER.parseGrammar(grammarPath);

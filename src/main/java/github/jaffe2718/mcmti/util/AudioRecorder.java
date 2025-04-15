@@ -10,7 +10,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
 
-public class AudioRecorder {
+public final class AudioRecorder {
     private static final AudioFormat AUDIO_FORMAT = new AudioFormat(16000, 16, 1, true, false);
     private static AudioRecorder INSTANCE;
     private final TargetDataLine line;
@@ -35,7 +35,7 @@ public class AudioRecorder {
         return INSTANCE;
     }
 
-    protected AudioRecorder() throws LineUnavailableException {
+    private AudioRecorder() throws LineUnavailableException {
         line = AudioSystem.getTargetDataLine(AUDIO_FORMAT);
         line.open(AUDIO_FORMAT);
     }

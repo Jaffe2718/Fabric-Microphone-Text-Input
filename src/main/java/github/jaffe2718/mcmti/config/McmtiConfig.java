@@ -1,6 +1,7 @@
 package github.jaffe2718.mcmti.config;
 
 import eu.midnightdust.lib.config.MidnightConfig;
+import github.jaffe2718.mcmti.client.MicrophoneTextInput;
 import io.github.givimad.whisperjni.WhisperFullParams;
 import io.github.givimad.whisperjni.WhisperSamplingStrategy;
 import org.jetbrains.annotations.ApiStatus;
@@ -17,11 +18,33 @@ public class McmtiConfig extends MidnightConfig {
         RELEASE_KEY_TO_INPUT,
     }
 
+    public enum WhisperLogLevel {
+        SILENT,
+        DEBUG,
+        INFO,
+        WARN,
+        ERROR;
+
+        public void log(@NotNull String message) {
+            switch (this) {
+                case SILENT -> {}
+                case DEBUG -> MicrophoneTextInput.LOGGER.debug(message);
+                case INFO -> MicrophoneTextInput.LOGGER.info(message);
+                case WARN -> MicrophoneTextInput.LOGGER.warn(message);
+                case ERROR -> MicrophoneTextInput.LOGGER.error(message);
+                default -> throw new IllegalStateException("Unexpected value: " + this);
+            }
+        }
+    }
+
     @Entry(category = "general", selectionMode = JFileChooser.FILES_ONLY, width = 4096, fileExtensions = {"bin", "ggml"})
     public static String model = "";
 
     @Entry(category = "general", width = 15)
     public static String language = "en";
+
+    @Entry(category = "general")
+    public static WhisperLogLevel whisperLogLevel = WhisperLogLevel.SILENT;
 
     @Entry(category = "general")
     public static Mode mode = Mode.RELEASE_KEY_TO_SEND;

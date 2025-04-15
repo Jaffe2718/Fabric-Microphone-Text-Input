@@ -35,8 +35,8 @@ public class MicrophoneTextInput implements ClientModInitializer {
             if (McmtiConfig.advancedConfig && !McmtiConfig.whisperjniLibdir.isBlank()) {
                 System.setProperty("io.github.givimad.whisperjni.libdir", McmtiConfig.whisperjniLibdir);
             }
-            WhisperJNI.loadLibrary();
-            WhisperJNI.setLibraryLogger(null);
+            WhisperJNI.loadLibrary(McmtiConfig.whisperLogLevel::log);
+            WhisperJNI.setLibraryLogger(McmtiConfig.whisperLogLevel::log);
         } catch (IOException ignored) {}
         KeyBindingHelper.registerKeyBinding(RECOGNIZE_KEY);
         AudioRecorder.init();

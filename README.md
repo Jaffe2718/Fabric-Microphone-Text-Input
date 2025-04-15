@@ -103,24 +103,61 @@ experience.
 
 ## Use External Library
 
-Set the property `io.github.givimad.whisperjni.libdir` to an alternative directory by setting `whisperjniLibdir` in
+For Linux and macOS, [set the property](#advanced-settings) `io.github.givimad.whisperjni.libdir` to an alternative directory by setting `whisperjniLibdir` in
 the configuration file `mcmti.json` or setting the mod configuration `whisperjni.libdir` in the configuration menu of
 the mod in Minecraft.
 The directory must contain the whisper-jni and whisper-cpp libraries.
 
 On Windows an external `whisper.dll` it's automatically used if it exists in some of the directories in the `$env:PATH`
-variable.
+variable. If you set the property `io.github.givimad.whisperjni.libdir` to an alternative directory, the mod will use
+the external `whisper-jni.dll` in the directory \(game will crash if `whisper-jni.dll` is not found\).
 
 You can clone the [whisper-jni](https://github.com/GiviMAD/whisper-jni) repository and build the native library
 yourself.
 You can also build CUDA version of whisper-jni native library.
+
+### Enable CUDA
+
+> **Note**: The CUDA version of whisper-jni dynamic libraries are not embedded in the mod, you should build them
+> yourself and set the correct configuration for the mod.
+
+1. Install CUDA Toolkit and C/C++ compiler, CMake.
+
+2. Clone [whisper-jni](https://github.com/GiviMAD/whisper-jni#use-external-whisper-shared-library)
+    ```shell
+    git clone https://github.com/GiviMAD/whisper-jni.git
+    cd whisper-jni
+    ```
+
+3. Add these lines to the `src/main/native/whisper/CMakeLists.txt` file:
+    ```cmake
+    set(GGML_CUDA 1)
+    set(GGML_NATIVE 1)
+    ```
+
+4. Build the native library:
+    - Windows: [build_win.ps1](https://github.com/GiviMAD/whisper-jni/blob/main/build_win.ps1)
+    - Linux: [build_debian.sh](https://github.com/GiviMAD/whisper-jni/blob/main/build_debian.sh)
+    - macOS: [build_macos.sh](https://github.com/GiviMAD/whisper-jni/blob/main/build_macos.sh)
+
+    > You should just run the build and compile commands, do not run the rename command in the script. Keep all the dynamic libraries in the same directory.
+
+5. Apply the configuration:
+   - Copy all the dynamic libraries into single directory.
+   - Configure the mod to use the external library by [setting the property](#advanced-settings) `io.github.givimad.whisperjni.libdir` to the
+     directory containing the whisper-jni and whisper-cpp libraries for Linux and macOS. But for Windows, you should add
+     the directory containing the dynamic libraries to the `$env:PATH` variable, [setting the property](#advanced-settings)
+     `io.github.givimad.whisperjni.libdir` is unnecessary. On Windows an external `whisper.dll` it's automatically used if it exists in some of the directories in the `$env:PATH`
+     variable.
+
 
 For more details, see [whisper-jni](https://github.com/GiviMAD/whisper-jni#use-external-whisper-shared-library)
 and [whisper.cpp](https://github.com/ggml-org/whisper.cpp).
 
 ## Troubleshooting
 
-- **Audio Input Device Load Failed**: Check if your audio input device is properly connected and configured.
+- **Game Crash**: Ensure that the Java runtime property `io.github.givimad.whisperjni.libdir` is set correctly.
+- **Audio Input Device Load Failed**: Please check if Java has access to the audio input device.
 - **Whisper Model Load Failed**: Make sure the path to the GGML Whisper model is correct.
 
 ## Contributing
