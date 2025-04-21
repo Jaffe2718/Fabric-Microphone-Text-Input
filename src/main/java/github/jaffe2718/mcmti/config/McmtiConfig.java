@@ -54,7 +54,7 @@ public class McmtiConfig extends MidnightConfig {
     public static int recordCycleMs = 5000;    // unit: ms, (sampleRate = 16000Hz), default: 5s
 
     @Entry(category = "general", min = 64, max = 4096)
-//    @Condition(requiredOption = "mode", requiredValue = {"RELEASE_KEY_TO_SEND", "RELEASE_KEY_TO_INPUT"})
+    @Condition(requiredOption = "mode", requiredValue = {"RELEASE_KEY_TO_SEND", "RELEASE_KEY_TO_INPUT"})
     public static int recordBufferSize = 1024;    // unit: byte, default: 1024 bytes
 
     @Entry(category = "general")
