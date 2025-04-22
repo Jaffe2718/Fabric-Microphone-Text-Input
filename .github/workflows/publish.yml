@@ -24,23 +24,15 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Modrinth Publish
-        env:
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-        run: ./gradlew modrinth
-
       - name: Read Changelog
         id: read_changelog
         run: |
           if [ -f "Changelog.md" ]; then
-            FIRST_LINE=$(head -n 1 Changelog.md)
-            CLEANED_TITLE=${FIRST_LINE#\# }
-            CHANGELOG_CONTENT=$(tail -n +2 Changelog.md)
-            CHANGELOG_CONTENT="${CHANGELOG_CONTENT//'%'/'%25'}"
-            CHANGELOG_CONTENT="${CHANGELOG_CONTENT//$'\n'/'%0A'}"
-            CHANGELOG_CONTENT="${CHANGELOG_CONTENT//$'\r'/'%0D'}"
+            CHANGELOG_MD=$(cat Changelog.md)   # read Changelog.md
+            RELEASE_TITLE=$(echo "$CHANGELOG_MD" | head -n 1 | sed 's/# //')
+            CHANGELOG_CONTENT=$(echo "$CHANGELOG_MD" | sed 1d)
             echo "changelog_content=$CHANGELOG_CONTENT" >> $GITHUB_OUTPUT
-            echo "release_title=$CLEANED_TITLE" >> $GITHUB_OUTPUT
+            echo "release_title=$RELEASE_TITLE" >> $GITHUB_OUTPUT
           else
             echo "Changelog.md not found. Using default values." >> $GITHUB_OUTPUT
             echo "changelog_content empty" >> $GITHUB_OUTPUT
@@ -99,3 +91,8 @@ jobs:
               gh release upload ${{ steps.read_gradle_properties.outputs.tag_name }} "$jar_file" --clobber
             fi
           done
+
+      - name: Modrinth Publish
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: ./gradlew modrinth
