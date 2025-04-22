@@ -28,14 +28,12 @@ jobs:
         id: read_changelog
         run: |
           if [ -f "Changelog.md" ]; then
-            CHANGELOG_MD=$(cat Changelog.md)   # read Changelog.md
-            RELEASE_TITLE=$(echo "$CHANGELOG_MD" | head -n 1 | sed 's/# //')
-            CHANGELOG_CONTENT=$(echo "$CHANGELOG_MD" | sed 1d)
-            echo "changelog_content=$CHANGELOG_CONTENT" >> $GITHUB_OUTPUT
+            FIRST_LINE=$(head -n 1 Changelog.md)
+            RELEASE_TITLE=$(echo "$FIRST_LINE" | awk -F '[()]' '{print $2}')
+            echo "release_title=$RELEASE_TITLE"
             echo "release_title=$RELEASE_TITLE" >> $GITHUB_OUTPUT
           else
-            echo "Changelog.md not found. Using default values." >> $GITHUB_OUTPUT
-            echo "changelog_content empty" >> $GITHUB_OUTPUT
+            echo "Changelog.md not found. Using default values."
             echo "release_title=Release ${{ steps.read_gradle_properties.outputs.tag_name }}" >> $GITHUB_OUTPUT
           fi
 
@@ -67,7 +65,7 @@ jobs:
         with:
           tag_name: ${{ steps.read_gradle_properties.outputs.tag_name }}
           release_name: ${{ steps.read_changelog.outputs.release_title }}
-          body: ${{ steps.read_changelog.outputs.changelog_content }}
+          body_path: Changelog.md
           draft: false
           prerelease: ${{ steps.read_gradle_properties.outputs.gh_is_prerelease }}
 

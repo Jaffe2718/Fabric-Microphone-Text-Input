@@ -1,4 +1,4 @@
-# Mincrophone Text Input 2.0.0-1.21.5
+[//]: # (Mincrophone Text Input 2.0.0-1.21.5)
 
 ## Whats New
 - OpenAI Whisper model support.
