@@ -1,0 +1,97 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - 2.x
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    if: github.actor == github.repository_owner
+    steps:
+      - name: Checkout base branch
+        uses: actions/checkout@v2
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Modrinth Publish
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: ./gradlew modrinth
+
+      - name: Read Changelog
+        id: read_changelog
+        run: |
+          if [ -f "Changelog.md" ]; then
+            FIRST_LINE=$(head -n 1 Changelog.md)
+            CLEANED_TITLE=${FIRST_LINE#\# }
+            CHANGELOG_CONTENT=$(tail -n +2 Changelog.md)
+            CHANGELOG_CONTENT="${CHANGELOG_CONTENT//'%'/'%25'}"
+            CHANGELOG_CONTENT="${CHANGELOG_CONTENT//$'\n'/'%0A'}"
+            CHANGELOG_CONTENT="${CHANGELOG_CONTENT//$'\r'/'%0D'}"
+            echo "changelog_content=$CHANGELOG_CONTENT" >> $GITHUB_OUTPUT
+            echo "release_title=$CLEANED_TITLE" >> $GITHUB_OUTPUT
+          else
+            echo "Changelog.md not found. Using default values." >> $GITHUB_OUTPUT
+            echo "changelog_content empty" >> $GITHUB_OUTPUT
+            echo "release_title=Release ${{ steps.read_gradle_properties.outputs.tag_name }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Read Gradle Properties
+        id: read_gradle_properties
+        run: |   # read ${mod_version}-${minecraft_version} from gradle.properties
+          GRADLE_PROPS=$(cat gradle.properties)
+          MOD_VERSION=$(echo "$GRADLE_PROPS" | grep 'mod_version=' | cut -d'=' -f2 | tr -d' ')
+          MINECRAFT_VERSION=$(echo "$GRADLE_PROPS" | grep 'minecraft_version=' | cut -d'=' -f2 | tr -d' ')
+          TAG_NAME="v${MOD_VERSION}-${MINECRAFT_VERSION}"
+          MODRINTH_VERSION_TYPE=$(grep 'modrinth_version_type' "$GRADLE_PROPERTIES_FILE" | cut -d '=' -f 2 | tr -d ' ')
+          echo Modrinth Version Type: $MODRINTH_VERSION_TYPE
+          if [ "$MODRINTH_VERSION_TYPE" = "release" ]; then
+            echo "gh_is_release=true" >> $GITHUB_OUTPUT
+          else
+            echo "gh_is_release=false" >> $GITHUB_OUTPUT
+          fi
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
+        with:
+          tag_name: ${{ steps.read_gradle_properties.outputs.tag_name }}
+          release_name: ${{ steps.read_changelog.outputs.release_title }}
+          body: ${{ steps.read_changelog.outputs.changelog_content }}
+          draft: false
+          prerelease: ${{ steps.read_gradle_properties.outputs.gh_is_prerelease }}
+
+      - name: Install GitHub CLI
+        run: |
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+          sudo apt update
+          sudo apt install gh -y
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
+
+      - name: Upload Release Assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
+        run: |
+          for jar_file in build/libs/*.jar; do
+            if [ -f "$jar_file" ]; then
+              asset_name=$(basename "$jar_file")
+              echo "Uploading $jar_file as $asset_name"
+              gh release upload ${{ steps.read_gradle_properties.outputs.tag_name }} "$jar_file" --clobber
+            fi
+          done

@@ -1,0 +1,38 @@
+name: Test Build
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    # only owner can do `workflow_dispatch`, contributors can do `pull_request_target`
+    if: github.actor == github.repository_owner || github.event_name != 'workflow_dispatch'
+    steps:
+      - name: Checkout base branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Checkout head branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          path: pr-changes
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run Gradle build on PR changes
+        working-directory: pr-changes
+        run: ./gradlew build
