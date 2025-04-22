@@ -8,6 +8,7 @@ on:
 jobs:
   test-build:                     # test build on default branch
     runs-on: ubuntu-latest
+    if: github.actor == github.repository_owner || github.event_name == 'workflow_dispatch'
     permissions:
       contents: read
     steps:
