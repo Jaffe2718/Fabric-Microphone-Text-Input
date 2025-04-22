@@ -24,6 +24,11 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Modrinth Publish
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: ./gradlew modrinth
+
       - name: Read Changelog
         id: read_changelog
         run: |
@@ -89,8 +94,3 @@ jobs:
               gh release upload ${{ steps.read_gradle_properties.outputs.tag_name }} "$jar_file" --clobber
             fi
           done
-
-      - name: Modrinth Publish
-        env:
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-        run: ./gradlew modrinth
