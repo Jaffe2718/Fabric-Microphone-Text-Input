@@ -51,8 +51,8 @@ jobs:
         id: read_gradle_properties
         run: |   # read ${mod_version}-${minecraft_version} from gradle.properties
           GRADLE_PROPS=$(cat gradle.properties)
-          MOD_VERSION=$(echo "$GRADLE_PROPS" | grep 'mod_version=' | cut -d'=' -f2 | tr -d' ')
-          MINECRAFT_VERSION=$(echo "$GRADLE_PROPS" | grep 'minecraft_version=' | cut -d'=' -f2 | tr -d' ')
+          MOD_VERSION=$(echo "$GRADLE_PROPS" | grep 'mod_version=' | cut -d'=' -f2 | tr -d ' ')
+          MINECRAFT_VERSION=$(echo "$GRADLE_PROPS" | grep 'minecraft_version=' | cut -d'=' -f2 | tr -d ' ')
           TAG_NAME="v${MOD_VERSION}-${MINECRAFT_VERSION}"
           MODRINTH_VERSION_TYPE=$(grep 'modrinth_version_type' "$GRADLE_PROPERTIES_FILE" | cut -d '=' -f 2 | tr -d ' ')
           echo Modrinth Version Type: $MODRINTH_VERSION_TYPE
