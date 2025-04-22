@@ -51,16 +51,20 @@ jobs:
         id: read_gradle_properties
         run: |   # read ${mod_version}-${minecraft_version} from gradle.properties
           GRADLE_PROPS=$(cat gradle.properties)
-          MOD_VERSION=$(echo "$GRADLE_PROPS" | grep 'mod_version=' | cut -d'=' -f2 | tr -d ' ')
-          MINECRAFT_VERSION=$(echo "$GRADLE_PROPS" | grep 'minecraft_version=' | cut -d'=' -f2 | tr -d ' ')
+          
+          MOD_VERSION=$(echo "$GRADLE_PROPS" | grep 'mod_version = ' | cut -d'=' -f2 | tr -d ' ')
+          MINECRAFT_VERSION=$(echo "$GRADLE_PROPS" | grep 'minecraft_version = ' | cut -d'=' -f2 | tr -d ' ')
           TAG_NAME="v${MOD_VERSION}-${MINECRAFT_VERSION}"
-          MODRINTH_VERSION_TYPE=$(grep 'modrinth_version_type' "$GRADLE_PROPERTIES_FILE" | cut -d '=' -f 2 | tr -d ' ')
-          echo Modrinth Version Type: $MODRINTH_VERSION_TYPE
+          
+          MODRINTH_VERSION_TYPE=$(grep 'modrinth_version_type = ' "$GRADLE_PROPERTIES_FILE" | cut -d '=' -f 2 | tr -d ' ')
+          echo "Modrinth Version Type: $MODRINTH_VERSION_TYPE"
+          
           if [ "$MODRINTH_VERSION_TYPE" = "release" ]; then
-            echo "gh_is_release=true" >> $GITHUB_OUTPUT
+            echo "gh_is_prerelease=false" >> $GITHUB_OUTPUT
           else
-            echo "gh_is_release=false" >> $GITHUB_OUTPUT
+            echo "gh_is_prerelease=true" >> $GITHUB_OUTPUT
           fi
+          echo gh_is_prerelease=$MODRINTH_VERSION_TYPE
           echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
 
       - name: Create Release
