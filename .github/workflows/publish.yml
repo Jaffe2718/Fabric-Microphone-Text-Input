@@ -27,7 +27,10 @@ jobs:
       - name: Modrinth Publish
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-        run: ./gradlew modrinth
+        run: |
+          ./gradlew :fabric:modrinth
+          ./gradlew :neoforge:modrinth
+             
 
       - name: Read Changelog
         id: read_changelog
@@ -87,7 +90,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
         run: |
-          for jar_file in build/libs/*.jar; do
+          for jar_file in fabric/build/libs/*.jar; do
+            if [ -f "$jar_file" ]; then
+              asset_name=$(basename "$jar_file")
+              echo "Uploading $jar_file as $asset_name"
+              gh release upload ${{ steps.read_gradle_properties.outputs.tag_name }} "$jar_file" --clobber
+            fi
+          done
+          for jar_file in neoforge/build/libs/*.jar; do
             if [ -f "$jar_file" ]; then
               asset_name=$(basename "$jar_file")
               echo "Uploading $jar_file as $asset_name"

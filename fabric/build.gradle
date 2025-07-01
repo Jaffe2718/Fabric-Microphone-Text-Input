@@ -1,0 +1,91 @@
+plugins {
+    id "com.modrinth.minotaur" version "2.+"
+    id 'com.github.johnrengelman.shadow'
+}
+
+architectury {
+    platformSetupLoomIde()
+    fabric()
+}
+
+configurations {
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentFabric.extendsFrom common
+
+    // Files in this configuration will be bundled into your mod using the Shadow plugin.
+    // Don't use the `shadow` configuration from the plugin itself as it's meant for excluding files.
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+}
+
+dependencies {
+    include "io.github.givimad:whisper-jni:$rootProject.whisper_jni_version"
+
+    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+
+    modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
+
+    modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
+
+    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
+    shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
+
+    modImplementation include ("maven.modrinth:midnightlib:${rootProject.midnightlib_version}-fabric")
+}
+
+processResources {
+    inputs.property 'version', project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "compatibility_fabricloader_versions": project.compatibility_fabricloader_versions,
+                "compatibility_mc_versions": project.compatibility_mc_versions,
+                "compatibility_midnightlib_versions": project.compatibility_midnightlib_versions
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier = 'dev-shadow'
+}
+
+remapJar {
+    input.set shadowJar.archiveFile
+}
+
+def publish_changelog = {
+    if (rootProject.file('Changelog.md').exists()) {
+        println('Found Changelog.md')
+        def changelog = ''
+        rootProject.file('Changelog.md').readLines().each { line ->
+            if (!line.startsWith('# ')) {
+                changelog += line + '\n'
+            }
+        }
+        return changelog
+    } else {
+        println('Changelog.md not found, skipping changelog upload')
+        return ''
+    }
+}()
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = 'ynA13Vjn'
+    versionType = rootProject.modrinth_version_type
+    uploadFile = remapJar
+    loaders = ["fabric", "quilt"]
+    dependencies {
+        required.project 'fabric-api'
+        embedded.project 'midnightlib'
+        optional.project 'modmenu'
+    }
+    changelog = publish_changelog
+}

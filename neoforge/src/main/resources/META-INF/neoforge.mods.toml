@@ -1,0 +1,42 @@
+modLoader = "javafml"
+loaderVersion = "[2,)"
+issueTrackerURL = "https://github.com/Jaffe2718/Microphone-Text-Input/issues"
+license = "MIT"
+
+[[mods]]
+modId = "mcmti"
+version = "${version}"
+displayName = "Microphone Text Input"
+authors = "Jaffe2718"
+description = '''
+Speech recognition chat message input tool for Minecraft.
+'''
+modUrl = "https://modrinth.com/mod/mcmti"
+
+[[dependencies.mcmti]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.mcmti]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.5,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.mcmti]]
+modId = "midnightlib"
+mandatory = true
+versionRange = "[1.0,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.mcmti]]
+modId = "architectury"
+mandatory = true
+versionRange = "[16.0,)"
+ordering = "AFTER"
+side = "BOTH"

@@ -1,8 +1,13 @@
 # **Microphone Text Input Mod Developer Documentation**
 
-### 　　　　　　　　　2.x
+<div style="text-align: center;">
+<p style="font-size: large;">Architectury 2.x</p>
+</div>
 
-<img alt="image" src="src/main/resources/assets/mcmti/icon.png"/>
+<div style="text-align: center;">
+
+<img alt="image" src="common/src/main/resources/assets/mcmti/icon.png"/>
+</div>
 
 ## Introduction
 
@@ -19,10 +24,12 @@ experience.
 
 ## Dependencies
 
-- **Java**: Version `21` or higher.
-- **Fabric Loader**: see [fabric.mod.json](src/main/resources/fabric.mod.json)
-- **Minecraft**: see [gradle.properties](gradle.properties)
-- **MidnightLib**: see [gradle.properties](gradle.properties)
+| Dependency Name  | Fabric                                                           | NeoForge                                                                          |
+|------------------|------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| Java             | 21                                                               | 21                                                                                |
+| Fabric API       | see [fabric.mod.json](fabric/src/main/resources/fabric.mod.json) | ❌                                                                                 |
+| Architectury API | ❌                                                                | see [neoforge.mods.toml](neoforge/src/main/resources/META-INF/neoforge.mods.toml) |
+| MidnightLib      | see [fabric.mod.json](fabric/src/main/resources/fabric.mod.json) | see [neoforge.mods.toml](neoforge/src/main/resources/META-INF/neoforge.mods.toml) |
 
 ## Configuration
 

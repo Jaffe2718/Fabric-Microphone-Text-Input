@@ -1,0 +1,65 @@
+{
+    "schemaVersion": 1,
+    "id": "mcmti",
+    "version": "${version}",
+    "name": "Microphone Text Input",
+    "description": "Speech recognition chat message input tool for Minecraft.",
+    "authors": [
+        {
+            "name": "Jaffe2718",
+            "contact": {
+                "email": "qqyttwqeei@163.com",
+                "homepage": "https://space.bilibili.com/1671742926"
+            }
+        }
+    ],
+    "contributors": [
+        {
+            "name": "Jaffe2718",
+            "contact": {
+                "email": "qqyttwqeei@163.com",
+                "homepage": "https://space.bilibili.com/1671742926"
+            }
+        },
+        {
+            "name": "IsAvaible",
+            "contact": {
+                "email": "simon.felix.conrad@proton.me",
+                "homepage": "https://github.com/IsAvaible"
+            }
+        }
+    ],
+    "contact": {
+        "homepage": "https://modrinth.com/mod/mcmti",
+        "issues": "https://github.com/Jaffe2718/Microphone-Text-Input/issues",
+        "sources": "https://github.com/Jaffe2718/Microphone-Text-Input"
+    },
+    "license": "MIT",
+    "icon": "assets/mcmti/icon.png",
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            "me.jaffe2718.mcmti.fabric.MicrophoneTextInputFabric"
+        ]
+    },
+    "depends": {
+        "fabricloader": "${compatibility_fabricloader_versions}",
+        "fabric-lifecycle-events-v1": "*",
+        "fabric-key-binding-api-v1": "*",
+        "minecraft": "${compatibility_mc_versions}",
+        "midnightlib": "${compatibility_midnightlib_versions}"
+    },
+    "suggests": {
+        "modmenu": "*"
+    },
+    "custom": {
+        "modmenu": {
+            "links": {
+                "mcmti.modrinth": "https://modrinth.com/mod/mcmti",
+                "mcmti.whisperjni": "https://github.com/GiviMAD/whisper-jni",
+                "mcmti.huggingface.ggerganov.whisper_cpp.model": "https://huggingface.co/ggerganov/whisper.cpp/tree/main"
+            },
+            "update_checker": true
+        }
+    }
+}

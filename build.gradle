@@ -1,113 +1,56 @@
 plugins {
-    id "com.modrinth.minotaur" version "2.+"
-    id 'fabric-loom' version '1.10.1'
-    id 'maven-publish'
+    id 'dev.architectury.loom' version '1.10-SNAPSHOT' apply false
+    id 'architectury-plugin' version '3.4-SNAPSHOT'
+    id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
 }
 
-version = project.mod_version
-group = project.maven_group
-compileJava.options.encoding = 'UTF-8'
-compileTestJava.options.encoding = 'UTF-8'
+architectury {
+    minecraft = project.minecraft_version
+}
 
-def publish_changelog = {
-    if (file('Changelog.md').exists()) {
-        println('Found Changelog.md')
-        def changelog = ''
-        file('Changelog.md').readLines().each { line ->
-            if (!line.startsWith('# ')) {
-                changelog += line + '\n'
-            }
+allprojects {
+    group = rootProject.maven_group
+    version = rootProject.mod_version
+}
+
+subprojects {
+    apply plugin: 'dev.architectury.loom'
+    apply plugin: 'architectury-plugin'
+    apply plugin: 'maven-publish'
+
+    base {
+        // Set up a suffixed format for the mod jar names, e.g. `example-fabric`.
+        archivesName = "$rootProject.archives_name-$project.name"
+    }
+
+    repositories {
+        maven {
+            url = "https://api.modrinth.com/maven"
         }
-        println(changelog)
-        return changelog
-    } else {
-        println('Changelog.md not found, skipping changelog upload')
-        return ''
-    }
-}()
-
-
-repositories {
-    mavenCentral()
-    maven { url "https://api.modrinth.com/maven" }
-    maven { url "https://maven.terraformersmc.com/releases"}
-    maven { url "https://mvnrepository.com/artifact/"}
-}
-
-dependencies {
-    // To change the versions see the gradle.properties file
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-        // Fabric API. This is technically optional, but you probably want it anyway.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    modApi "com.terraformersmc:modmenu:${project.modmenu_version}"
-
-    // Thrid party mod libraries
-    modImplementation "maven.modrinth:midnightlib:${midnightlib_version}"
-
-    //
-    implementation include("io.github.givimad:whisper-jni:${whisper_jni_version}")
-}
-
-processResources {
-    inputs.property "version", project.version
-    filteringCharset "UTF-8"
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version,
-               "compatibility_fabricloader_versions": compatibility_fabricloader_versions,
-               "compatibility_mc_versions": compatibility_mc_versions,
-               "compatibility_midnightlib_versions": compatibility_midnightlib_versions
     }
 
-    filesMatching("assets/mcmti/lang/*.json") {
-        expand "version": project.version
-    }
-}
-
-def targetJavaVersion = 21
-tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = "UTF-8"
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-        it.options.release = targetJavaVersion
-    }
-}
-
-java {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
-    archivesBaseName = project.archives_base_name
-    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-    // if it is present.
-    // If you remove this line, sources will not be generated.
-    withSourcesJar()
-}
-
-jar {
-    from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}"}
-    }
-}
-
-// configure the maven publication
-modrinth {
-    token = System.getenv("MODRINTH_TOKEN")
-    projectId = 'ynA13Vjn'
-    versionType = project.modrinth_version_type
-    uploadFile = remapJar
-    loaders = ["fabric", "quilt"]
     dependencies {
-        required.project 'fabric-api'
-        required.version project.modrinth_required_midnightlib_version
-        optional.project 'modmenu'
+        implementation "io.github.givimad:whisper-jni:$rootProject.whisper_jni_version"
+        minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
+        // mappings loom.officialMojangMappings()
+
+        mappings loom.layered {
+            it.mappings("net.fabricmc:yarn:$rootProject.yarn_mappings:v2")
+            it.mappings("dev.architectury:yarn-mappings-patch-neoforge:$rootProject.yarn_mappings_patch_neoforge_version")
+        }
     }
-    changelog = publish_changelog
+
+    java {
+        // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+        // if it is present.
+        // If you remove this line, sources will not be generated.
+        withSourcesJar()
+
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.release = 21
+    }
 }
