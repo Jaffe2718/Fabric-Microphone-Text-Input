@@ -1,5 +1,14 @@
-[//]: # (Mincrophone Text Input 2.1.0-1.21.5)
+[//]: # (Mincrophone Text Input 2.1.0-1.21.x)
 
-## Whats New
+## What's New
 
 - Support for Fabric & NeoForge
+
+## Dependencies
+
+| Minecraft | Fabric                                                                                                                                                                                     | NeoForge                                                                                                                                                                                                                      |
+|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1.21.4    | [fabric-api 0.119.3+1.21.4](https://modrinth.com/mod/fabric-api/version/0.119.3+1.21.4) <br> [midnightlib 1.7.3-fabric](https://modrinth.com/mod/midnightlib/version/1.7.3+1.21.4-fabric)  | [architechury-api 15.0.3+neoforge](https://modrinth.com/mod/architectury-api/version/15.0.3+neoforge)                   <br> [midnightlib 1.7.3-neoforge](https://modrinth.com/mod/midnightlib/version/1.7.3+1.21.4-neoforge) |
+| 1.21.5    | [fabric-api 0.128.1+1.21.5](https://modrinth.com/mod/fabric-api/version/0.128.1+1.21.5) <br> [midnightlib 1.7.3-fabric](https://modrinth.com/mod/midnightlib/version/1.7.3+1.21.4-fabric)  | [architechury-api 16.1.4+neoforge](https://modrinth.com/mod/architectury-api/version/16.1.4+neoforge)                   <br> [midnightlib 1.7.3-neoforge](https://modrinth.com/mod/midnightlib/version/1.7.3+1.21.4-neoforge) |
+| 1.21.6    | [fabric-api 0.128.1+1.21.6](https://modrinth.com/mod/fabric-api/version/0.128.1+1.21.6) <br> [midnightlib 1.7.5-fabric](https://modrinth.com/mod/midnightlib/version/1.7.5+1.21.6-fabric)  | [architechury-api 17.0.6+neoforge](https://modrinth.com/mod/architectury-api/version/17.0.6+neoforge)                   <br> [midnightlib 1.7.5-neoforge](https://modrinth.com/mod/midnightlib/version/1.7.5+1.21.6-neoforge) |
+| 1.21.7    | [fabric-api 0.128.1+1.21.7](https://modrinth.com/mod/fabric-api/version/0.128.1+1.21.7) <br> [midnightlib 1.7.5-fabric](https://modrinth.com/mod/midnightlib/version/1.7.5+1.21.6-fabric)  | [architechury-api 17.0.6+neoforge](https://modrinth.com/mod/architectury-api/version/17.0.6+neoforge) or newer versions <br> [midnightlib 1.7.5-neoforge](https://modrinth.com/mod/midnightlib/version/1.7.5+1.21.6-neoforge) |

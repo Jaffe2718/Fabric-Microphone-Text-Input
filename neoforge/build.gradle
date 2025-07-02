@@ -42,14 +42,17 @@ dependencies {
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 
-    modImplementation include ("maven.modrinth:midnightlib:${rootProject.midnightlib_version}-neoforge")
+    modImplementation "maven.modrinth:midnightlib:${rootProject.midnightlib_version}-neoforge"
 }
 
 processResources {
     inputs.property 'version', project.version
 
     filesMatching('META-INF/neoforge.mods.toml') {
-        expand version: project.version
+        expand "version": project.version,
+               "neoforge_versionRange": project.neoforge_versionRange,
+               "architectury_versionRange": project.architectury_versionRange,
+               "mc_versionRange": project.mc_versionRange
     }
 }
 
@@ -86,7 +89,7 @@ modrinth {
     loaders = ["neoforge"]
     dependencies {
         required.project 'architectury-api'
-        embedded.project 'midnightlib'
+        required.project 'midnightlib'
         optional.project 'modmenu'
     }
     changelog = publish_changelog
