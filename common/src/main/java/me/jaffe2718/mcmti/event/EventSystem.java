@@ -13,10 +13,15 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
 @SuppressWarnings("unused")
 public interface EventSystem {
+
+    ScheduledExecutorService SCHEDULED_EXECUTOR_SERVICE = Executors.newSingleThreadScheduledExecutor();
 
     static void showRecognizeStatus(ClientWorld world) {
         if (MinecraftClient.getInstance().player instanceof ClientPlayerEntity player
@@ -51,7 +56,8 @@ public interface EventSystem {
         @Nullable Thread vthread = null;
         while (true) {
             try {
-                if (MinecraftClient.getInstance().player instanceof ClientPlayerEntity player
+                if (MinecraftClient.getInstance() != null &&
+                        MinecraftClient.getInstance().player instanceof ClientPlayerEntity player
                         && MinecraftClient.getInstance().currentScreen == null
                         && AudioRecorder.instance() != null
                         && SpeechRecognizer.instance() != null) {
@@ -72,7 +78,8 @@ public interface EventSystem {
                                 vthread = Thread.ofVirtual().start(() -> {
                                     String result = SpeechRecognizer.recognize(audio);
                                     if (!result.isEmpty()) {
-                                        player.sendMessage(Text.translatable("message.mcmti.messageSent"), true);
+                                        SCHEDULED_EXECUTOR_SERVICE.schedule(
+                                                () -> player.sendMessage(Text.translatable("message.mcmti.messageSent"), true), 100, TimeUnit.MILLISECONDS);
                                         player.networkHandler.sendChatMessage(McmtiConfig.prefix + result);
                                     }
                                 });

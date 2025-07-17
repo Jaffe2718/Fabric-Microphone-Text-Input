@@ -2,10 +2,10 @@ package me.jaffe2718.mcmti.util;
 
 import me.jaffe2718.mcmti.MicrophoneTextInput;
 import me.jaffe2718.mcmti.config.McmtiConfig;
-import io.github.givimad.whisperjni.WhisperContext;
-import io.github.givimad.whisperjni.WhisperFullParams;
-import io.github.givimad.whisperjni.WhisperGrammar;
-import io.github.givimad.whisperjni.WhisperJNI;
+import io.github.freshsupasulley.whisperjni.WhisperContext;
+import io.github.freshsupasulley.whisperjni.WhisperFullParams;
+import io.github.freshsupasulley.whisperjni.WhisperGrammar;
+import io.github.freshsupasulley.whisperjni.WhisperJNI;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -1,9 +1,8 @@
 package me.jaffe2718.mcmti.config;
 
 import eu.midnightdust.lib.config.MidnightConfig;
-import me.jaffe2718.mcmti.MicrophoneTextInput;
-import io.github.givimad.whisperjni.WhisperFullParams;
-import io.github.givimad.whisperjni.WhisperSamplingStrategy;
+import io.github.freshsupasulley.whisperjni.WhisperFullParams;
+import io.github.freshsupasulley.whisperjni.WhisperSamplingStrategy;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,33 +17,11 @@ public class McmtiConfig extends MidnightConfig {
         RELEASE_KEY_TO_INPUT,
     }
 
-    public enum WhisperLogLevel {
-        SILENT,
-        DEBUG,
-        INFO,
-        WARN,
-        ERROR;
-
-        public void log(@NotNull String message) {
-            switch (this) {
-                case SILENT -> {}
-                case DEBUG -> MicrophoneTextInput.LOGGER.debug(message);
-                case INFO -> MicrophoneTextInput.LOGGER.info(message);
-                case WARN -> MicrophoneTextInput.LOGGER.warn(message);
-                case ERROR -> MicrophoneTextInput.LOGGER.error(message);
-                default -> throw new IllegalStateException("Unexpected value: " + this);
-            }
-        }
-    }
-
     @Entry(category = "general", selectionMode = JFileChooser.FILES_ONLY, width = 4096, fileExtensions = {"bin", "ggml"})
     public static String model = "";
 
     @Entry(category = "general", width = 15)
     public static String language = "en";
-
-    @Entry(category = "general")
-    public static WhisperLogLevel whisperLogLevel = WhisperLogLevel.SILENT;
 
     @Entry(category = "general")
     public static Mode mode = Mode.RELEASE_KEY_TO_SEND;
@@ -77,9 +54,9 @@ public class McmtiConfig extends MidnightConfig {
     @Entry(category = "advanced")
     public static boolean advancedConfig = false;
 
-    @Entry(category = "advanced", selectionMode = JFileChooser.DIRECTORIES_ONLY, width = 4096)
+    @Entry(category = "advanced")
     @Condition(requiredOption = "advancedConfig")
-    public static String whisperjniLibdir = "";               // empty for default
+    public static boolean useVulkan = false;
 
     /**
      * Number of thread, 0 for max cores
@@ -266,7 +243,47 @@ public class McmtiConfig extends MidnightConfig {
 
     @Entry(category = "advanced")
     @Condition(requiredOption = "advancedConfig")
-    public static WhisperSamplingStrategy whisperSamplingStrategy = WhisperSamplingStrategy.BEAN_SEARCH;
+    public static WhisperSamplingStrategy whisperSamplingStrategy = WhisperSamplingStrategy.BEAM_SEARCH;
+
+    @Entry(category = "advanced")
+    @Condition(requiredOption = "advancedConfig")
+    public static boolean vad = false;
+
+    @Entry(category = "advanced", selectionMode = JFileChooser.FILES_ONLY, width = 4096, fileExtensions = {"bin", "ggml"})
+    @Condition(requiredOption = "advancedConfig")
+    @Condition(requiredOption = "vad")
+    public static String vad_model_path = "";
+
+    @Entry(category = "advanced", min = 0f, max = 1f, isSlider = true, precision = 200)
+    @Condition(requiredOption = "advancedConfig")
+    @Condition(requiredOption = "vad")
+    public static float vad__threshold = 0f;
+
+    @Entry(category = "advanced", min = 0)
+    @Condition(requiredOption = "advancedConfig")
+    @Condition(requiredOption = "vad")
+    public static int vad__min_speech_duration_ms = 0;
+
+    @Entry(category = "advanced", min = 0)
+    @Condition(requiredOption = "advancedConfig")
+    @Condition(requiredOption = "vad")
+    public static int vad__min_silence_duration_ms = 0;
+
+    @Entry(category = "advanced", min = 0f)
+    @Condition(requiredOption = "advancedConfig")
+    @Condition(requiredOption = "vad")
+    public static float vad__max_speech_duration_s = 0f;
+
+    @Entry(category = "advanced", min = 0)
+    @Condition(requiredOption = "advancedConfig")
+    @Condition(requiredOption = "vad")
+    public static int vad__speech_pad_ms = 0;
+
+    @Entry(category = "advanced", min = 0f)
+    @Condition(requiredOption = "advancedConfig")
+    @Condition(requiredOption = "vad")
+    public static float vad__samples_overlap = 0f;
+
 
 
     public static @NotNull WhisperFullParams getParams() {
@@ -301,6 +318,16 @@ public class McmtiConfig extends MidnightConfig {
             params.noTimestamps = noTimestamps;
             params.detectLanguage = detectLanguage;
             params.durationMs = durationMs;
+            params.vad = vad;
+            if (vad) {
+                params.vad_model_path = vad_model_path.isBlank() ? null : vad_model_path;
+                params.vadParams.threshold = vad__threshold;
+                params.vadParams.min_speech_duration_ms = vad__min_speech_duration_ms;
+                params.vadParams.min_silence_duration_ms = vad__min_silence_duration_ms;
+                params.vadParams.max_speech_duration_s = vad__max_speech_duration_s;
+                params.vadParams.speech_pad_ms = vad__speech_pad_ms;
+                params.vadParams.samples_overlap = vad__samples_overlap;
+            }
         } else {
             params = new WhisperFullParams();
             params.suppressBlank = true;

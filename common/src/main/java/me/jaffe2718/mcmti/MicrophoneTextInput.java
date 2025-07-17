@@ -1,7 +1,7 @@
 package me.jaffe2718.mcmti;
 
 
-import io.github.givimad.whisperjni.WhisperJNI;
+import io.github.freshsupasulley.whisperjni.WhisperJNI;
 import me.jaffe2718.mcmti.config.McmtiConfig;
 import me.jaffe2718.mcmti.util.AudioRecorder;
 import me.jaffe2718.mcmti.util.SpeechRecognizer;
@@ -28,11 +28,10 @@ public final class MicrophoneTextInput {
         McmtiConfig.init(MOD_ID, McmtiConfig.class);
         advancedConfig = McmtiConfig.advancedConfig;
         try {
-            if (McmtiConfig.advancedConfig && !McmtiConfig.whisperjniLibdir.isBlank()) {
-                System.setProperty("io.github.givimad.whisperjni.libdir", McmtiConfig.whisperjniLibdir);
+            WhisperJNI.loadLibrary(LOGGER);
+            if (McmtiConfig.advancedConfig && McmtiConfig.useVulkan && WhisperJNI.canUseVulkan()) {
+                WhisperJNI.loadVulkan(LOGGER);
             }
-            WhisperJNI.loadLibrary(McmtiConfig.whisperLogLevel::log);
-            WhisperJNI.setLibraryLogger(McmtiConfig.whisperLogLevel::log);
         } catch (IOException ignored) {}
         AudioRecorder.init();
         SpeechRecognizer.init();

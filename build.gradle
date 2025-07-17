@@ -30,7 +30,7 @@ subprojects {
     }
 
     dependencies {
-        implementation "io.github.givimad:whisper-jni:$rootProject.whisper_jni_version"
+        implementation "io.github.freshsupasulley:whisper-jni:$rootProject.whisper_jni_version"
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
         // mappings loom.officialMojangMappings()
 

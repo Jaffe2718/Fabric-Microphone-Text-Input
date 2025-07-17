@@ -33,7 +33,7 @@ repositories {
 }
 
 dependencies {
-    include forgeDependencies("io.github.givimad:whisper-jni:$rootProject.whisper_jni_version")
+    include forgeDependencies("io.github.freshsupasulley:whisper-jni:$rootProject.whisper_jni_version")
 
     neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
 
