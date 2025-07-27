@@ -1,11 +1,9 @@
 [//]: # (Mincrophone Text Input 2.1.1-1.21.x)
 
-## What's New
+## Changelog
 
-- use [FreshSupaSulley/Hhisper-jni](https://github.com/FreshSupaSulley/whisper-jni) 0.2.0 instead of [GiviMAD/whisper-jni](https://github.com/GiviMAD/whisper-jni), see https://github.com/GiviMAD/whisper-jni/issues/18
-- disable custom dynamic library loading
-- support vulkan on Windows x64 (Advanced Settings)
-- only support Windows x64, Mac (both AMD x64 and ARM), and Linux (both AMD x64 and ARM), see [FreshSupaSulley/whisper-jni](https://github.com/FreshSupaSulley/whisper-jni)
+- fix: crash at the mode `RELEASE_KEY_TO_SEND`
+- new: support custom dynamic link library loading
 
 ## Dependencies
 

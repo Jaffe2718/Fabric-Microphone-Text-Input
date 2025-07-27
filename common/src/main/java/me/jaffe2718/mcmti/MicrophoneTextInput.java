@@ -28,9 +28,10 @@ public final class MicrophoneTextInput {
         McmtiConfig.init(MOD_ID, McmtiConfig.class);
         advancedConfig = McmtiConfig.advancedConfig;
         try {
-            WhisperJNI.loadLibrary(LOGGER);
-            if (McmtiConfig.advancedConfig && McmtiConfig.useVulkan && WhisperJNI.canUseVulkan()) {
+            if (McmtiConfig.advancedConfig && !McmtiConfig.useCustomDynamicLib && McmtiConfig.useVulkan && WhisperJNI.canUseVulkan()) {
                 WhisperJNI.loadVulkan(LOGGER);
+            } else {
+                WhisperJNI.loadLibrary(LOGGER);
             }
         } catch (IOException ignored) {}
         AudioRecorder.init();

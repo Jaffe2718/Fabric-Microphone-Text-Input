@@ -56,6 +56,16 @@ public class McmtiConfig extends MidnightConfig {
 
     @Entry(category = "advanced")
     @Condition(requiredOption = "advancedConfig")
+    public static boolean useCustomDynamicLib = false;
+
+    @Entry(category = "advanced", width = 4096, selectionMode = JFileChooser.DIRECTORIES_ONLY)
+    @Condition(requiredOption = "advancedConfig")
+    @Condition(requiredOption = "useCustomDynamicLib")
+    public static String customDynamicLibDir = "";
+
+    @Entry(category = "advanced")
+    @Condition(requiredOption = "advancedConfig")
+    @Condition(requiredOption = "useCustomDynamicLib", requiredValue = "false")
     public static boolean useVulkan = false;
 
     /**
