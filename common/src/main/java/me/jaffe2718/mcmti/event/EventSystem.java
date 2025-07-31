@@ -93,7 +93,7 @@ public interface EventSystem {
                                 vthread = Thread.ofVirtual().start(() -> {
                                     String result = SpeechRecognizer.recognize(audio);
                                     if (!result.isEmpty()) {
-                                        MinecraftClient.getInstance().submit(() ->MinecraftClient.getInstance().setScreen(new ChatScreen(McmtiConfig.prefix + result))).resultNow();
+                                        MinecraftClient.getInstance().submit(() ->MinecraftClient.getInstance().setScreen(new ChatScreen(McmtiConfig.prefix + result))).join();
                                     }
                                 });
                             } else if (vthread != null && vthread.isAlive()) {

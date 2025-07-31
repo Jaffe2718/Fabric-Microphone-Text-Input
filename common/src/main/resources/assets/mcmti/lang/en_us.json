@@ -97,8 +97,6 @@
     "mcmti.midnightconfig.translate.tooltip": "Translate the text to the default language.",
     "mcmti.midnightconfig.useCustomDynamicLib": "useCustomDynamicLib",
     "mcmti.midnightconfig.useCustomDynamicLib.tooltip": "Use custom dynamic library for Whisper.",
-    "mcmti.midnightconfig.useVulkan": "useVulkan",
-    "mcmti.midnightconfig.useVulkan.tooltip": "Use Vulkan for the operation of the Whisper model.",
     "mcmti.midnightconfig.vad": "vad",
     "mcmti.midnightconfig.vad.tooltip": "Voice Activity Detection (VAD) params",
     "mcmti.midnightconfig.vad__max_speech_duration_s": "vad__max_speech_duration_s",

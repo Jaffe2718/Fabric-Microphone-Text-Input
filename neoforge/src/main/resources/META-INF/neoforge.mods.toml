@@ -40,6 +40,3 @@ mandatory = true
 versionRange = "${architectury_versionRange}"
 ordering = "AFTER"
 side = "BOTH"
-
-[[mixins]]
-config = "mcmti.mixins.json"

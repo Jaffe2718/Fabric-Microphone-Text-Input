@@ -92,8 +92,6 @@
     "mcmti.midnightconfig.title": "Configuración de entrada de texto por micrófono",
     "mcmti.midnightconfig.translate": "translate",
     "mcmti.midnightconfig.translate.tooltip": "Traducir el texto al idioma predeterminado.",
-    "mcmti.midnightconfig.useVulkan": "useVulkan",
-    "mcmti.midnightconfig.useVulkan.tooltip": "Utilice Vulkan para el funcionamiento del modelo Whisper.",
     "mcmti.midnightconfig.vad": "vad",
     "mcmti.midnightconfig.vad.tooltip": "Parámetros de detección de actividad de voz (VAD)",
     "mcmti.midnightconfig.vad__max_speech_duration_s": "vad__max_speech_duration_s",
@@ -121,5 +119,9 @@
     "message.mcmti.recordingAudio": "§eGrabando audio...",
     "message.mcmti.whisperModelLoadFailed": "§cError al cargar el modelo Whisper",
     "modmenu.descriptionTranslation.mcmti": "Herramienta de entrada de mensajes de chat por reconocimiento de voz para Minecraft.",
-    "modmenu.nameTranslation.mcmti": "Entrada de texto por micrófono"
+    "modmenu.nameTranslation.mcmti": "Entrada de texto por micrófono",
+    "mcmti.midnightconfig.customDynamicLibDir": "customDynamicLibDir",
+    "mcmti.midnightconfig.customDynamicLibDir.fileChooser": "customDynamicLibDir",
+    "mcmti.midnightconfig.customDynamicLibDir.tooltip": "Directorio personalizado de la biblioteca de enlaces dinámicos para Whisper.",
+    "mcmti.midnightconfig.useCustomDynamicLib.tooltip": "Utilice una biblioteca de enlaces dinámicos personalizada para Whisper."
 }

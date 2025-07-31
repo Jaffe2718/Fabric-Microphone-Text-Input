@@ -1,6 +1,7 @@
 package me.jaffe2718.mcmti;
 
 
+import io.github.freshsupasulley.whisperjni.LibraryUtils;
 import io.github.freshsupasulley.whisperjni.WhisperJNI;
 import me.jaffe2718.mcmti.config.McmtiConfig;
 import me.jaffe2718.mcmti.util.AudioRecorder;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 public final class MicrophoneTextInput {
     public static final String MOD_ID = "mcmti";
@@ -28,10 +30,11 @@ public final class MicrophoneTextInput {
         McmtiConfig.init(MOD_ID, McmtiConfig.class);
         advancedConfig = McmtiConfig.advancedConfig;
         try {
-            if (McmtiConfig.advancedConfig && !McmtiConfig.useCustomDynamicLib && McmtiConfig.useVulkan && WhisperJNI.canUseVulkan()) {
-                WhisperJNI.loadVulkan(LOGGER);
+            if (McmtiConfig.advancedConfig && McmtiConfig.useCustomDynamicLib) {
+                if (LibraryUtils.canUseVulkan()) LibraryUtils.loadVulkan(LOGGER, Path.of(McmtiConfig.customDynamicLibDir));
+                else LibraryUtils.loadInOrder(LOGGER, Path.of(McmtiConfig.customDynamicLibDir));
             } else {
-                WhisperJNI.loadLibrary(LOGGER);
+                SpeechRecognizer.WHISPER.loadLibrary(LOGGER);
             }
         } catch (IOException ignored) {}
         AudioRecorder.init();

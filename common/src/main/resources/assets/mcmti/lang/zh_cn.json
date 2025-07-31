@@ -97,8 +97,6 @@
     "mcmti.midnightconfig.translate.tooltip": "将文本翻译为默认语言。",
     "mcmti.midnightconfig.useCustomDynamicLib": "useCustomDynamicLib",
     "mcmti.midnightconfig.useCustomDynamicLib.tooltip": "使用 Whisper 的自定义动态库。",
-    "mcmti.midnightconfig.useVulkan": "useVulkan",
-    "mcmti.midnightconfig.useVulkan.tooltip": "使用Vulkan进行Whisper模型运算。",
     "mcmti.midnightconfig.vad": "vad",
     "mcmti.midnightconfig.vad.tooltip": "语音活动检测（VAD）参数",
     "mcmti.midnightconfig.vad__max_speech_duration_s": "vad__max_speech_duration_s",

@@ -60,7 +60,6 @@ experience.
 | Setting                      | Translation Key                                     | Field                                                                | Type                                                           | Default Value | Description                                                                         |
 |------------------------------|-----------------------------------------------------|----------------------------------------------------------------------|----------------------------------------------------------------|---------------|-------------------------------------------------------------------------------------|
 | Enable Advanced Config       | `mcmti.midnightconfig.advancedConfig`               | `me.jaffe2718.mcmti.config.McmtiConfig.advancedConfig`               | `boolean`                                                      | `false`       | Enable advanced configuration.                                                      |
-| useVulkan                    | `mcmti.midnightconfig.useVulkan`                    | `me.jaffe2718.mcmti.config.McmtiConfig.useVulkan`                    | `boolean`                                                      | `false`       | Use Vulkan for GPU acceleration.                                                    |
 | nThreads                     | `mcmti.midnightconfig.nThreads`                     | `me.jaffe2718.mcmti.config.McmtiConfig.nThreads`                     | `int`                                                          | `0`           | Number of threads to use for the operation of the Whisper model. `0` for max cores. |
 | audioCtx                     | `mcmti.midnightconfig.audioCtx`                     | `me.jaffe2718.mcmti.config.McmtiConfig.audioCtx`                     | `int`                                                          | `0`           | Audio context size for the Whisper model. `0` means use default.                    |
 | nMaxTextCtx                  | `mcmti.midnightconfig.nMaxTextCtx`                  | `me.jaffe2718.mcmti.config.McmtiConfig.nMaxTextCtx`                  | `int`                                                          | `16384`       | Max tokens to use from past text as prompt for the decoder.                         |
@@ -122,10 +121,15 @@ experience.
 If you want to use VAD (Voice Activity Detection), you need to download [VAD](https://huggingface.co/ggml-org/whisper-vad) model,
 enable the advanced configuration and set the `vad_model_path` to the path of the VAD model in the configuration menu.
 
-### Use Vulkan
+### Custom Dynamic Library
 
-Only support vulkan on Windows x64 (Advanced Settings), see [WhisperJNI#canUseVulkan()](https://github.com/FreshSupaSulley/whisper-jni/blob/main/src/main/java/io/github/freshsupasulley/whisperjni/WhisperJNI.java#L534).
-You need to enable the advanced configuration and set the `useVulkan` to `true` in the configuration menu.
+1. Download the custom dynamic library from [FreshSupaSulley/whisper-jni/releases](https://github.com/FreshSupaSulley/whisper-jni/releases/tag/v0.4.0) and extract the files.
+2. Enable the advanced configuration and set the `useCustomDynamicLib` to `true` in the configuration menu.
+3. Set the `customDynamicLibDir` to the directory where the custom dynamic library is located in the configuration menu.
+4. If you want to use the dynamic library which is supported vulkan, check your check that your computer has drivers and libraries running Vulkan installed.
+   ```shell
+   vulkaninfo
+   ```
 
 ## Troubleshooting
 

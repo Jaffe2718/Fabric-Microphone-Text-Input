@@ -42,9 +42,6 @@
             "me.jaffe2718.mcmti.fabric.MicrophoneTextInputFabric"
         ]
     },
-    "mixins": [
-        "mcmti.mixins.json"
-    ],
     "depends": {
         "fabricloader": "${compatibility_fabricloader_versions}",
         "fabric-lifecycle-events-v1": "*",

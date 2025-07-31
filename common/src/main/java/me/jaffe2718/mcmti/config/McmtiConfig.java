@@ -63,11 +63,6 @@ public class McmtiConfig extends MidnightConfig {
     @Condition(requiredOption = "useCustomDynamicLib")
     public static String customDynamicLibDir = "";
 
-    @Entry(category = "advanced")
-    @Condition(requiredOption = "advancedConfig")
-    @Condition(requiredOption = "useCustomDynamicLib", requiredValue = "false")
-    public static boolean useVulkan = false;
-
     /**
      * Number of thread, 0 for max cores
      */
