@@ -2,7 +2,6 @@ package me.jaffe2718.mcmti;
 
 
 import io.github.freshsupasulley.whisperjni.LibraryUtils;
-import io.github.freshsupasulley.whisperjni.WhisperJNI;
 import me.jaffe2718.mcmti.config.McmtiConfig;
 import me.jaffe2718.mcmti.util.AudioRecorder;
 import me.jaffe2718.mcmti.util.SpeechRecognizer;
@@ -31,8 +30,8 @@ public final class MicrophoneTextInput {
         advancedConfig = McmtiConfig.advancedConfig;
         try {
             if (McmtiConfig.advancedConfig && McmtiConfig.useCustomDynamicLib) {
-                if (LibraryUtils.canUseVulkan()) LibraryUtils.loadVulkan(LOGGER, Path.of(McmtiConfig.customDynamicLibDir));
-                else LibraryUtils.loadInOrder(LOGGER, Path.of(McmtiConfig.customDynamicLibDir));
+                LibraryUtils.findAndLoadVulkanRuntime();
+                LibraryUtils.loadLibrary(LOGGER, Path.of(McmtiConfig.customDynamicLibDir));
             } else {
                 SpeechRecognizer.WHISPER.loadLibrary(LOGGER);
             }
