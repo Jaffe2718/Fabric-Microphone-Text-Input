@@ -33,6 +33,8 @@ public final class MicrophoneTextInput {
                 LibraryUtils.findAndLoadVulkanRuntime();
                 LibraryUtils.loadLibrary(LOGGER, Path.of(McmtiConfig.customDynamicLibDir));
             } else {
+//                URI jarUri = URI.create("jar:file:/C:/Users/lfkex/.gradle/caches/modules-2/files-2.1/io.github.freshsupasulley/whisper-jni/0.5.2/75fe0d4a2bd6e5c39201b8153fc7050a836c0080/whisper-jni-0.5.2.jar!/windows-x64");
+//                Path p = FileSystems.newFileSystem(jarUri, Collections.emptyMap()).getPath("windows-x64");
                 SpeechRecognizer.WHISPER.loadLibrary(LOGGER);
             }
         } catch (IOException ignored) {}

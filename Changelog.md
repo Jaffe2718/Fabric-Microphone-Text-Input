@@ -2,9 +2,8 @@
 
 ## Changelog
 
-- fix: crash at the mode `RELEASE_KEY_TO_SEND`
-- adjust: use `io.github.freshsupasulley:whisper-jni:0.5.0` as whisper library
-- new: support custom dynamic link library loading, download from https://github.com/FreshSupaSulley/whisper-jni/releases/tag/v0.5.0.
+- fix: addressed the issue where the default dynamic link library extraction failed by using `io.github.freshsupasulley:whisper-jni:0.5.2` as whisper library instead of `0.5.0`
+- adjust: support custom dynamic link library loading, download from https://github.com/FreshSupaSulley/whisper-jni/releases/tag/v0.5.2.
 
 ## Dependencies
 
@@ -29,7 +28,7 @@
 
 ## Custom Dynamic Library
 
-1. Download the custom dynamic library from [FreshSupaSulley/whisper-jni/releases](https://github.com/FreshSupaSulley/whisper-jni/releases/tag/v0.5.0) and extract the files.
+1. Download the custom dynamic library from [FreshSupaSulley/whisper-jni/releases](https://github.com/FreshSupaSulley/whisper-jni/releases/tag/v0.5.2) and extract the files.
 2. Enable the advanced configuration and set the `useCustomDynamicLib` to `true` in the configuration menu.
 3. Set the `customDynamicLibDir` to the directory where the custom dynamic library is located in the configuration menu.
 4. If you want to use the dynamic library which is supported vulkan, check your check that your computer has drivers and libraries running Vulkan installed.
