@@ -1,9 +1,9 @@
-[//]: # (Mincrophone Text Input 2.1.2-1.21.x)
+[//]: # (Mincrophone Text Input 2.1.3-rc.2-1.21.x)
 
 ## Changelog
 
-- fix: addressed the issue where the default dynamic link library extraction failed by using `io.github.freshsupasulley:whisper-jni:0.5.2` as whisper library instead of `0.5.0`
-- adjust: support custom dynamic link library loading, download from https://github.com/FreshSupaSulley/whisper-jni/releases/tag/v0.5.2.
+- fix: addressed the issue where the default dynamic link library extraction failed by using `io.github.freshsupasulley:whisper-jni:0.5.5` as whisper library instead of `0.5.0`
+- adjust: support custom dynamic link library loading, download from https://github.com/FreshSupaSulley/whisper-jni/releases/tag/v0.5.5.
 
 ## Dependencies
 
@@ -28,10 +28,15 @@
 
 ## Custom Dynamic Library
 
-1. Download the custom dynamic library from [FreshSupaSulley/whisper-jni/releases](https://github.com/FreshSupaSulley/whisper-jni/releases/tag/v0.5.2) and extract the files.
+1. Download the custom dynamic library from [FreshSupaSulley/whisper-jni/releases](https://github.com/FreshSupaSulley/whisper-jni/releases/tag/v0.5.5) and extract the files.
 2. Enable the advanced configuration and set the `useCustomDynamicLib` to `true` in the configuration menu.
 3. Set the `customDynamicLibDir` to the directory where the custom dynamic library is located in the configuration menu.
 4. If you want to use the dynamic library which is supported vulkan, check your check that your computer has drivers and libraries running Vulkan installed.
    ```shell
    vulkaninfo
    ```
+   
+## Download Whisper Model
+
+- [Whisper GGML Model](https://huggingface.co/ggerganov/whisper.cpp/tree/main)
+- [VAD Model](https://huggingface.co/ggml-org/whisper-vad)
