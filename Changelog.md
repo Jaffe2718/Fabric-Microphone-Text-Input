@@ -1,9 +1,14 @@
-[//]: # (Mincrophone Text Input 2.1.3-rc.2-1.21.x)
+[//]: # (Mincrophone Text Input 2.1.3-1.21.x)
 
 ## Changelog
 
 - fix: addressed the issue where the default dynamic link library extraction failed by using `io.github.freshsupasulley:whisper-jni:0.5.5` as whisper library instead of `0.5.0`
 - adjust: support custom dynamic link library loading, download from https://github.com/FreshSupaSulley/whisper-jni/releases/tag/v0.5.5.
+
+## Download Whisper Model
+
+- [Whisper GGML Model](https://huggingface.co/ggerganov/whisper.cpp/tree/main)
+- [VAD Model](https://huggingface.co/ggml-org/whisper-vad)
 
 ## Dependencies
 
@@ -35,8 +40,4 @@
    ```shell
    vulkaninfo
    ```
-   
-## Download Whisper Model
 
-- [Whisper GGML Model](https://huggingface.co/ggerganov/whisper.cpp/tree/main)
-- [VAD Model](https://huggingface.co/ggml-org/whisper-vad)
