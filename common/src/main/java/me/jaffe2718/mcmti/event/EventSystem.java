@@ -1,6 +1,6 @@
 package me.jaffe2718.mcmti.event;
 
-import eu.midnightdust.lib.config.MidnightConfig;
+import eu.midnightdust.lib.config.MidnightConfigScreen;
 import me.jaffe2718.mcmti.MicrophoneTextInput;
 import me.jaffe2718.mcmti.client.gui.screen.AdvancedConfigWarningScreen;
 import me.jaffe2718.mcmti.config.McmtiConfig;
@@ -40,7 +40,7 @@ public interface EventSystem {
     static void onConfigAltered(MinecraftClient client) {
         if (McmtiConfig.advancedConfig
                 && !MicrophoneTextInput.advancedConfig
-                && MinecraftClient.getInstance().currentScreen instanceof MidnightConfig.MidnightConfigScreen) {  // advanced config enabled
+                && MinecraftClient.getInstance().currentScreen instanceof MidnightConfigScreen) {  // advanced config enabled
             MinecraftClient.getInstance().setScreen(new AdvancedConfigWarningScreen(MinecraftClient.getInstance().currentScreen));
         }
         if (!McmtiConfig.model.equals(SpeechRecognizer.modelPath)
@@ -93,7 +93,7 @@ public interface EventSystem {
                                 vthread = Thread.ofVirtual().start(() -> {
                                     String result = SpeechRecognizer.recognize(audio);
                                     if (!result.isEmpty()) {
-                                        MinecraftClient.getInstance().submit(() ->MinecraftClient.getInstance().setScreen(new ChatScreen(McmtiConfig.prefix + result))).join();
+                                        MinecraftClient.getInstance().submit(() -> MinecraftClient.getInstance().setScreen(new ChatScreen(McmtiConfig.prefix + result, McmtiConfig.draftInput))).join();
                                     }
                                 });
                             } else if (vthread != null && vthread.isAlive()) {

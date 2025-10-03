@@ -35,25 +35,26 @@ experience.
 
 ### Keybinding
 
-| Keybinding Name | Recognize              |
-|-----------------|------------------------|
-| Category        | `key.categories.mcmti` |
-| Translation Key | `mcmti.key.recognize`  |
-| Default Key     | `V`                    |
+| Keybinding Name | Recognize                        |
+|-----------------|----------------------------------|
+| Category        | `key.category.minecraft.mcmti`   |
+| Translation Key | `key.mcmti.recognize`            |
+| Default Key     | `V`                              |
 
 ### General Settings
 
-| Setting                   | Translation Key                         | Field                                                    | Type                                         | Default Value                            | Description                                                                |
-|---------------------------|-----------------------------------------|----------------------------------------------------------|----------------------------------------------|------------------------------------------|----------------------------------------------------------------------------|
-| GGML Whisper Model        | `mcmti.midnightconfig.model`            | `me.jaffe2718.mcmti.config.McmtiConfig.model`            | `String`                                     | `""`                                     | Path to the GGML Whisper model.                                            |
-| Language                  | `mcmti.midnightconfig.language`         | `me.jaffe2718.mcmti.config.McmtiConfig.language`         | `String`                                     | `"en"`                                   | Language for speech recognition.                                           |
-| Mode                      | `mcmti.midnightconfig.mode`             | `me.jaffe2718.mcmti.config.McmtiConfig.mode`             | `me.jaffe2718.mcmti.config.McmtiConfig.Mode` | `"RELEASE_KEY_TO_SEND"`                  | Mod's work mode.                                                           |
-| Record Cycle (ms)         | `mcmti.midnightconfig.recordCycleMs`    | `me.jaffe2718.mcmti.config.McmtiConfig.recordCycleMs`    | `int`                                        | `5000`                                   | Record cycle in milliseconds.                                              |
-| Record Buffer Size (byte) | `mcmti.midnightconfig.recordBufferSize` | `me.jaffe2718.mcmti.config.McmtiConfig.recordBufferSize` | `int`                                        | `1024`                                   | Record buffer size in bytes.                                               |
-| Prefix                    | `mcmti.midnightconfig.prefix`           | `me.jaffe2718.mcmti.config.McmtiConfig.prefix`           | `String`                                     | `"⌈Speech Input⌋"`                       | Prefix added to the recognized text.                                       |
-| Encoding Repair           | `mcmti.midnightconfig.encodingRepair`   | `me.jaffe2718.mcmti.config.McmtiConfig.encodingRepair`   | `boolean`                                    | `false`                                  | Enable encoding repair.                                                    |
-| Source Encoding           | `mcmti.midnightconfig.srcEncoding`      | `me.jaffe2718.mcmti.config.McmtiConfig.srcEncoding`      | `String`                                     | `Charset.defaultCharset().displayName()` | Source encoding for text. Applies only if encoding repair is enabled.      |
-| Destination Encoding      | `mcmti.midnightconfig.dstEncoding`      | `me.jaffe2718.mcmti.config.McmtiConfig.dstEncoding`      | `String`                                     | `Charset.defaultCharset().displayName()` | Destination encoding for text. Applies only if encoding repair is enabled. |
+| Setting                   | Translation Key                         | Field                                                    | Type                                         | Default Value                            | Description                                                                                 |
+|---------------------------|-----------------------------------------|----------------------------------------------------------|----------------------------------------------|------------------------------------------|---------------------------------------------------------------------------------------------|
+| GGML Whisper Model        | `mcmti.midnightconfig.model`            | `me.jaffe2718.mcmti.config.McmtiConfig.model`            | `String`                                     | `""`                                     | Path to the GGML Whisper model.                                                             |
+| Language                  | `mcmti.midnightconfig.language`         | `me.jaffe2718.mcmti.config.McmtiConfig.language`         | `String`                                     | `"en"`                                   | Language for speech recognition.                                                            |
+| Mode                      | `mcmti.midnightconfig.mode`             | `me.jaffe2718.mcmti.config.McmtiConfig.mode`             | `me.jaffe2718.mcmti.config.McmtiConfig.Mode` | `"RELEASE_KEY_TO_SEND"`                  | Mod's work mode.                                                                            |
+| Record Cycle (ms)         | `mcmti.midnightconfig.recordCycleMs`    | `me.jaffe2718.mcmti.config.McmtiConfig.recordCycleMs`    | `int`                                        | `5000`                                   | Record cycle in milliseconds.                                                               |
+| Record Buffer Size (byte) | `mcmti.midnightconfig.recordBufferSize` | `me.jaffe2718.mcmti.config.McmtiConfig.recordBufferSize` | `int`                                        | `1024`                                   | Record buffer size in bytes.                                                                |
+| Prefix                    | `mcmti.midnightconfig.prefix`           | `me.jaffe2718.mcmti.config.McmtiConfig.prefix`           | `String`                                     | `"⌈Speech Input⌋"`                       | Prefix added to the recognized text.                                                        |
+| Draft Input               | `mcmti.midnightconfig.draftInput`       | `me.jaffe2718.mcmti.config.McmtiConfig.draftInput`       | `boolean`                                    | `false`                                  | Enable draft input. If enabled, the recognized text will be shown in the entry as a draft.  |
+| Encoding Repair           | `mcmti.midnightconfig.encodingRepair`   | `me.jaffe2718.mcmti.config.McmtiConfig.encodingRepair`   | `boolean`                                    | `false`                                  | Enable encoding repair.                                                                     |
+| Source Encoding           | `mcmti.midnightconfig.srcEncoding`      | `me.jaffe2718.mcmti.config.McmtiConfig.srcEncoding`      | `String`                                     | `Charset.defaultCharset().displayName()` | Source encoding for text. Applies only if encoding repair is enabled.                       |
+| Destination Encoding      | `mcmti.midnightconfig.dstEncoding`      | `me.jaffe2718.mcmti.config.McmtiConfig.dstEncoding`      | `String`                                     | `Charset.defaultCharset().displayName()` | Destination encoding for text. Applies only if encoding repair is enabled.                  |
 
 ### Advanced Settings
 

@@ -24,10 +24,10 @@ public class AdvancedConfigWarningScreen extends ConfirmScreen {
     }
 
     private static void checkConfirmed(boolean confirmed) {
-        if (!confirmed) {
-            MidnightConfig.loadValuesFromJson(MicrophoneTextInput.MOD_ID);
-        } else {
+        if (confirmed) {
             MicrophoneTextInput.LOGGER.warn("Advanced config enabled");
+        } else {
+            MidnightConfig.configInstances.get(MicrophoneTextInput.MOD_ID).loadValuesFromJson();
         }
         if (MinecraftClient.getInstance().currentScreen instanceof AdvancedConfigWarningScreen screen) {
             screen.close();

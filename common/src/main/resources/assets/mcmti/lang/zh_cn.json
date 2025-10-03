@@ -1,5 +1,5 @@
 {
-    "key.categories.mcmti": "麦克风语音识别文本输入",
+    "key.category.minecraft.mcmti": "麦克风语音识别文本输入",
     "key.mcmti.recognize": "录音并识别",
     "mcmti.gui.config.advanced.warn": "警告：激活高级配置将更改Whisper模型配置的默认参数，这将对语音识别结果产生严重影响。高级参数配置不当会导致语音识别失败、计算机资源使用率高、程序崩溃等问题。请谨慎使用。",
     "mcmti.gui.config.advanced.warn.title": "§l§c启用高级配置",
@@ -19,6 +19,8 @@
     "mcmti.midnightconfig.customDynamicLibDir.tooltip": "Whisper 的自定义动态链接库路径。",
     "mcmti.midnightconfig.detectLanguage": "detectLanguage",
     "mcmti.midnightconfig.detectLanguage.tooltip": "检测输入音频的语言。",
+    "mcmti.midnightconfig.draftInput": "输入草稿",
+    "mcmti.midnightconfig.draftInput.tooltip": "启用输入草稿功能。如果启用，识别到的文本将在输入框中显示为草稿。",
     "mcmti.midnightconfig.dstEncoding": "目标编码",
     "mcmti.midnightconfig.dstEncoding.tooltip": "文本目标编码（仅在启用编码修复时生效）。",
     "mcmti.midnightconfig.durationMs": "durationMs",

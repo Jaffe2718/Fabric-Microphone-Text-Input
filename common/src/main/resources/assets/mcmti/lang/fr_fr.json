@@ -1,5 +1,5 @@
 {
-    "key.categories.mcmti": "Entrée de texte par microphone",
+    "key.category.minecraft.mcmti": "Entrée de texte par microphone",
     "key.mcmti.recognize": "Reconnaître",
     "mcmti.gui.config.advanced.warn": "AVERTISSEMENT : L'activation de la configuration avancée changera les paramètres par défaut de la configuration du modèle Whisper, ce qui aura un impact critique sur les résultats de la reconnaissance vocale. Une configuration inappropriée des paramètres avancés peut entraîner des problèmes tels que l'échec de la reconnaissance vocale, une utilisation élevée des ressources de l'ordinateur et des plantages de programme. Veuillez utiliser avec prudence.",
     "mcmti.gui.config.advanced.warn.title": "§l§cActiver la configuration avancée",
@@ -14,8 +14,13 @@
     "mcmti.midnightconfig.beamSearchPatience.tooltip": "Spécifique à la stratégie d'échantillonnage de recherche en faisceau.",
     "mcmti.midnightconfig.category.advanced": "§cConfiguration avancée",
     "mcmti.midnightconfig.category.general": "Configuration générale",
+    "mcmti.midnightconfig.customDynamicLibDir": "customDynamicLibDir",
+    "mcmti.midnightconfig.customDynamicLibDir.fileChooser": "customDynamicLibDir",
+    "mcmti.midnightconfig.customDynamicLibDir.tooltip": "Répertoire personnalisé de la bibliothèque de liens dynamiques pour Whisper.",
     "mcmti.midnightconfig.detectLanguage": "detectLanguage",
     "mcmti.midnightconfig.detectLanguage.tooltip": "Détecter la langue de l'audio d'entrée.",
+    "mcmti.midnightconfig.draftInput": "Entrée en mode draft",
+    "mcmti.midnightconfig.draftInput.tooltip": "Activer l'entrée en mode draft. Si activé, le texte reconnu sera affiché dans l'entrée comme une prévisualisation.",
     "mcmti.midnightconfig.dstEncoding": "Encodage de destination",
     "mcmti.midnightconfig.dstEncoding.tooltip": "Encodage de destination pour le texte. S'applique uniquement si la réparation de l'encodage est activée.",
     "mcmti.midnightconfig.durationMs": "durationMs",
@@ -92,6 +97,8 @@
     "mcmti.midnightconfig.title": "Configuration de l'entrée de texte par microphone",
     "mcmti.midnightconfig.translate": "translate",
     "mcmti.midnightconfig.translate.tooltip": "Traduire le texte dans la langue par défaut.",
+    "mcmti.midnightconfig.useCustomDynamicLib": "useCustomDynamicLib",
+    "mcmti.midnightconfig.useCustomDynamicLib.tooltip": "Utiliser une bibliothèque de liens dynamiques personnalisée pour Whisper.",
     "mcmti.midnightconfig.vad": "vad",
     "mcmti.midnightconfig.vad.tooltip": "Paramètres de détection d'activité vocale (VAD)",
     "mcmti.midnightconfig.vad__max_speech_duration_s": "vad__max_speech_duration_s",
@@ -119,10 +126,5 @@
     "message.mcmti.recordingAudio": "§eEnregistrement audio en cours...",
     "message.mcmti.whisperModelLoadFailed": "§cÉchec du chargement du modèle Whisper",
     "modmenu.descriptionTranslation.mcmti": "Outil d'entrée de message de chat par reconnaissance vocale pour Minecraft.",
-    "modmenu.nameTranslation.mcmti": "Entrée de texte par microphone",
-    "mcmti.midnightconfig.customDynamicLibDir": "customDynamicLibDir",
-    "mcmti.midnightconfig.customDynamicLibDir.fileChooser": "customDynamicLibDir",
-    "mcmti.midnightconfig.customDynamicLibDir.tooltip": "Répertoire personnalisé de la bibliothèque de liens dynamiques pour Whisper.",
-    "mcmti.midnightconfig.useCustomDynamicLib": "useCustomDynamicLib",
-    "mcmti.midnightconfig.useCustomDynamicLib.tooltip": "Utiliser une bibliothèque de liens dynamiques personnalisée pour Whisper."
+    "modmenu.nameTranslation.mcmti": "Entrée de texte par microphone"
 }

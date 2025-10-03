@@ -1,5 +1,5 @@
 {
-    "key.categories.mcmti": "Ввод текста с помощью микрофона",
+    "key.category.minecraft.mcmti": "Ввод текста с помощью микрофона",
     "key.mcmti.recognize": "Распознать речь",
     "mcmti.gui.config.advanced.warn": "ВНИМАНИЕ: Включение расширенной конфигурации изменит параметры по умолчанию конфигурации модели Whisper, что может серьезно повлиять на результаты распознавания речи. Некорректная настройка расширенных параметров может привести к проблемам, таким как неудачное распознавание речи, высокая загрузка ресурсов компьютера и сбои программы. Используйте с осторожностью.",
     "mcmti.gui.config.advanced.warn.title": "§l§cВключить расширенную конфигурацию",
@@ -19,6 +19,8 @@
     "mcmti.midnightconfig.customDynamicLibDir.tooltip": "Пользовательская директория динамической библиотеки для Whisper.",
     "mcmti.midnightconfig.detectLanguage": "detectLanguage",
     "mcmti.midnightconfig.detectLanguage.tooltip": "Определить язык входного аудио.",
+    "mcmti.midnightconfig.draftInput": "Ввод с предварительным отображением",
+    "mcmti.midnightconfig.draftInput.tooltip": "Включить ввод с предварительным отображением. Если включено, распознанный текст будет отображаться в поле ввода как предварительный.",
     "mcmti.midnightconfig.dstEncoding": "Целевая кодировка",
     "mcmti.midnightconfig.dstEncoding.tooltip": "Целевая кодировка текста. Применяется только при включенной функции исправления кодировки.",
     "mcmti.midnightconfig.durationMs": "durationMs",
