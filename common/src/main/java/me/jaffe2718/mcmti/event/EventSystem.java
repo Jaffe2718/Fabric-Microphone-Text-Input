@@ -101,6 +101,8 @@ public interface EventSystem {
                             }
                         }
                     }
+
+                    LockSupport.parkNanos(1000000L);
                 } else {
                     LockSupport.parkNanos(10000000L);
                 }
