@@ -2,7 +2,8 @@
 
 ## Changelog
 
-- fix: adding parkNanos in while-loops to avoid high CPU usage
+- fix: add parkNanos in while-loops to avoid high CPU usage;
+- neoforge: add logoFile to mod metadata;
 
 ## Download Whisper Model
 

@@ -11,6 +11,7 @@ authors = "Jaffe2718"
 description = '''
 Speech recognition chat message input tool for Minecraft.
 '''
+logoFile = "assets/mcmti/icon.png"
 modUrl = "https://modrinth.com/mod/mcmti"
 
 [[dependencies.mcmti]]
