@@ -85,9 +85,9 @@ public interface EventSystem {
                                 });
                             } else if (vthread != null && vthread.isAlive()) {
                                 player.sendMessage(Text.translatable("message.mcmti.recognizing"), true);
-                            } else {
-                                LockSupport.parkNanos(1000000L);
                             }
+
+                            LockSupport.parkNanos(1000000L);
                         }
                         case RELEASE_KEY_TO_INPUT -> {
                             if (MicrophoneTextInput.RECOGNIZE_KEY.isPressed()) {
@@ -100,9 +100,9 @@ public interface EventSystem {
                                 });
                             } else if (vthread != null && vthread.isAlive()) {
                                 player.sendMessage(Text.translatable("message.mcmti.recognizing"), true);
-                            } else {
-                                LockSupport.parkNanos(1000000L);
                             }
+
+                            LockSupport.parkNanos(1000000L);
                         }
                     }
                 } else {
