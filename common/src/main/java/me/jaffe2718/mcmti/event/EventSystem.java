@@ -86,7 +86,6 @@ public interface EventSystem {
                             } else if (vthread != null && vthread.isAlive()) {
                                 player.sendMessage(Text.translatable("message.mcmti.recognizing"), true);
                             }
-
                             LockSupport.parkNanos(1000000L);
                         }
                         case RELEASE_KEY_TO_INPUT -> {
@@ -101,7 +100,6 @@ public interface EventSystem {
                             } else if (vthread != null && vthread.isAlive()) {
                                 player.sendMessage(Text.translatable("message.mcmti.recognizing"), true);
                             }
-
                             LockSupport.parkNanos(1000000L);
                         }
                     }

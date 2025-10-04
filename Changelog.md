@@ -2,7 +2,7 @@
 
 ## Changelog
 
-- maintenance: support Minecraft 1.21.9
+- fix: adding parkNanos in while-loops to avoid high CPU usage
 
 ## Download Whisper Model
 
