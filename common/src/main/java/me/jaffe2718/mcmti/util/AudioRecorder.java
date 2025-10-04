@@ -12,7 +12,6 @@ import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
-import java.util.concurrent.locks.LockSupport;
 
 public final class AudioRecorder {
     private static final AudioFormat AUDIO_FORMAT = new AudioFormat(16000, 16, 1, true, false);
@@ -75,8 +74,6 @@ public final class AudioRecorder {
             if (read > 0) {
                 dynamicBuffer.write(chunk, 0, read);
             }
-
-            LockSupport.parkNanos(1000000L);
         }
         INSTANCE.line.stop();
         INSTANCE.line.flush();
