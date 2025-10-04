@@ -90,7 +90,6 @@ modrinth {
     dependencies {
         required.project 'architectury-api'
         required.project 'midnightlib'
-        optional.project 'modmenu'
     }
     changelog = publish_changelog
 }
