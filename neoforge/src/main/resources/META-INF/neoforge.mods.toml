@@ -10,6 +10,12 @@ displayName = "Microphone Text Input"
 authors = "Jaffe2718"
 description = '''
 Speech recognition chat message input tool for Minecraft.
+
+Whisper Model: https://huggingface.co/ggerganov/whisper.cpp
+
+Custom Lib: https://github.com/FreshSupaSulley/whisper-jni/releases
+
+VAD: https://huggingface.co/ggml-org/whisper-vad
 '''
 logoFile = "assets/mcmti/icon.png"
 modUrl = "https://modrinth.com/mod/mcmti"

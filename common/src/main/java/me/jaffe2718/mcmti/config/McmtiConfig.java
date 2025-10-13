@@ -117,13 +117,6 @@ public class McmtiConfig extends MidnightConfig {
     public static boolean noTimestamps;
 
     /**
-     * Detect language
-     */
-    @Entry(category = "advanced")
-    @Condition(requiredOption = "advancedConfig")
-    public static boolean detectLanguage;
-
-    /**
      * Initial prompt
      */
     @Entry(category = "advanced", width = 4096)
@@ -325,7 +318,6 @@ public class McmtiConfig extends MidnightConfig {
             params.noContext = noContext;
             params.translate = translate;
             params.noTimestamps = noTimestamps;
-            params.detectLanguage = detectLanguage;
             params.durationMs = durationMs;
             params.vad = vad;
             if (vad) {
