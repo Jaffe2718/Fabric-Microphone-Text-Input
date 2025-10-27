@@ -1,9 +1,8 @@
-[//]: # (Mincrophone Text Input 2.1.6-1.21.9)
+[//]: # (Mincrophone Text Input 2.1.7-1.21.9)
 
 ## Changelog
 
-- fix: remove `detectLanguage` option;
-- misc: update mod profile;
+- fix: avoid result missing while multiple segments
 
 ## Download Whisper Model
 
@@ -14,8 +13,8 @@
 
 | Minecraft | Fabric                                                                                                                                                                                      | NeoForge                                                                                                                                                                                                    |
 |-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1.21.9    | [fabric-api 0.134.0+1.21.9](https://modrinth.com/mod/fabric-api/version/0.134.0+1.21.9) <br> [midnightlib 1.8.3-fabric](https://modrinth.com/mod/midnightlib/version/1.8.3+1.21.9-fabric)   | [architechury-api 18.0.3+neoforge](https://modrinth.com/mod/architectury-api/version/18.0.3+neoforge) <br> [midnightlib 1.8.3-neoforge](https://modrinth.com/mod/midnightlib/version/1.8.3+1.21.9-neoforge) |
-| 1.21.10   | [fabric-api 0.135.0+1.21.10](https://modrinth.com/mod/fabric-api/version/0.135.0+1.21.10) <br> [midnightlib 1.8.3-fabric](https://modrinth.com/mod/midnightlib/version/1.8.3+1.21.9-fabric) | [architechury-api 18.0.3+neoforge](https://modrinth.com/mod/architectury-api/version/18.0.3+neoforge) <br> [midnightlib 1.8.3-neoforge](https://modrinth.com/mod/midnightlib/version/1.8.3+1.21.9-neoforge) |
+| 1.21.9    | [fabric-api 0.134.0+1.21.9](https://modrinth.com/mod/fabric-api/version/0.134.0+1.21.9) <br> [midnightlib 1.8.3-fabric](https://modrinth.com/mod/midnightlib/version/1.8.3+1.21.9-fabric)   | [architechury-api 18.0.5+neoforge](https://modrinth.com/mod/architectury-api/version/18.0.5+neoforge) <br> [midnightlib 1.8.3-neoforge](https://modrinth.com/mod/midnightlib/version/1.8.3+1.21.9-neoforge) |
+| 1.21.10   | [fabric-api 0.135.0+1.21.10](https://modrinth.com/mod/fabric-api/version/0.135.0+1.21.10) <br> [midnightlib 1.8.3-fabric](https://modrinth.com/mod/midnightlib/version/1.8.3+1.21.9-fabric) | [architechury-api 18.0.5+neoforge](https://modrinth.com/mod/architectury-api/version/18.0.5+neoforge) <br> [midnightlib 1.8.3-neoforge](https://modrinth.com/mod/midnightlib/version/1.8.3+1.21.9-neoforge) |
 
 ## Compatibility
 

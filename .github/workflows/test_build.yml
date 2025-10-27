@@ -43,4 +43,5 @@ jobs:
         with:
           name: source-and-remapped-jars
           path: neoforge/build/libs/*.jar
+          retention-days: 1
 

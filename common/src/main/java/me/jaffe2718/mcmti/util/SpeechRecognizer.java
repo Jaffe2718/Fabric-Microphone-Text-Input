@@ -6,7 +6,6 @@ import io.github.freshsupasulley.whisperjni.WhisperContext;
 import io.github.freshsupasulley.whisperjni.WhisperFullParams;
 import io.github.freshsupasulley.whisperjni.WhisperGrammar;
 import io.github.freshsupasulley.whisperjni.WhisperJNI;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,7 +50,6 @@ public final class SpeechRecognizer {
         }
     }
 
-    @Contract("_, _, _ -> new")
     private static @NotNull String repairEncoding(@NotNull String str, String srcEncoding, String dstEncoding) {
         try {
             return new String(str.getBytes(srcEncoding), dstEncoding);
@@ -66,12 +64,15 @@ public final class SpeechRecognizer {
         WhisperFullParams params = McmtiConfig.getParams();
         params.grammar = INSTANCE.grammar;
         int flag = WHISPER.full(INSTANCE.ctx, params, audio, audio.length);
-        if (flag == 0) {
-            String result = WHISPER.fullGetSegmentText(INSTANCE.ctx, 0);
+        if (flag == 0 && WHISPER.fullNSegments(INSTANCE.ctx) > 0) {
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < WHISPER.fullNSegments(INSTANCE.ctx); i++) {
+                result.append(WHISPER.fullGetSegmentText(INSTANCE.ctx, i));
+            }
             if (McmtiConfig.encodingRepair) {
-                return repairEncoding(result, McmtiConfig.srcEncoding, McmtiConfig.dstEncoding);
+                return repairEncoding(result.toString(), McmtiConfig.srcEncoding, McmtiConfig.dstEncoding);
             } else {
-                return result;
+                return result.toString();
             }
         }
         return "";
