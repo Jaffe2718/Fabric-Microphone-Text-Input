@@ -56,6 +56,10 @@ processResources {
     }
 }
 
+tasks.named('runClient') {
+    jvmArgs '-Djava.awt.headless=false'
+}
+
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
