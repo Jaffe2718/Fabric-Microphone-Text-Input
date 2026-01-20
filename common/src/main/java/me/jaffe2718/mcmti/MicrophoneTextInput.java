@@ -22,15 +22,9 @@ public final class MicrophoneTextInput {
     public static final KeyBinding.Category MICROPHONE_TEXT_INPUT_CATEGORY = new KeyBinding.Category(Identifier.ofVanilla(MOD_ID));
     public static final KeyBinding RECOGNIZE_KEY = new KeyBinding("key.mcmti.recognize", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_V, MICROPHONE_TEXT_INPUT_CATEGORY);
 
-    /**
-     * listen to config change
-     * @see McmtiConfig#advancedConfig
-     * */
-    public static volatile boolean advancedConfig = false;
 
     public static void init() {
         McmtiConfig.init(MOD_ID, McmtiConfig.class);
-        advancedConfig = McmtiConfig.advancedConfig;
         try {
             if (McmtiConfig.advancedConfig && McmtiConfig.useCustomDynamicLib) {
                 LibraryUtils.findAndLoadVulkanRuntime();

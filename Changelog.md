@@ -1,8 +1,9 @@
-[//]: # (Mincrophone Text Input 2.1.8-1.21.11)
+[//]: # (Mincrophone Text Input 2.1.9-1.21.11)
 
 ## Changelog
 
-- update: compatible with NeoForge 1.21.11
+- adjust: optimize model loading strategy
+- misc: optimize UI
 
 ## Download Whisper Model
 

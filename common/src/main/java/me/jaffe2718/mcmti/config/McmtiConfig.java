@@ -28,7 +28,7 @@ public class McmtiConfig extends MidnightConfig {
         RELEASE_KEY_TO_INPUT,
     }
 
-    @Entry(category = "general", selectionMode = JFileChooser.FILES_ONLY, width = 4096, fileExtensions = {"bin", "ggml"})
+    @Entry(category = "general", selectionMode = JFileChooser.FILES_ONLY, width = 4096, fileExtensions = {"bin", "ggml", "gguf"})
     public static String model = "";
 
     @Entry(category = "general", width = 15)
@@ -174,6 +174,7 @@ public class McmtiConfig extends MidnightConfig {
      */
     @Entry(category = "advanced")
     @Condition(requiredOption = "advancedConfig")
+    @Condition(requiredOption = "noTimestamps", requiredValue = "false")
     public static boolean printTimestamps = true;
 
     /**
@@ -226,6 +227,7 @@ public class McmtiConfig extends MidnightConfig {
      */
     @Entry(category = "advanced")
     @Condition(requiredOption = "advancedConfig")
+    @Condition(requiredOption = "whisperSamplingStrategy", requiredValue = "GREEDY")
     public static int greedyBestOf = -1;
 
     /**
@@ -233,6 +235,7 @@ public class McmtiConfig extends MidnightConfig {
      */
     @Entry(category = "advanced", min = 1)
     @Condition(requiredOption = "advancedConfig")
+    @Condition(requiredOption = "whisperSamplingStrategy", requiredValue = "BEAM_SEARCH")
     public static int beamSearchBeamSize = 2;
 
     /**
@@ -240,6 +243,7 @@ public class McmtiConfig extends MidnightConfig {
      */
     @Entry(category = "advanced")
     @Condition(requiredOption = "advancedConfig")
+    @Condition(requiredOption = "whisperSamplingStrategy", requiredValue = "BEAM_SEARCH")
     public static float beamSearchPatience = -1.0f;
 
     @Entry(category = "advanced", selectionMode = JFileChooser.FILES_ONLY, fileExtensions = {"gbnf"})
@@ -262,7 +266,7 @@ public class McmtiConfig extends MidnightConfig {
     @Condition(requiredOption = "advancedConfig")
     public static boolean vad = false;
 
-    @Entry(category = "advanced", selectionMode = JFileChooser.FILES_ONLY, width = 4096, fileExtensions = {"bin", "ggml"})
+    @Entry(category = "advanced", selectionMode = JFileChooser.FILES_ONLY, width = 4096, fileExtensions = {"bin", "ggml", "gguf"})
     @Condition(requiredOption = "advancedConfig")
     @Condition(requiredOption = "vad")
     public static String vad_model_path = "";
