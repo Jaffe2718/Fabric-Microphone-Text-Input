@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.InvalidPathException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public final class SpeechRecognizer {
@@ -20,29 +20,27 @@ public final class SpeechRecognizer {
 
     final @NotNull WhisperContext ctx;
     final @Nullable WhisperGrammar grammar;
-    public static String modelPath = "";
-    public static String grammarPath = "";
 
     public static SpeechRecognizer instance() {
         return INSTANCE;
     }
 
-    public static void init() {
+    public synchronized static void init() {
         destroy();
-        modelPath = McmtiConfig.model;
-        grammarPath = McmtiConfig.advancedConfig ? McmtiConfig.grammar : "";
-        if (INSTANCE == null) {
-            try {
-                INSTANCE = new SpeechRecognizer();
-            } catch (IOException | InvalidPathException e) {
-                MicrophoneTextInput.LOGGER.error("Failed to initialize speech recognizer", e);
-            }
+        try {
+            INSTANCE = new SpeechRecognizer();
+        } catch (IOException e) {
+            MicrophoneTextInput.LOGGER.error("Failed to initialize speech recognizer", e);
         }
     }
 
-    public static void destroy() {
+
+    @SuppressWarnings("ConstantValue")
+    public synchronized static void destroy() {
         if (INSTANCE != null) {
-            INSTANCE.ctx.close();
+            if (INSTANCE.ctx != null) {
+                INSTANCE.ctx.close();
+            }
             if (INSTANCE.grammar != null) {
                 WHISPER.free(INSTANCE.grammar);
             }
@@ -78,10 +76,10 @@ public final class SpeechRecognizer {
         return "";
     }
 
-    private SpeechRecognizer() throws IOException, InvalidPathException {
-        this.ctx = WHISPER.init(Path.of(modelPath));
-        if (!grammarPath.isEmpty()) {
-            this.grammar = WHISPER.parseGrammar(grammarPath);
+    private SpeechRecognizer() throws IOException {
+        this.ctx = WHISPER.init(Path.of(McmtiConfig.model));
+        if (Path.of(McmtiConfig.grammar).toFile().isFile()) {
+            this.grammar = WHISPER.parseGrammar(Files.readString(Path.of(McmtiConfig.grammar)));
         } else {
             this.grammar = null;
         }

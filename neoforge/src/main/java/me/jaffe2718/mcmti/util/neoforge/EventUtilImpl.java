@@ -10,7 +10,6 @@ import me.jaffe2718.mcmti.util.SpeechRecognizer;
 public abstract class EventUtilImpl {
 
     public static void register() {
-        ClientTickEvent.CLIENT_POST.register(EventSystem::onConfigAltered);
         ClientTickEvent.CLIENT_LEVEL_POST.register(EventSystem::showRecognizeStatus);
         ClientLifecycleEvent.CLIENT_STOPPING.register(client -> {
             SpeechRecognizer.destroy();

@@ -10,7 +10,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 public abstract class EventUtilImpl {
 
     public static void register() {
-        ClientTickEvents.END_CLIENT_TICK.register(EventSystem::onConfigAltered);
         ClientTickEvents.END_WORLD_TICK.register(EventSystem::showRecognizeStatus);
         ClientLifecycleEvents.CLIENT_STOPPING.register(client -> {
             SpeechRecognizer.destroy();

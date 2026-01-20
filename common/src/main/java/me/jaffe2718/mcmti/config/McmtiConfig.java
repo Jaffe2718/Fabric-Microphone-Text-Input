@@ -3,6 +3,7 @@ package me.jaffe2718.mcmti.config;
 import eu.midnightdust.lib.config.MidnightConfig;
 import io.github.freshsupasulley.whisperjni.WhisperFullParams;
 import io.github.freshsupasulley.whisperjni.WhisperSamplingStrategy;
+import me.jaffe2718.mcmti.util.SpeechRecognizer;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,6 +11,16 @@ import javax.swing.*;
 import java.nio.charset.Charset;
 
 public class McmtiConfig extends MidnightConfig {
+
+    /**
+     * Called when the config is saved.
+     * Use this to reload the whisper model & grammar
+     */
+    @Override
+    public void writeChanges() {
+        super.writeChanges();
+        Thread.ofVirtual().start(SpeechRecognizer::init);
+    }
 
     public enum Mode {
         AUTO_SEND,
