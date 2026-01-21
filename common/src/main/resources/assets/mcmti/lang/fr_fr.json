@@ -53,6 +53,7 @@
     "mcmti.midnightconfig.mode.tooltip": "Mode de fonctionnement du mod.",
     "mcmti.midnightconfig.model": "Modèle GGML Whisper",
     "mcmti.midnightconfig.model.fileChooser": "Modèle GGML Whisper",
+    "mcmti.midnightconfig.model.fileFilter": "*.bin;*.ggml;*.gguf",
     "mcmti.midnightconfig.model.tooltip": "Chemin vers le modèle GGML Whisper.",
     "mcmti.midnightconfig.nMaxTextCtx": "nMaxTextCtx",
     "mcmti.midnightconfig.nMaxTextCtx.tooltip": "Nombre maximal de jetons à utiliser du texte passé comme indice pour le décodeur.",

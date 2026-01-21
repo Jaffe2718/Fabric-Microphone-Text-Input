@@ -222,6 +222,11 @@ public class McmtiConfig extends MidnightConfig {
     @Condition(requiredOption = "advancedConfig")
     public static float noSpeechThold =   0.6f;
 
+
+    @Entry(category = "advanced")
+    @Condition(requiredOption = "advancedConfig")
+    public static WhisperSamplingStrategy whisperSamplingStrategy = WhisperSamplingStrategy.BEAM_SEARCH;
+
     /**
      * Specific to greedy sampling strategy
      */
@@ -256,11 +261,6 @@ public class McmtiConfig extends MidnightConfig {
     @Entry(category = "advanced", min = 0)
     @Condition(requiredOption = "advancedConfig")
     public static float grammarPenalty = 100f;
-
-
-    @Entry(category = "advanced")
-    @Condition(requiredOption = "advancedConfig")
-    public static WhisperSamplingStrategy whisperSamplingStrategy = WhisperSamplingStrategy.BEAM_SEARCH;
 
     @Entry(category = "advanced")
     @Condition(requiredOption = "advancedConfig")

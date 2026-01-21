@@ -53,6 +53,7 @@
     "mcmti.midnightconfig.mode.tooltip": "模组工作模式。",
     "mcmti.midnightconfig.model": "GGML Whisper模型",
     "mcmti.midnightconfig.model.fileChooser": "GGML Whisper模型",
+    "mcmti.midnightconfig.model.fileFilter": "*.bin;*.ggml;*.gguf",
     "mcmti.midnightconfig.model.tooltip": "GGML Whisper模型文件路径。",
     "mcmti.midnightconfig.nMaxTextCtx": "nMaxTextCtx",
     "mcmti.midnightconfig.nMaxTextCtx.tooltip": "解码器用于提示的历史文本最大令牌数。",

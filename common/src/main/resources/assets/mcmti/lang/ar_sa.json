@@ -53,6 +53,7 @@
     "mcmti.midnightconfig.mode.tooltip": "وضع عمل الملحق.",
     "mcmti.midnightconfig.model": "نموذج GGML Whisper",
     "mcmti.midnightconfig.model.fileChooser": "نموذج GGML Whisper",
+    "mcmti.midnightconfig.model.fileFilter": "*.bin;*.ggml;*.gguf",
     "mcmti.midnightconfig.model.tooltip": "مسار نموذج GGML Whisper.",
     "mcmti.midnightconfig.nMaxTextCtx": "nMaxTextCtx",
     "mcmti.midnightconfig.nMaxTextCtx.tooltip": "أقصى عدد من الرموز المستخدمة من النص السابق كتلميح للفك الضمير.",

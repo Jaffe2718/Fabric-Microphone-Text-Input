@@ -53,6 +53,7 @@
     "mcmti.midnightconfig.mode.tooltip": "Режим работы мода.",
     "mcmti.midnightconfig.model": "Модель GGML Whisper",
     "mcmti.midnightconfig.model.fileChooser": "Модель GGML Whisper",
+    "mcmti.midnightconfig.model.fileFilter": "*.bin;*.ggml;*.gguf",
     "mcmti.midnightconfig.model.tooltip": "Путь к файлу модели GGML Whisper.",
     "mcmti.midnightconfig.nMaxTextCtx": "nMaxTextCtx",
     "mcmti.midnightconfig.nMaxTextCtx.tooltip": "Максимальное количество токенов из предыдущего текста, используемых в качестве подсказки для декодера.",

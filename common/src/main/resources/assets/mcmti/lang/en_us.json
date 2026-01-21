@@ -53,6 +53,7 @@
     "mcmti.midnightconfig.mode.tooltip": "Mod's work mode.",
     "mcmti.midnightconfig.model": "GGML Whisper Model",
     "mcmti.midnightconfig.model.fileChooser": "GGML Whisper Model",
+    "mcmti.midnightconfig.model.fileFilter": "*.bin;*.ggml;*.gguf",
     "mcmti.midnightconfig.model.tooltip": "Path to the GGML Whisper model.",
     "mcmti.midnightconfig.nMaxTextCtx": "nMaxTextCtx",
     "mcmti.midnightconfig.nMaxTextCtx.tooltip": "Max tokens to use from past text as prompt for the decoder.",
