@@ -1,8 +1,11 @@
-[//]: # (Mincrophone Text Input 2.1.9-1.21.11)
+[//]: # (Mincrophone Text Input 2.1.9-rc.4-1.21.11)
 
 ## Changelog
 
+- feat: support loading online models by setting `model` to the URL of the model. Online model [ggml-base.bin](https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.bin) is the default model.
+- feat: add CUDA support, for native library, see [Jaffe2718/whisper-jni/v0.5.6](https://github.com/Jaffe2718/whisper-jni/releases/tag/v0.5.6)
 - adjust: optimize model loading strategy
+- alter: remove unused config `printProgress`, `printRealtime`, `printTimestamps`
 - misc: optimize UI
 
 ## Download Whisper Model
@@ -28,7 +31,7 @@
 
 ## Custom Dynamic Library
 
-1. Download the custom dynamic library from [FreshSupaSulley/whisper-jni/releases](https://github.com/FreshSupaSulley/whisper-jni/releases/tag/v0.5.5) and extract the files.
+1. Download the custom dynamic library from [Jaffe2718/whisper-jni](https://github.com/Jaffe2718/whisper-jni/releases/tag/v0.5.6) and extract the files.
 2. Enable the advanced configuration and set the `useCustomDynamicLib` to `true` in the configuration menu.
 3. Set the `customDynamicLibDir` to the directory where the custom dynamic library is located in the configuration menu.
 4. If you want to use the dynamic library which is supported vulkan, check your check that your computer has drivers and libraries running Vulkan installed.

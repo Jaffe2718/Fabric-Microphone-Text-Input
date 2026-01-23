@@ -6,11 +6,18 @@ import io.github.freshsupasulley.whisperjni.WhisperContext;
 import io.github.freshsupasulley.whisperjni.WhisperFullParams;
 import io.github.freshsupasulley.whisperjni.WhisperGrammar;
 import io.github.freshsupasulley.whisperjni.WhisperJNI;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -29,6 +36,10 @@ public final class SpeechRecognizer {
         destroy();
         try {
             INSTANCE = new SpeechRecognizer();
+            if (MinecraftClient.getInstance() != null
+                    && MinecraftClient.getInstance().player instanceof ClientPlayerEntity player) {
+                player.sendMessage(Text.translatable("message.mcmti.whisperModelLoaded"), true);
+            }
         } catch (IOException e) {
             MicrophoneTextInput.LOGGER.error("Failed to initialize speech recognizer", e);
         }
@@ -77,7 +88,13 @@ public final class SpeechRecognizer {
     }
 
     private SpeechRecognizer() throws IOException {
-        this.ctx = WHISPER.init(Path.of(McmtiConfig.model));
+        @NotNull WhisperContext whisperContext;
+        try (InputStream modelIn = new URI(McmtiConfig.model).toURL().openStream()) {
+            whisperContext = WHISPER.init(modelIn);
+        } catch (IllegalArgumentException | MalformedURLException | URISyntaxException e) {
+            whisperContext = WHISPER.init(Path.of(McmtiConfig.model));
+        }
+        this.ctx = whisperContext;
         if (Path.of(McmtiConfig.grammar).toFile().isFile()) {
             this.grammar = WHISPER.parseGrammar(Files.readString(Path.of(McmtiConfig.grammar)));
         } else {

@@ -2,7 +2,6 @@ package me.jaffe2718.mcmti.config;
 
 import eu.midnightdust.lib.config.MidnightConfig;
 import io.github.freshsupasulley.whisperjni.WhisperFullParams;
-import io.github.freshsupasulley.whisperjni.WhisperSamplingStrategy;
 import me.jaffe2718.mcmti.util.SpeechRecognizer;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -28,8 +27,16 @@ public class McmtiConfig extends MidnightConfig {
         RELEASE_KEY_TO_INPUT,
     }
 
+    public enum SamplingStrategy {
+        GREEDY,
+        BEAM_SEARCH,
+    }
+
+    /**
+     * Whisper model path or url
+     */
     @Entry(category = "general", selectionMode = JFileChooser.FILES_ONLY, width = 4096, fileExtensions = {"bin", "ggml", "gguf"})
-    public static String model = "";
+    public static String model = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.bin";
 
     @Entry(category = "general", width = 15)
     public static String language = "en";
@@ -62,8 +69,6 @@ public class McmtiConfig extends MidnightConfig {
     @Entry(category = "general")
     @Condition(requiredOption = "encodingRepair")
     public static String dstEncoding = Charset.defaultCharset().displayName();   // use system encoding as default
-
-
 
     @ApiStatus.Experimental
     @Entry(category = "advanced")
@@ -156,28 +161,6 @@ public class McmtiConfig extends MidnightConfig {
     public static boolean printSpecial;
 
     /**
-     * Print progress information
-     */
-    @Entry(category = "advanced")
-    @Condition(requiredOption = "advancedConfig")
-    public static boolean printProgress = true;
-
-    /**
-     * Print results from within whisper.cpp (avoid it, use callback instead)
-     */
-    @Entry(category = "advanced")
-    @Condition(requiredOption = "advancedConfig")
-    public static boolean printRealtime;
-
-    /**
-     * Print timestamps for each text segment when printing realtime
-     */
-    @Entry(category = "advanced")
-    @Condition(requiredOption = "advancedConfig")
-    @Condition(requiredOption = "noTimestamps", requiredValue = "false")
-    public static boolean printTimestamps = true;
-
-    /**
      * Decoder option
      */
     @Entry(category = "advanced")
@@ -225,7 +208,7 @@ public class McmtiConfig extends MidnightConfig {
 
     @Entry(category = "advanced")
     @Condition(requiredOption = "advancedConfig")
-    public static WhisperSamplingStrategy whisperSamplingStrategy = WhisperSamplingStrategy.BEAM_SEARCH;
+    public static SamplingStrategy whisperSamplingStrategy = SamplingStrategy.BEAM_SEARCH;
 
     /**
      * Specific to greedy sampling strategy
@@ -306,7 +289,7 @@ public class McmtiConfig extends MidnightConfig {
     public static @NotNull WhisperFullParams getParams() {
         WhisperFullParams params;
         if (advancedConfig) {
-            params = new WhisperFullParams(whisperSamplingStrategy);
+            params = new WhisperFullParams(whisperSamplingStrategy.ordinal());
             params.nThreads = nThreads;
             params.audioCtx = audioCtx;
             params.nMaxTextCtx = nMaxTextCtx;
@@ -324,9 +307,6 @@ public class McmtiConfig extends MidnightConfig {
             params.grammarPenalty = grammarPenalty;
             params.suppressNonSpeechTokens = suppressNonSpeechTokens;
             params.suppressBlank = suppressBlank;
-            params.printTimestamps = printTimestamps;
-            params.printProgress = printProgress;
-            params.printRealtime = printRealtime;
             params.printSpecial = printSpecial;
             params.singleSegment = singleSegment;
             params.initialPrompt = initialPrompt.isBlank() ? null : initialPrompt;
