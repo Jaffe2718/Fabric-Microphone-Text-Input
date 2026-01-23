@@ -32,6 +32,9 @@
     "mcmti.midnightconfig.enum.Mode.RELEASE_KEY_TO_SEND": "释放按键发送",
     "mcmti.midnightconfig.enum.WhisperSamplingStrategy.BEAM_SEARCH": "BEAM_SEARCH",
     "mcmti.midnightconfig.enum.WhisperSamplingStrategy.GREEDY": "GREEDY",
+    "mcmti.midnightconfig.enum.WhisperVad.BUILT_IN": "§aBUILT_IN",
+    "mcmti.midnightconfig.enum.WhisperVad.CUSTOM": "§bCUSTOM",
+    "mcmti.midnightconfig.enum.WhisperVad.DISABLED": "§7DISABLED",
     "mcmti.midnightconfig.grammar": "grammar",
     "mcmti.midnightconfig.grammar.fileChooser": "grammar",
     "mcmti.midnightconfig.grammar.tooltip": "语法文件路径。留空表示不使用语法约束。",
@@ -116,7 +119,7 @@
     "message.mcmti.recognizing": "§e识别中...",
     "message.mcmti.recordingAudio": "§e音频录制中...",
     "message.mcmti.whisperModelLoadFailed": "§cWhisper模型加载失败",
+    "message.mcmti.whisperModelLoaded": "§a模型已加载",
     "modmenu.descriptionTranslation.mcmti": "Minecraft的语音识别聊天消息输入工具。",
-    "modmenu.nameTranslation.mcmti": "麦克风语音识别文本输入",
-    "message.mcmti.whisperModelLoaded": "§a模型已加载"
+    "modmenu.nameTranslation.mcmti": "麦克风语音识别文本输入"
 }

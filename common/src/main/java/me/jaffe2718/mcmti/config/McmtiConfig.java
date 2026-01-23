@@ -1,13 +1,19 @@
 package me.jaffe2718.mcmti.config;
 
 import eu.midnightdust.lib.config.MidnightConfig;
+import eu.midnightdust.lib.util.PlatformFunctions;
+import io.github.freshsupasulley.whisperjni.LibraryUtils;
 import io.github.freshsupasulley.whisperjni.WhisperFullParams;
+import me.jaffe2718.mcmti.MicrophoneTextInput;
 import me.jaffe2718.mcmti.util.SpeechRecognizer;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 
 public class McmtiConfig extends MidnightConfig {
 
@@ -27,9 +33,24 @@ public class McmtiConfig extends MidnightConfig {
         RELEASE_KEY_TO_INPUT,
     }
 
+    /**
+     * Whisper sampling strategy, BEAM_SEARCH is the default
+     */
     public enum SamplingStrategy {
         GREEDY,
         BEAM_SEARCH,
+    }
+
+    /**
+     * Whisper voice activity detection <br>
+     * <br>DISABLED: No voice activity detection
+     * <br>BUILT_IN: Built-in ggml-silero-v6.2.0.bin voice activity detection
+     * <br>CUSTOM: Custom voice activity detection, path required
+     */
+    public enum WhisperVad {
+        DISABLED,
+        BUILT_IN,
+        CUSTOM,
     }
 
     /**
@@ -247,42 +268,42 @@ public class McmtiConfig extends MidnightConfig {
 
     @Entry(category = "advanced")
     @Condition(requiredOption = "advancedConfig")
-    public static boolean vad = false;
+    public static WhisperVad vad = WhisperVad.DISABLED;
 
     @Entry(category = "advanced", selectionMode = JFileChooser.FILES_ONLY, width = 4096, fileExtensions = {"bin", "ggml", "gguf"})
     @Condition(requiredOption = "advancedConfig")
-    @Condition(requiredOption = "vad")
+    @Condition(requiredOption = "vad", requiredValue = "CUSTOM")
     public static String vad_model_path = "";
 
     @Entry(category = "advanced", min = 0f, max = 1f, isSlider = true, precision = 200)
     @Condition(requiredOption = "advancedConfig")
-    @Condition(requiredOption = "vad")
-    public static float vad__threshold = 0f;
+    @Condition(requiredOption = "vad", requiredValue = {"BUILT_IN", "CUSTOM"})
+    public static float vad__threshold = 0.5f;
 
     @Entry(category = "advanced", min = 0)
     @Condition(requiredOption = "advancedConfig")
-    @Condition(requiredOption = "vad")
-    public static int vad__min_speech_duration_ms = 0;
+    @Condition(requiredOption = "vad", requiredValue = {"BUILT_IN", "CUSTOM"})
+    public static int vad__min_speech_duration_ms = 250;
 
     @Entry(category = "advanced", min = 0)
     @Condition(requiredOption = "advancedConfig")
-    @Condition(requiredOption = "vad")
-    public static int vad__min_silence_duration_ms = 0;
+    @Condition(requiredOption = "vad", requiredValue = {"BUILT_IN", "CUSTOM"})
+    public static int vad__min_silence_duration_ms = 100;
 
     @Entry(category = "advanced", min = 0f)
     @Condition(requiredOption = "advancedConfig")
-    @Condition(requiredOption = "vad")
-    public static float vad__max_speech_duration_s = 0f;
+    @Condition(requiredOption = "vad", requiredValue = {"BUILT_IN", "CUSTOM"})
+    public static float vad__max_speech_duration_s = Float.MAX_VALUE;
 
     @Entry(category = "advanced", min = 0)
     @Condition(requiredOption = "advancedConfig")
-    @Condition(requiredOption = "vad")
-    public static int vad__speech_pad_ms = 0;
+    @Condition(requiredOption = "vad", requiredValue = {"BUILT_IN", "CUSTOM"})
+    public static int vad__speech_pad_ms = 30;
 
     @Entry(category = "advanced", min = 0f)
     @Condition(requiredOption = "advancedConfig")
-    @Condition(requiredOption = "vad")
-    public static float vad__samples_overlap = 0f;
+    @Condition(requiredOption = "vad", requiredValue = {"BUILT_IN", "CUSTOM"})
+    public static float vad__samples_overlap = 0.1f;
 
 
 
@@ -314,9 +335,16 @@ public class McmtiConfig extends MidnightConfig {
             params.translate = translate;
             params.noTimestamps = noTimestamps;
             params.durationMs = durationMs;
-            params.vad = vad;
-            if (vad) {
-                params.vad_model_path = vad_model_path.isBlank() ? null : vad_model_path;
+            params.vad = vad != WhisperVad.DISABLED;
+            if (params.vad) {
+                if (vad == WhisperVad.BUILT_IN) {
+                    params.vad_model_path = extractBuiltinVad();
+                } else if (vad == WhisperVad.CUSTOM && !vad_model_path.isBlank() && new File(vad_model_path).isFile()) {
+                    params.vad_model_path = vad_model_path;
+                } else {
+                    params.vad = false;           // Disable VAD if no valid model path
+                    params.vad_model_path = null;
+                }
                 params.vadParams.threshold = vad__threshold;
                 params.vadParams.min_speech_duration_ms = vad__min_speech_duration_ms;
                 params.vadParams.min_silence_duration_ms = vad__min_silence_duration_ms;
@@ -331,5 +359,15 @@ public class McmtiConfig extends MidnightConfig {
         }
         params.language = language;
         return params;
+    }
+
+    private static @NotNull String extractBuiltinVad() {
+        Path vadPath = PlatformFunctions.getConfigDirectory().resolve("ggml-silero-v6.2.0.bin");
+        if (!vadPath.toFile().exists()) {
+            try {
+                LibraryUtils.exportVADModel(MicrophoneTextInput.LOGGER, vadPath);
+            } catch (IOException ignored) {}
+        }
+        return vadPath.toString();
     }
 }

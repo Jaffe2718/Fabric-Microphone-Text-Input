@@ -32,6 +32,9 @@
     "mcmti.midnightconfig.enum.Mode.RELEASE_KEY_TO_SEND": "Release Key To Send",
     "mcmti.midnightconfig.enum.WhisperSamplingStrategy.BEAM_SEARCH": "BEAM_SEARCH",
     "mcmti.midnightconfig.enum.WhisperSamplingStrategy.GREEDY": "GREEDY",
+    "mcmti.midnightconfig.enum.WhisperVad.BUILT_IN": "§aBUILT_IN",
+    "mcmti.midnightconfig.enum.WhisperVad.CUSTOM": "§bCUSTOM",
+    "mcmti.midnightconfig.enum.WhisperVad.DISABLED": "§7DISABLED",
     "mcmti.midnightconfig.grammar": "grammar",
     "mcmti.midnightconfig.grammar.fileChooser": "grammar",
     "mcmti.midnightconfig.grammar.tooltip": "Grammar file path. Empty means no grammar.",
@@ -115,8 +118,8 @@
     "message.mcmti.messageSent": "§aMessage Sent",
     "message.mcmti.recognizing": "§eRecognizing...",
     "message.mcmti.recordingAudio": "§eRecording Audio...",
-    "message.mcmti.whisperModelLoaded": "§aWhisper Model Loaded",
     "message.mcmti.whisperModelLoadFailed": "§cWhisper Model Load Failed",
+    "message.mcmti.whisperModelLoaded": "§aWhisper Model Loaded",
     "modmenu.descriptionTranslation.mcmti": "Speech recognition chat message input tool for Minecraft.",
     "modmenu.nameTranslation.mcmti": "Microphone Text Input"
 }

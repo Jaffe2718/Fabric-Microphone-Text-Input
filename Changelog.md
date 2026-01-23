@@ -1,4 +1,4 @@
-[//]: # (Mincrophone Text Input 2.1.9-rc.4-1.21.11)
+[//]: # (Mincrophone Text Input 2.1.9-rc.5-1.21.11)
 
 ## Changelog
 

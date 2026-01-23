@@ -44,6 +44,7 @@ subprojects {
     }
 
     dependencies {
+        compileOnly 'org.jetbrains:annotations:26.0.2'
         implementation files("$rootDir/lib/whisper-jni/whisper-jni-${whisper_jni_version}.jar")
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
         // mappings loom.officialMojangMappings()
