@@ -4,20 +4,6 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
 }
 
-def downloadWhisperJni() {
-    def whisperJar = new File(rootDir, "lib/whisper-jni/whisper-jni-${project.whisper_jni_version}.jar")
-    if (!whisperJar.exists()) {
-        whisperJar.getParentFile().mkdirs()
-        whisperJar.withOutputStream { outputStream ->
-            def inputStream = new URL("https://github.com/Jaffe2718/whisper-jni/releases/download/v${project.whisper_jni_version}/whisper-jni-${project.whisper_jni_version}.jar").openStream()
-            inputStream.transferTo(outputStream)
-            inputStream.close()
-        }
-    }
-}
-
-downloadWhisperJni()
-
 architectury {
     minecraft = project.minecraft_version
 }
@@ -38,6 +24,7 @@ subprojects {
     }
 
     repositories {
+        mavenLocal()
         maven {
             url = "https://api.modrinth.com/maven"
         }
@@ -45,7 +32,7 @@ subprojects {
 
     dependencies {
         compileOnly 'org.jetbrains:annotations:26.0.2'
-        implementation files("$rootDir/lib/whisper-jni/whisper-jni-${whisper_jni_version}.jar")
+        implementation "io.github.freshsupasulley:whisper-jni:$rootProject.whisper_jni_version"   // install it to mavenLocal() before build
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
         // mappings loom.officialMojangMappings()
 

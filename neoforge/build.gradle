@@ -33,8 +33,9 @@ repositories {
 }
 
 dependencies {
-    neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
+    includeInternal forgeDependencies("io.github.freshsupasulley:whisper-jni:$rootProject.whisper_jni_version")
 
+    neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
     modImplementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
@@ -62,10 +63,7 @@ shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
     from(rootDir.toPath().toString() + "/LICENSE") {
-        rename { "${it}_${project.archivesBaseName}"}
-    }
-    from("/$rootDir/lib/whisper-jni/whisper-jni-${whisper_jni_version}.jar") {
-        exclude 'META-INF/*'
+        rename { "${it}_${rootProject.archives_name}"}
     }
 }
 

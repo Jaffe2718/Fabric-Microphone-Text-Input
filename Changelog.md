@@ -1,4 +1,4 @@
-[//]: # (Mincrophone Text Input 2.1.9-rc.5-1.21.11)
+[//]: # (Mincrophone Text Input 2.1.9-1.21.11)
 
 ## Changelog
 
@@ -10,7 +10,8 @@
 
 ## Download Whisper Model
 
-- [Whisper GGML Model](https://huggingface.co/ggerganov/whisper.cpp/tree/main)
+- [Official Whisper GGML Model](https://huggingface.co/ggerganov/whisper.cpp/tree/main)
+- [Unofficial Whisper GGML Model](https://huggingface.co/Jaffe2718/ggml-whisper-unofficial/tree/main)
 - [VAD Model](https://huggingface.co/ggml-org/whisper-vad)
 
 ## Dependencies
@@ -38,4 +39,9 @@
    ```shell
    vulkaninfo
    ```
-
+5. If you want to use CUDA, check that your computer has drivers and libraries running CUDA installed.
+   ```shell
+   nvidia-smi
+   ```
+   For Linux, you need to install `CUDA Toolkit >= 12.4.0` and configure the environment variables.
+   For Windows, if the game crashes, you have to force the game to use the `Java >= 25`, see [Jaffe2718/whisper-jni/v0.5.6](https://github.com/Jaffe2718/whisper-jni/releases/tag/v0.5.6)

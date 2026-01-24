@@ -33,6 +33,7 @@ configurations {
 }
 
 dependencies {
+    includeInternal "io.github.freshsupasulley:whisper-jni:$rootProject.whisper_jni_version"
 
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 
@@ -63,10 +64,7 @@ shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
     from(rootDir.toPath().toString() + "/LICENSE") {
-        rename { "${it}_${project.archivesBaseName}"}
-    }
-    from("/$rootDir/lib/whisper-jni/whisper-jni-${whisper_jni_version}.jar") {
-        exclude 'META-INF/*'
+        rename { "${it}_${rootProject.archives_name}"}
     }
 }
 
