@@ -54,7 +54,7 @@ public interface EventSystem {
                                 String result = SpeechRecognizer.recognize(audio);
                                 if (!result.isEmpty()) {
                                     player.sendMessage(Text.translatable("message.mcmti.messageSent"), true);
-                                    player.networkHandler.sendChatMessage(McmtiConfig.prefix + result);
+                                    SpeechRecognizer.sendChatMessage(player, result);
                                 }
                             });
                         }
@@ -66,7 +66,7 @@ public interface EventSystem {
                                     if (!result.isEmpty()) {
                                         SCHEDULED_EXECUTOR_SERVICE.schedule(
                                                 () -> player.sendMessage(Text.translatable("message.mcmti.messageSent"), true), 100, TimeUnit.MILLISECONDS);
-                                        player.networkHandler.sendChatMessage(McmtiConfig.prefix + result);
+                                        SpeechRecognizer.sendChatMessage(player, result);
                                     }
                                 });
                             } else if (vthread != null && vthread.isAlive()) {

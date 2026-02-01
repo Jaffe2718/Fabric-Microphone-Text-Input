@@ -2,10 +2,10 @@ package me.jaffe2718.mcmti.util;
 
 import me.jaffe2718.mcmti.MicrophoneTextInput;
 import me.jaffe2718.mcmti.config.McmtiConfig;
-import io.github.freshsupasulley.whisperjni.WhisperContext;
-import io.github.freshsupasulley.whisperjni.WhisperFullParams;
-import io.github.freshsupasulley.whisperjni.WhisperGrammar;
-import io.github.freshsupasulley.whisperjni.WhisperJNI;
+import io.github.jaffe2718.whisperjni.WhisperContext;
+import io.github.jaffe2718.whisperjni.WhisperFullParams;
+import io.github.jaffe2718.whisperjni.WhisperGrammar;
+import io.github.jaffe2718.whisperjni.WhisperJNI;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
@@ -85,6 +85,25 @@ public final class SpeechRecognizer {
             }
         }
         return "";
+    }
+
+    /**
+     * Send a message to the chat, split it into multiple messages if necessary.
+     * Due to the limitation of the chat message length in Minecraft,
+     * the message will be split into multiple parts with prefix and not longer than 256 characters.
+     *
+     * @param player  The player to send the message.
+     * @param message The message to send.
+     */
+    public static void sendChatMessage(@NotNull ClientPlayerEntity player, @NotNull String message) {
+        final int maxLength = 256 - McmtiConfig.prefix.length();
+        while (message.length() > maxLength) {
+            player.networkHandler.sendChatMessage(McmtiConfig.prefix + message.substring(0, maxLength));
+            message = message.substring(maxLength);
+        }
+        if (!message.isEmpty()) {            // send the rest
+            player.networkHandler.sendChatMessage(McmtiConfig.prefix + message);
+        }
     }
 
     private SpeechRecognizer() throws IOException {

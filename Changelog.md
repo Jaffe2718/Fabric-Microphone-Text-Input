@@ -1,12 +1,10 @@
-[//]: # (Mincrophone Text Input 2.1.9-1.21.11)
+[//]: # (Mincrophone Text Input 2.2.0-rc.1-1.21.11)
 
 ## Changelog
 
-- feat: support loading online models by setting `model` to the URL of the model. Online model [ggml-base.bin](https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.bin) is the default model.
-- feat: add CUDA support, for native library, see [Jaffe2718/whisper-jni/v0.5.6](https://github.com/Jaffe2718/whisper-jni/releases/tag/v0.5.6)
-- adjust: optimize model loading strategy
-- alter: remove unused config `printProgress`, `printRealtime`, `printTimestamps`
-- misc: optimize UI
+1. adjust: use `io.github.jaffe2718:whisper-jni:1.0.1` as Whisper dependency, use `musl` libc as default for `Linux + CPU`, current version of the binary dynamic link library is not compatible with the old versions
+2. fix: split the message into multiple parts not longer than 256 characters to avoid overflow due to the limited chat message length of Minecraft
+3. fix: auto switch to default native library if the custom library load failed
 
 ## Download Whisper Model
 
@@ -22,17 +20,32 @@
 
 ## Compatibility
 
-|                 | Windows                         | Linux                           | MacOS                           |
-|-----------------|---------------------------------|---------------------------------|---------------------------------|
-| x86_64          | Compatible                      | Compatible                      | Compatible                      |
-| arm64           | Not compatible                  | Compatible                      | Compatible                      |
-| x86_64 + Vulkan | External dynamic library needed | External dynamic library needed | External dynamic library needed |
-| arm64 + Vulkan  | Not compatible                  | External library needed         | External library needed         |
+|                   | Windows                         | Linux                           | MacOS                           |
+|-------------------|---------------------------------|---------------------------------|---------------------------------|
+| x86_64            | Compatible                      | Compatible                      | Compatible                      |
+| arm64             | Not compatible                  | Compatible                      | Compatible                      |
+| x86_64 + Vulkan   | External dynamic library needed | External dynamic library needed | External dynamic library needed |
+| arm64 + Vulkan    | Not compatible                  | External dynamic library needed | External dynamic library needed |
+| x86_64 + openBLAS | External dynamic library needed | Not compatible                  | Not compatible                  |
+| x86_64 + CUDA     | External dynamic library needed | External dynamic library needed | Not compatible                  |
 
+### NOTE
+The provided dynamic link libraries of `Vulkan` and `CUDA` in [GitHub Releases](https://github.com/Jaffe2718/whisper-jni/releases/tag/v1.0.1) are compiled on `ubuntu-22.04` with `GLIBC 2.35`, and may not be compatible with all Linux distributions. There are some solutions that may work, if your game crashes and it is confirmed in the crash log that it is incompatible between GLIBC versions, you can try any of the following:
+
+1. Use a different version of GLIBC (recommended)
+   1. Check the environment variables for `Vulkan` or `CUDA Toolkit 12.4`
+   2. Download [glibc-2.35.tar.gz](https://ftp.gnu.org/pub/gnu/glibc/glibc-2.35.tar.gz)
+   3. Compile & install at `/path/to/your/glibc-2.35`, **DO NOT** replace the system `glibc` and **DO NOT** set up any global environment variables for it
+   4. Use some launcher that supports custom environment variables, such as [Prism Launcher](https://prismlauncher.org/wiki/help-pages/environment-variables/), set `LD_LIBRARY_PATH` to `/path/to/your/glibc-2.35/lib64`
+2. Compile the dynamic link library yourself and edit the config file of the mod
+   1. Clone the [Jaffe2718/whisper-jni](https://github.com/Jaffe2718/whisper-jni) repository: `git clone https://github.com/Jaffe2718/whisper-jni.git`
+   2. Switch to the tag `v1.0.1`: `cd whisper-jni && git checkout v1.0.1`
+   3. Install `Vulkan SDK` and `ShaderC` for building `Vulkan` dynamic link library, or `CUDA Toolkit 12.4` for building `CUDA` dynamic link library
+   4. Build
 
 ## Custom Dynamic Library
 
-1. Download the custom dynamic library from [Jaffe2718/whisper-jni](https://github.com/Jaffe2718/whisper-jni/releases/tag/v0.5.6) and extract the files.
+1. Download the custom dynamic library from [Jaffe2718/whisper-jni](https://github.com/Jaffe2718/whisper-jni/releases/tag/v1.0.1) and extract the files, **DO NOT USE OTHER VERSIONS**
 2. Enable the advanced configuration and set the `useCustomDynamicLib` to `true` in the configuration menu.
 3. Set the `customDynamicLibDir` to the directory where the custom dynamic library is located in the configuration menu.
 4. If you want to use the dynamic library which is supported vulkan, check your check that your computer has drivers and libraries running Vulkan installed.
@@ -44,4 +57,4 @@
    nvidia-smi
    ```
    For Linux, you need to install `CUDA Toolkit >= 12.4.0` and configure the environment variables.
-   For Windows, if the game crashes, you have to force the game to use the `Java >= 25`, see [Jaffe2718/whisper-jni/v0.5.6](https://github.com/Jaffe2718/whisper-jni/releases/tag/v0.5.6)
+   For Windows, if the game crashes, you have to force the game to use the `Java >= 25`, see [Jaffe2718/whisper-jni/v1.0.1](https://github.com/Jaffe2718/whisper-jni/releases/tag/v1.0.1)

@@ -1,9 +1,10 @@
 package me.jaffe2718.mcmti;
 
 
-import io.github.freshsupasulley.whisperjni.LibraryUtils;
+import io.github.jaffe2718.whisperjni.LibraryUtils;
 import me.jaffe2718.mcmti.config.McmtiConfig;
 import me.jaffe2718.mcmti.util.AudioRecorder;
+import me.jaffe2718.mcmti.util.EventUtil;
 import me.jaffe2718.mcmti.util.SpeechRecognizer;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -32,8 +33,15 @@ public final class MicrophoneTextInput {
             } else {
                 SpeechRecognizer.WHISPER.loadLibrary(LOGGER);
             }
-        } catch (IOException ignored) {}
+        } catch (IOException ioe) {
+            LOGGER.error("Failed to load library", ioe);
+            LOGGER.warn("Using default library");
+            try {
+                SpeechRecognizer.WHISPER.loadLibrary(LOGGER);
+            } catch (IOException ignored) {}
+        }
         AudioRecorder.init();
         SpeechRecognizer.init();
+        EventUtil.register();
     }
 }

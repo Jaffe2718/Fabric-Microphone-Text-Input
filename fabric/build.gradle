@@ -33,7 +33,7 @@ configurations {
 }
 
 dependencies {
-    includeInternal "io.github.freshsupasulley:whisper-jni:$rootProject.whisper_jni_version"
+    includeInternal "io.github.jaffe2718:whisper-jni:$rootProject.whisper_jni_version"
 
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 

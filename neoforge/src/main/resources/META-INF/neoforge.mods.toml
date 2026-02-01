@@ -13,7 +13,7 @@ Speech recognition chat message input tool for Minecraft.
 
 Whisper Model: https://huggingface.co/ggerganov/whisper.cpp
 
-Custom Lib: https://github.com/FreshSupaSulley/whisper-jni/releases
+Custom Lib: https://github.com/Jaffe2718/whisper-jni/releases/tag/v1.0.1
 
 VAD: https://huggingface.co/ggml-org/whisper-vad
 '''

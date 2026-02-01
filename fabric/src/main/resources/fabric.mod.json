@@ -63,7 +63,7 @@
         "modmenu": {
             "links": {
                 "Modrinth": "https://modrinth.com/mod/mcmti",
-                "FreshSupaSulley/whisper-jni": "https://github.com/FreshSupaSulley/whisper-jni",
+                "Jaffe2718/whisper-jni": "https://github.com/Jaffe2718/whisper-jni",
                 "VAD": "https://huggingface.co/ggml-org/whisper-vad",
                 "mcmti.huggingface.ggerganov.whisper_cpp.model": "https://huggingface.co/ggerganov/whisper.cpp/tree/main"
             },

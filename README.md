@@ -99,7 +99,7 @@ experience.
 | customDynamicLibDir          | `mcmti.midnightconfig.customDynamicLibDir`          | `me.jaffe2718.mcmti.config.McmtiConfig.customDynamicLibDir`          | `String`                                                 | `""`          | Custom dynamic link library directory for Whisper.                                  |
 
 - For more info,
-  see [WhisperFullParams.java](https://github.com/Jaffe2718/whisper-jni/blob/dev/src/main/java/io/github/freshsupasulley/whisperjni/WhisperFullParams.java)
+  see [WhisperFullParams.java](https://github.com/Jaffe2718/whisper-jni/blob/v1.0.1/src/main/java/io/github/jaffe2718/whisperjni/WhisperFullParams.java)
 
 > WARNING: Activating the advanced configuration will change the default parameters of the Whisper model configuration,
 > which will have a critical impact on the speech recognition results. Inappropriate configuration of advanced
@@ -135,7 +135,9 @@ enable the advanced configuration and set the `vad_model_path` to the path of th
 
 ## Troubleshooting
 
-- **Crash on Startup**: Please check the compatibility of your use of the dynamic link library, you can disable the advanced configuration and set the `useCustomDynamicLib` to `false` to use the default dynamic library (CPU version).
+- **Crash on Startup**: 
+    1. Please check the compatibility and version of your use of the dynamic link library. You can disable the advanced configuration and set the `useCustomDynamicLib` to `false` to use the default dynamic library (CPU version).
+    2. For Linux users, please check the `GLIBC` compatibility and version. The default dynamic library is compiled with `musl`, but the CUDA/Vulkan libraries are compiled on `ubuntu-22.04` with `GLIBC 2.35`.
 - **Audio Input Device Load Failed**: Please check if Java has access to the audio input device.
 - **Whisper Model Load Failed**: Make sure the path to the GGML Whisper model is correct.
 

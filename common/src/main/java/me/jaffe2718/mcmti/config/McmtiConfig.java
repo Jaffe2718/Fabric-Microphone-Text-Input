@@ -2,8 +2,8 @@ package me.jaffe2718.mcmti.config;
 
 import eu.midnightdust.lib.config.MidnightConfig;
 import eu.midnightdust.lib.util.PlatformFunctions;
-import io.github.freshsupasulley.whisperjni.LibraryUtils;
-import io.github.freshsupasulley.whisperjni.WhisperFullParams;
+import io.github.jaffe2718.whisperjni.LibraryUtils;
+import io.github.jaffe2718.whisperjni.WhisperFullParams;
 import me.jaffe2718.mcmti.MicrophoneTextInput;
 import me.jaffe2718.mcmti.util.SpeechRecognizer;
 import org.jetbrains.annotations.ApiStatus;
@@ -77,7 +77,7 @@ public class McmtiConfig extends MidnightConfig {
     @Condition(requiredOption = "mode", requiredValue = "RELEASE_KEY_TO_INPUT")
     public static boolean draftInput = false;
 
-    @Entry(category = "general")
+    @Entry(category = "general", width = 64)
     public static String prefix = "⌈Speech Input⌋";
 
     @Entry(category = "general")

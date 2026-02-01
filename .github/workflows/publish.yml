@@ -44,38 +44,6 @@ jobs:
                     echo gh_is_prerelease=$MODRINTH_VERSION_TYPE
                     echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
 
-            -   name: Install GH Jar to Local Maven
-                run: |
-                    W_VERSION="${{ steps.read_gradle_properties.outputs.whisper_jni_version }}"
-                    W_TAG_URL="https://github.com/Jaffe2718/whisper-jni/releases/download/v${W_VERSION}"
-                    
-                    curl -L -o "whisper-jni-${W_VERSION}.jar" "${W_TAG_URL}/whisper-jni-${W_VERSION}.jar"
-                    curl -L -o "whisper-jni-${W_VERSION}-sources.jar" "${W_TAG_URL}/whisper-jni-${W_VERSION}-sources.jar"
-                    curl -L -o "whisper-jni-${W_VERSION}-javadoc.jar" "${W_TAG_URL}/whisper-jni-${W_VERSION}-javadoc.jar"
-                    
-                    mvn install:install-file \
-                        -Dfile="whisper-jni-${W_VERSION}.jar" \
-                        -DgroupId="io.github.freshsupasulley" \
-                        -DartifactId="whisper-jni" \
-                        -Dversion="${W_VERSION}" \
-                        -Dpackaging=jar
-                    
-                    mvn install:install-file \
-                        -Dfile="whisper-jni-${W_VERSION}-sources.jar" \
-                        -DgroupId="io.github.freshsupasulley" \
-                        -DartifactId="whisper-jni" \
-                        -Dversion="${W_VERSION}" \
-                        -Dpackaging=jar \
-                        -Dclassifier=sources
-                    
-                    mvn install:install-file \
-                        -Dfile="whisper-jni-${W_VERSION}-javadoc.jar" \
-                        -DgroupId="io.github.freshsupasulley" \
-                        -DartifactId="whisper-jni" \
-                        -Dversion="${W_VERSION}" \
-                        -Dpackaging=jar \
-                        -Dclassifier=javadoc
-
             -   name: Modrinth Publish
                 env:
                     MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}

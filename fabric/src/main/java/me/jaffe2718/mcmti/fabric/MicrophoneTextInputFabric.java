@@ -1,7 +1,6 @@
 package me.jaffe2718.mcmti.fabric;
 
 import me.jaffe2718.mcmti.MicrophoneTextInput;
-import me.jaffe2718.mcmti.util.EventUtil;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 
@@ -11,6 +10,5 @@ public final class MicrophoneTextInputFabric implements ClientModInitializer {
     public void onInitializeClient() {
         KeyBindingHelper.registerKeyBinding(MicrophoneTextInput.RECOGNIZE_KEY);
         MicrophoneTextInput.init();
-        EventUtil.register();
     }
 }

@@ -2,7 +2,6 @@ package me.jaffe2718.mcmti.neoforge;
 
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
 import me.jaffe2718.mcmti.MicrophoneTextInput;
-import me.jaffe2718.mcmti.util.EventUtil;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.Mod;
 
@@ -12,6 +11,5 @@ public final class MicrophoneTextInputNeoForge {
     public MicrophoneTextInputNeoForge() {
         KeyMappingRegistry.register(MicrophoneTextInput.RECOGNIZE_KEY);
         MicrophoneTextInput.init();
-        EventUtil.register();
     }
 }
