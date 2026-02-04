@@ -71,6 +71,7 @@ remapJar {
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = 'ynA13Vjn'
+    versionNumber = rootProject.mod_version + "-fabric"
     versionType = rootProject.modrinth_version_type
     uploadFile = remapJar
     loaders = ["fabric", "quilt"]
