@@ -32,6 +32,7 @@ jobs:
                     MINECRAFT_VERSION=$(sed -n 's/^[[:space:]]*minecraft_version[[:space:]]*=[[:space:]]*\(.*\)[[:space:]]*$/\1/p' gradle.properties)
                     TAG_NAME="v${MOD_VERSION}-${MINECRAFT_VERSION}"
                     MODRINTH_VERSION_TYPE=$(sed -n 's/^[[:space:]]*modrinth_version_type[[:space:]]*=[[:space:]]*\(.*\)[[:space:]]*$/\1/p' gradle.properties)
+                    RELEASE_TITLE="Microphone Text Input ${MOD_VERSION}-${MINECRAFT_VERSION}"
 
                     echo "Modrinth Version Type: $MODRINTH_VERSION_TYPE"
                     
@@ -43,6 +44,7 @@ jobs:
                     fi
                     echo gh_is_prerelease=$MODRINTH_VERSION_TYPE
                     echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+                    echo "release_title=${RELEASE_TITLE}" >> $GITHUB_OUTPUT
 
             -   name: Modrinth Publish
                 env:
@@ -51,19 +53,6 @@ jobs:
                     ./gradlew :fabric:modrinth
                     ./gradlew :neoforge:modrinth
 
-            -   name: Read Changelog
-                id: read_changelog
-                run: |
-                    if [ -f "Changelog.md" ]; then
-                      FIRST_LINE=$(head -n 1 Changelog.md)
-                      RELEASE_TITLE=$(echo "$FIRST_LINE" | awk -F '[()]' '{print $2}')
-                      echo "release_title=$RELEASE_TITLE"
-                      echo "release_title=$RELEASE_TITLE" >> $GITHUB_OUTPUT
-                    else
-                      echo "Changelog.md not found. Using default values."
-                      echo "release_title=Release ${{ steps.read_gradle_properties.outputs.tag_name }}" >> $GITHUB_OUTPUT
-                    fi
-
             -   name: Create Release
                 id: create_release
                 uses: actions/create-release@v1
@@ -71,7 +60,7 @@ jobs:
                     GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
                 with:
                     tag_name: ${{ steps.read_gradle_properties.outputs.tag_name }}
-                    release_name: ${{ steps.read_changelog.outputs.release_title }}
+                    release_name: ${{ steps.read_gradle_properties.outputs.release_title }}
                     body_path: Changelog.md
                     draft: false
                     prerelease: ${{ steps.read_gradle_properties.outputs.gh_is_prerelease }}

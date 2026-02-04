@@ -6,25 +6,31 @@ import io.github.jaffe2718.whisperjni.LibraryUtils;
 import io.github.jaffe2718.whisperjni.WhisperFullParams;
 import me.jaffe2718.mcmti.MicrophoneTextInput;
 import me.jaffe2718.mcmti.util.SpeechRecognizer;
+import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
+import javax.swing.JFileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class McmtiConfig extends MidnightConfig {
 
     /**
      * Called when the config is saved.
      * Use this to reload the whisper model & grammar
+     * Reflash whisper full params when config is saved
+     * @see McmtiConfig#wFullParams
      */
     @Override
     public void writeChanges() {
         super.writeChanges();
         Thread.ofVirtual().start(SpeechRecognizer::init);
+        wFullParams = McmtiConfig.getParams();
     }
 
     public enum Mode {
@@ -305,9 +311,12 @@ public class McmtiConfig extends MidnightConfig {
     @Condition(requiredOption = "vad", requiredValue = {"BUILT_IN", "CUSTOM"})
     public static float vad__samples_overlap = 0.1f;
 
-
-
-    public static @NotNull WhisperFullParams getParams() {
+    /**
+     * Get whisper full params
+     * @return WhisperFullParams
+     * @see WhisperFullParams
+     */
+    private static @NotNull WhisperFullParams getParams() {
         WhisperFullParams params;
         if (advancedConfig) {
             params = new WhisperFullParams(whisperSamplingStrategy.ordinal());
@@ -361,10 +370,37 @@ public class McmtiConfig extends MidnightConfig {
         return params;
     }
 
+    /**
+     * Whisper full params, updated when config is saved
+     * @see McmtiConfig#getParams()
+     * @see McmtiConfig#writeChanges()
+     */
+    public static @NotNull WhisperFullParams wFullParams = McmtiConfig.getParams();
+
+    /**
+     * Extract builtin vad model if not exists
+     * <a href="https://huggingface.co/ggml-org/whisper-vad/blob/main/ggml-silero-v6.2.0.bin"><br>ggml-silero-v6.2.0.bin<br></a>
+     */
     private static @NotNull String extractBuiltinVad() {
         Path vadPath = PlatformFunctions.getConfigDirectory().resolve("ggml-silero-v6.2.0.bin");
-        if (!vadPath.toFile().exists()) {
+        boolean valid = vadPath.toFile().exists() && vadPath.toFile().isFile();
+        if (valid) {    // get sha256
             try {
+                MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+                messageDigest.update(FileUtils.readFileToByteArray(vadPath.toFile()));
+                byte[] sha256b = messageDigest.digest();
+                StringBuilder sha256Str = new StringBuilder();
+                for (byte b : sha256b) {
+                    sha256Str.append(String.format("%02x", 0xff & b));
+                }
+                valid = "2aa269b785eeb53a82983a20501ddf7c1d9c48e33ab63a41391ac6c9f7fb6987".contentEquals(sha256Str);
+            } catch (NoSuchAlgorithmException | IOException ignored) {
+                valid = false;
+            }
+        }
+        if (!valid) {
+            try {
+                FileUtils.deleteQuietly(vadPath.toFile());
                 LibraryUtils.exportVADModel(MicrophoneTextInput.LOGGER, vadPath);
             } catch (IOException ignored) {}
         }

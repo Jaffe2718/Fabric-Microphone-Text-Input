@@ -34,19 +34,15 @@ configurations {
 
 dependencies {
     includeInternal "io.github.jaffe2718:whisper-jni:$rootProject.whisper_jni_version"
-
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
-
     modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
-
-    modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
-
-    modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+//    modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
+    modImplementation "maven.modrinth:midnightlib:${rootProject.midnightlib_version}-fabric"
+//    modRuntimeOnly "com.terraformersmc:modmenu:${rootProject.modmenu_version}"
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 
-    modImplementation "maven.modrinth:midnightlib:${rootProject.midnightlib_version}-fabric"
 }
 
 processResources {
@@ -63,30 +59,14 @@ processResources {
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
+}
+
+remapJar {
+    inputFile.set shadowJar.archiveFile
     from(rootDir.toPath().toString() + "/LICENSE") {
         rename { "${it}_${rootProject.archives_name}"}
     }
 }
-
-remapJar {
-    input.set shadowJar.archiveFile
-}
-
-def publish_changelog = {
-    if (rootProject.file('Changelog.md').exists()) {
-        println('Found Changelog.md')
-        def changelog = ''
-        rootProject.file('Changelog.md').readLines().each { line ->
-            if (!line.startsWith('# ')) {
-                changelog += line + '\n'
-            }
-        }
-        return changelog
-    } else {
-        println('Changelog.md not found, skipping changelog upload')
-        return ''
-    }
-}()
 
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
@@ -99,5 +79,5 @@ modrinth {
         required.project 'midnightlib'
         optional.project 'modmenu'
     }
-    changelog = publish_changelog
+    changelog = rootProject.ext.publish_changelog
 }

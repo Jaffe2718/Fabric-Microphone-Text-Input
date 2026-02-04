@@ -13,6 +13,16 @@ allprojects {
     version = rootProject.mod_version
 }
 
+project.ext.publish_changelog = {
+    if (project.file('Changelog.md').exists()) {
+        println('Found Changelog.md')
+        return project.file('Changelog.md').text
+    } else {
+        println('Changelog.md not found, skipping changelog upload')
+        return ''
+    }
+}()
+
 subprojects {
     apply plugin: 'dev.architectury.loom'
     apply plugin: 'architectury-plugin'

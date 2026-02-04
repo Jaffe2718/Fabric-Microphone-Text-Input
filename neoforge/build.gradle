@@ -62,30 +62,14 @@ tasks.named('runClient') {
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
+}
+
+remapJar {
+    inputFile.set shadowJar.archiveFile
     from(rootDir.toPath().toString() + "/LICENSE") {
         rename { "${it}_${rootProject.archives_name}"}
     }
 }
-
-remapJar {
-    input.set shadowJar.archiveFile
-}
-
-def publish_changelog = {
-    if (rootProject.file('Changelog.md').exists()) {
-        println('Found Changelog.md')
-        def changelog = ''
-        rootProject.file('Changelog.md').readLines().each { line ->
-            if (!line.startsWith('# ')) {
-                changelog += line + '\n'
-            }
-        }
-        return changelog
-    } else {
-        println('Changelog.md not found, skipping changelog upload')
-        return ''
-    }
-}()
 
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
@@ -97,5 +81,5 @@ modrinth {
         required.project 'architectury-api'
         required.project 'midnightlib'
     }
-    changelog = publish_changelog
+    changelog = rootProject.ext.publish_changelog
 }

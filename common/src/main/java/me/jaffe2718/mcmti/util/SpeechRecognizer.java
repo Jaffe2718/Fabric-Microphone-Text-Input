@@ -70,7 +70,7 @@ public final class SpeechRecognizer {
 
     public static @NotNull String recognize(float[] audio) {
         if (INSTANCE == null) return "";
-        WhisperFullParams params = McmtiConfig.getParams();
+        WhisperFullParams params = McmtiConfig.wFullParams;
         params.grammar = INSTANCE.grammar;
         int flag = WHISPER.full(INSTANCE.ctx, params, audio, audio.length);
         if (flag == 0 && WHISPER.fullNSegments(INSTANCE.ctx) > 0) {
