@@ -17,7 +17,7 @@
 
 | Minecraft | Fabric                                                                                                                                                                                       | NeoForge                                                                                                                                                                                                     |
 |-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1.21.11   | [fabric-api 0.141.3+1.21.11](https://modrinth.com/mod/fabric-api/version/0.141.3+1.21.11) <br> [midnightlib 1.9.2-fabric](https://modrinth.com/mod/midnightlib/version/1.9.2+1.21.10-fabric) | [architechury-api 19.0.1+neoforge](https://modrinth.com/mod/architectury-api/version/19.0.1+neoforge) <br> [midnightlib 1.9.2-neoforge](https://modrinth.com/mod/midnightlib/version/1.9.2+1.21.10-neoforge) |
+| 1.21.11   | [fabric-api 0.141.3+1.21.11](https://modrinth.com/mod/fabric-api/version/0.141.3+1.21.11) <br> [midnightlib 1.9.2-fabric](https://modrinth.com/mod/midnightlib/version/1.9.2+1.21.11-fabric) | [architechury-api 19.0.1+neoforge](https://modrinth.com/mod/architectury-api/version/19.0.1+neoforge) <br> [midnightlib 1.9.2-neoforge](https://modrinth.com/mod/midnightlib/version/1.9.2+1.21.11-neoforge) |
 
 ## Compatibility
 
