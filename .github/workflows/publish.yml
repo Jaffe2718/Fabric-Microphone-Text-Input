@@ -1,4 +1,4 @@
-name: Publish - ${{ github.event.inputs.title || github.sha }}
+name: Publish
 
 on:
     workflow_dispatch:
@@ -6,10 +6,11 @@ on:
             title:
                 description: 'run title'
                 required: false
-                default: 'Publish'
+                default: ''
 
 jobs:
     publish:
+        name: Publish ${github.event.inputs.title}
         runs-on: ubuntu-latest
         permissions:
             contents: read
