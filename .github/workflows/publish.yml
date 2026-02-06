@@ -10,7 +10,7 @@ on:
 
 jobs:
     publish:
-        name: Publish ${github.event.inputs.title}
+        name: Publish ${{ github.event.inputs.title }}
         runs-on: ubuntu-latest
         permissions:
             contents: read
