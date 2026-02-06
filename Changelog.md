@@ -6,6 +6,7 @@
    message length of Minecraft
 3. fix: auto switch to default native library if the custom library load failed
 4. optimize: use `SHA-256` checksum for built-in VAD
+5. adjust: description of the mod to include the link of the unofficial Whisper model
 
 ## Download Whisper Model
 

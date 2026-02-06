@@ -3,7 +3,6 @@
     "key.mcmti.recognize": "Reconocer",
     "mcmti.gui.config.advanced.warn": "ADVERTENCIA: Activar la configuración avanzada cambiará los parámetros predeterminados de la configuración del modelo Whisper, lo cual tendrá un impacto crítico en los resultados del reconocimiento de voz. Una configuración inapropiada de los parámetros avanzados puede causar problemas como fallos en el reconocimiento de voz, alto consumo de recursos del equipo y bloqueos del programa. Utilice con precaución.",
     "mcmti.gui.config.advanced.warn.title": "§l§cHabilitar configuración avanzada",
-    "mcmti.huggingface.ggerganov.whisper_cpp.model": "Descargar modelo GGML Whisper",
     "mcmti.midnightconfig.advancedConfig": "§cHabilitar configuración avanzada",
     "mcmti.midnightconfig.advancedConfig.tooltip": "Habilita la configuración avanzada.",
     "mcmti.midnightconfig.audioCtx": "audioCtx",
