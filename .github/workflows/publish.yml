@@ -1,9 +1,12 @@
-name: Publish
+name: Publish - ${{ github.event.inputs.title || github.sha }}
 
 on:
-    push:
-        branches:
-            - 2.x
+    workflow_dispatch:
+        inputs:
+            title:
+                description: 'run title'
+                required: false
+                default: 'Publish'
 
 jobs:
     publish:
