@@ -9,7 +9,6 @@ import me.jaffe2718.mcmti.util.SpeechRecognizer;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
-import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +19,7 @@ import java.nio.file.Path;
 public final class MicrophoneTextInput {
     public static final String MOD_ID = "mcmti";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final KeyBinding.Category MICROPHONE_TEXT_INPUT_CATEGORY = new KeyBinding.Category(Identifier.ofVanilla(MOD_ID));
-    public static final KeyBinding RECOGNIZE_KEY = new KeyBinding("key.mcmti.recognize", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_V, MICROPHONE_TEXT_INPUT_CATEGORY);
+    public static final KeyBinding RECOGNIZE_KEY = new KeyBinding("key.mcmti.recognize", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_V, "key.category.minecraft.mcmti");
 
 
     public static void init() {

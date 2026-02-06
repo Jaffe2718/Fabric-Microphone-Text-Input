@@ -79,10 +79,6 @@ public class McmtiConfig extends MidnightConfig {
     @Condition(requiredOption = "mode", requiredValue = {"RELEASE_KEY_TO_SEND", "RELEASE_KEY_TO_INPUT"})
     public static int recordBufferSize = 1024;    // unit: byte, default: 1024 bytes
 
-    @Entry(category = "general")
-    @Condition(requiredOption = "mode", requiredValue = "RELEASE_KEY_TO_INPUT")
-    public static boolean draftInput = false;
-
     @Entry(category = "general", width = 64)
     public static String prefix = "⌈Speech Input⌋";
 
