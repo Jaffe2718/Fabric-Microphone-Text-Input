@@ -6,6 +6,7 @@
    message length of Minecraft
 3. fix: auto switch to default native library if the custom library load failed
 4. optimize: use `SHA-256` checksum for built-in VAD
+5. adjust: description of the mod to include the link of the unofficial Whisper model
 
 ## Download Whisper Model
 
@@ -17,7 +18,9 @@
 
 | Minecraft | Fabric                                                                                                                                                                                       | NeoForge                                                                                                                                                                                                     |
 |-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1.21.11   | [fabric-api 0.141.3+1.21.11](https://modrinth.com/mod/fabric-api/version/0.141.3+1.21.11) <br> [midnightlib 1.9.2-fabric](https://modrinth.com/mod/midnightlib/version/1.9.2+1.21.11-fabric) | [architechury-api 19.0.1+neoforge](https://modrinth.com/mod/architectury-api/version/19.0.1+neoforge) <br> [midnightlib 1.9.2-neoforge](https://modrinth.com/mod/midnightlib/version/1.9.2+1.21.11-neoforge) |
+| 1.21.9    | [fabric-api 0.134.1+1.21.9](https://modrinth.com/mod/fabric-api/version/0.134.1+1.21.9) <br> [midnightlib 1.9.2-fabric](https://modrinth.com/mod/midnightlib/version/1.9.2+1.21.10-fabric)   | [architechury-api 18.0.5+neoforge](https://modrinth.com/mod/architectury-api/version/18.0.5+neoforge) <br> [midnightlib 1.9.2-neoforge](https://modrinth.com/mod/midnightlib/version/1.9.2+1.21.10-neoforge) |
+| 1.21.10   | [fabric-api 0.138.4+1.21.10](https://modrinth.com/mod/fabric-api/version/0.138.4+1.21.10) <br> [midnightlib 1.9.2-fabric](https://modrinth.com/mod/midnightlib/version/1.9.2+1.21.10-fabric) | [architechury-api 18.0.8+neoforge](https://modrinth.com/mod/architectury-api/version/18.0.8+neoforge) <br> [midnightlib 1.9.2-neoforge](https://modrinth.com/mod/midnightlib/version/1.9.2+1.21.10-neoforge) |
+
 
 ## Compatibility
 

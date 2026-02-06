@@ -3,7 +3,6 @@
     "key.mcmti.recognize": "录音并识别",
     "mcmti.gui.config.advanced.warn": "警告：激活高级配置将更改Whisper模型配置的默认参数，这将对语音识别结果产生严重影响。高级参数配置不当会导致语音识别失败、计算机资源使用率高、程序崩溃等问题。请谨慎使用。",
     "mcmti.gui.config.advanced.warn.title": "§l§c启用高级配置",
-    "mcmti.huggingface.ggerganov.whisper_cpp.model": "下载Whisper GGML模型",
     "mcmti.midnightconfig.advancedConfig": "§c启用高级配置",
     "mcmti.midnightconfig.advancedConfig.tooltip": "启用高级配置。",
     "mcmti.midnightconfig.audioCtx": "audioCtx",

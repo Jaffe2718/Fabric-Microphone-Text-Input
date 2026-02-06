@@ -65,7 +65,8 @@
                 "Modrinth": "https://modrinth.com/mod/mcmti",
                 "Jaffe2718/whisper-jni": "https://github.com/Jaffe2718/whisper-jni",
                 "VAD": "https://huggingface.co/ggml-org/whisper-vad",
-                "mcmti.huggingface.ggerganov.whisper_cpp.model": "https://huggingface.co/ggerganov/whisper.cpp/tree/main"
+                "Official Whisper Model": "https://huggingface.co/ggerganov/whisper.cpp",
+                "Unofficial Whisper Model": "https://huggingface.co/Jaffe2718/ggml-whisper-unofficial"
             },
             "update_checker": true
         }

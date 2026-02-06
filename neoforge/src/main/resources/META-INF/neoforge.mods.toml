@@ -11,10 +11,9 @@ authors = "Jaffe2718"
 description = '''
 Speech recognition chat message input tool for Minecraft.
 
-Whisper Model: https://huggingface.co/ggerganov/whisper.cpp
-
+Official Whisper Model: https://huggingface.co/ggerganov/whisper.cpp
+Unofficial Whisper Model: https://huggingface.co/Jaffe2718/ggml-whisper-unofficial
 Custom Lib: https://github.com/Jaffe2718/whisper-jni/releases/tag/v1.0.1
-
 VAD: https://huggingface.co/ggml-org/whisper-vad
 '''
 logoFile = "assets/mcmti/icon.png"
