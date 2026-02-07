@@ -75,7 +75,7 @@ modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = 'ynA13Vjn'
     versionNumber = rootProject.mod_version + "-neoforge"
-    versionType = rootProject.modrinth_version_type
+    versionType = rootProject.getPublishVersionType()
     uploadFile = remapJar
     loaders = ["neoforge"]
     dependencies {
