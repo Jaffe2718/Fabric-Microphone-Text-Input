@@ -23,6 +23,16 @@ project.ext.publish_changelog = {
     }
 }()
 
+ext.getPublishVersionType = {
+    if (project.mod_version.contains("alpha")) {
+        return 'alpha'
+    } else if (project.mod_version.contains("rc") || project.mod_version.contains("beta")) {
+        return 'beta'
+    } else {
+        return 'release'
+    }
+}
+
 subprojects {
     apply plugin: 'dev.architectury.loom'
     apply plugin: 'architectury-plugin'

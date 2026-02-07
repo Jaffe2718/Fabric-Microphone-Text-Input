@@ -35,7 +35,13 @@ jobs:
                     MOD_VERSION=$(sed -n 's/^[[:space:]]*mod_version[[:space:]]*=[[:space:]]*\(.*\)[[:space:]]*$/\1/p' gradle.properties)
                     MINECRAFT_VERSION=$(sed -n 's/^[[:space:]]*minecraft_version[[:space:]]*=[[:space:]]*\(.*\)[[:space:]]*$/\1/p' gradle.properties)
                     TAG_NAME="v${MOD_VERSION}-${MINECRAFT_VERSION}"
-                    MODRINTH_VERSION_TYPE=$(sed -n 's/^[[:space:]]*modrinth_version_type[[:space:]]*=[[:space:]]*\(.*\)[[:space:]]*$/\1/p' gradle.properties)
+                    if [[ "$MOD_VERSION" =~ alpha ]]; then
+                        MODRINTH_VERSION_TYPE="alpha"
+                    elif [[ "$MOD_VERSION" =~ rc|beta ]]; then
+                        MODRINTH_VERSION_TYPE="beta"
+                    else
+                        MODRINTH_VERSION_TYPE="release"
+                    fi
                     RELEASE_TITLE="Microphone Text Input ${MOD_VERSION}-${MINECRAFT_VERSION}"
 
                     echo "Modrinth Version Type: $MODRINTH_VERSION_TYPE"
