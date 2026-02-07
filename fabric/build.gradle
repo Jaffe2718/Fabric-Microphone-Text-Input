@@ -66,6 +66,7 @@ remapJar {
     from(rootDir.toPath().toString() + "/LICENSE") {
         rename { "${it}_${rootProject.archives_name}"}
     }
+    archiveFileName = "${rootProject.archives_name}-${rootProject.version}+${project.minecraft_version}-${project.name}.jar"
 }
 
 modrinth {
