@@ -119,6 +119,7 @@
     "message.mcmti.recordingAudio": "§e音频录制中...",
     "message.mcmti.whisperModelLoadFailed": "§cWhisper模型加载失败",
     "message.mcmti.whisperModelLoaded": "§a模型已加载",
+    "message.mcmti.whisperModelLoading": "§e加载Whisper模型...",
     "modmenu.descriptionTranslation.mcmti": "Minecraft的语音识别聊天消息输入工具。",
     "modmenu.nameTranslation.mcmti": "麦克风语音识别文本输入"
 }
