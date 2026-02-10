@@ -119,6 +119,7 @@
     "message.mcmti.recordingAudio": "§eجاري تسجيل الصوت...",
     "message.mcmti.whisperModelLoadFailed": "§cفشل تحميل نموذج Whisper",
     "message.mcmti.whisperModelLoaded": "§aنموذج ويسبر محمل",
+    "message.mcmti.whisperModelLoading": "§eتحميل نموذج الهمس",
     "modmenu.descriptionTranslation.mcmti": "أداة إدخال رسائل الدردشة بالترجمة الصوتية لـ Minecraft.",
     "modmenu.nameTranslation.mcmti": "إدخال نص من الميكروفون"
 }
