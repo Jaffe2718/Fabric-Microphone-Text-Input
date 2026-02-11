@@ -24,25 +24,25 @@ modId = "neoforge"
 type = "required"
 versionRange = "${neoforge_versionRange}"
 ordering = "NONE"
-side = "BOTH"
+side = "CLIENT"
 
 [[dependencies.mcmti]]
 modId = "minecraft"
 type = "required"
 versionRange = "${mc_versionRange}"
 ordering = "NONE"
-side = "BOTH"
+side = "CLIENT"
 
 [[dependencies.mcmti]]
 modId = "midnightlib"
 mandatory = true
 versionRange = "[1.0,)"
 ordering = "AFTER"
-side = "BOTH"
+side = "CLIENT"
 
 [[dependencies.mcmti]]
 modId = "architectury"
 mandatory = true
 versionRange = "${architectury_versionRange}"
 ordering = "AFTER"
-side = "BOTH"
+side = "CLIENT"

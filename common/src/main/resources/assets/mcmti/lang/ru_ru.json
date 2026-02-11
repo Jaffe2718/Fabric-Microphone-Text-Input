@@ -117,6 +117,7 @@
     "message.mcmti.recordingAudio": "§eЗапись аудио...",
     "message.mcmti.whisperModelLoadFailed": "§cНе удалось загрузить модель Whisper",
     "message.mcmti.whisperModelLoaded": "§aМодель Whisper загружена",
+    "message.mcmti.whisperModelLoading": "§eЗагрузка модели Whisper...",
     "modmenu.descriptionTranslation.mcmti": "Инструмент ввода чат - сообщений с использованием распознавания речи для Minecraft.",
     "modmenu.nameTranslation.mcmti": "Ввод текста с помощью микрофона"
 }
