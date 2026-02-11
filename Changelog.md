@@ -1,6 +1,6 @@
 ## Changelog
 
-- improve: compatibility with Minecraft from 1.21 to 1.21.8
+1. adjust: optimize toast messages
 
 ## Download Whisper Model
 
