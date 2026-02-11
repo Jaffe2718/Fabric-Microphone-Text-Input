@@ -117,6 +117,7 @@
     "message.mcmti.recordingAudio": "§eRecording Audio...",
     "message.mcmti.whisperModelLoadFailed": "§cWhisper Model Load Failed",
     "message.mcmti.whisperModelLoaded": "§aWhisper Model Loaded",
+    "message.mcmti.whisperModelLoading": "§eLoading Whisper Model...",
     "modmenu.descriptionTranslation.mcmti": "Speech recognition chat message input tool for Minecraft.",
     "modmenu.nameTranslation.mcmti": "Microphone Text Input"
 }

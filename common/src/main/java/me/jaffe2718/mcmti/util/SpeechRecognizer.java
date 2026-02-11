@@ -35,6 +35,10 @@ public final class SpeechRecognizer {
     public synchronized static void init() {
         destroy();
         try {
+            if (MinecraftClient.getInstance() != null
+                    && MinecraftClient.getInstance().player instanceof ClientPlayerEntity player) {
+                player.sendMessage(Text.translatable("message.mcmti.whisperModelLoading"), true);
+            }
             INSTANCE = new SpeechRecognizer();
             if (MinecraftClient.getInstance() != null
                     && MinecraftClient.getInstance().player instanceof ClientPlayerEntity player) {
