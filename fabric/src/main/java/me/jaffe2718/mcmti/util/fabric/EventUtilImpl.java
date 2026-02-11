@@ -15,6 +15,6 @@ public abstract class EventUtilImpl {
             SpeechRecognizer.destroy();
             AudioRecorder.destroy();
         });
-        Thread.ofVirtual().start(EventSystem::recognizeTask).setName("thread.mcmti.recognizer.loop");
+        new Thread(EventSystem::recognizeTask, "thread.mcmti.recognizer.loop").start();
     }
 }

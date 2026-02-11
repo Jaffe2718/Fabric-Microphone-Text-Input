@@ -29,7 +29,7 @@ public class McmtiConfig extends MidnightConfig {
     @Override
     public void writeChanges() {
         super.writeChanges();
-        Thread.ofVirtual().start(SpeechRecognizer::init);
+        new Thread(SpeechRecognizer::init).start();
         wFullParams = McmtiConfig.getParams();
     }
 

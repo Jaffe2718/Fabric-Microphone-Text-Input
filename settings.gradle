@@ -2,7 +2,6 @@ pluginManagement {
     repositories {
         maven { url "https://maven.fabricmc.net/" }
         maven { url "https://maven.architectury.dev/" }
-        maven { url = 'https://maven.neoforged.net/releases' }
         maven { url "https://files.minecraftforge.net/maven/" }
         gradlePluginPortal()
     }
@@ -12,4 +11,4 @@ rootProject.name = 'mcmti'
 
 include 'common'
 include 'fabric'
-include 'neoforge'
+include 'forge'

@@ -5,6 +5,7 @@ import me.jaffe2718.mcmti.MicrophoneTextInput;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 
 public class AdvancedConfigWarningScreen extends ConfirmScreen {
@@ -15,7 +16,7 @@ public class AdvancedConfigWarningScreen extends ConfirmScreen {
         super(AdvancedConfigWarningScreen::checkConfirmed,
                 Text.translatable("mcmti.gui.config.advanced.warn.title"),
                 Text.translatable("mcmti.gui.config.advanced.warn"),
-                Text.translatable("gui.proceed").withColor(0xFF5555),
+                Text.translatable("gui.proceed").setStyle(Style.EMPTY.withColor(0xFF5555)),
                 Text.translatable("gui.cancel"));
         this.parent = parent;
     }

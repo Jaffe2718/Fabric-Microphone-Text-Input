@@ -36,13 +36,13 @@ public final class SpeechRecognizer {
         destroy();
         try {
             if (MinecraftClient.getInstance() != null
-                    && MinecraftClient.getInstance().player instanceof ClientPlayerEntity player) {
-                player.sendMessage(Text.translatable("message.mcmti.whisperModelLoading"), true);
+                    && MinecraftClient.getInstance().player != null) {
+                MinecraftClient.getInstance().player.sendMessage(Text.translatable("message.mcmti.whisperModelLoading"), true);
             }
             INSTANCE = new SpeechRecognizer();
             if (MinecraftClient.getInstance() != null
-                    && MinecraftClient.getInstance().player instanceof ClientPlayerEntity player) {
-                player.sendMessage(Text.translatable("message.mcmti.whisperModelLoaded"), true);
+                    && MinecraftClient.getInstance().player != null) {
+                MinecraftClient.getInstance().player.sendMessage(Text.translatable("message.mcmti.whisperModelLoaded"), true);
             }
         } catch (IOException e) {
             MicrophoneTextInput.LOGGER.error("Failed to initialize speech recognizer", e);

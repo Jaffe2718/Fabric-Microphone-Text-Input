@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[2,)"
+loaderVersion = "[43,)"
 issueTrackerURL = "https://github.com/Jaffe2718/Microphone-Text-Input/issues"
 license = "MIT"
 
@@ -20,15 +20,15 @@ logoFile = "assets/mcmti/icon.png"
 modUrl = "https://modrinth.com/mod/mcmti"
 
 [[dependencies.mcmti]]
-modId = "neoforge"
-type = "required"
-versionRange = "${neoforge_versionRange}"
+modId = "forge"
+mandatory = true
+versionRange = "${forge_versionRange}"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.mcmti]]
 modId = "minecraft"
-type = "required"
+mandatory = true
 versionRange = "${mc_versionRange}"
 ordering = "NONE"
 side = "CLIENT"
@@ -36,7 +36,7 @@ side = "CLIENT"
 [[dependencies.mcmti]]
 modId = "midnightlib"
 mandatory = true
-versionRange = "[1.0,)"
+versionRange = "[1.9,)"
 ordering = "AFTER"
 side = "CLIENT"
 

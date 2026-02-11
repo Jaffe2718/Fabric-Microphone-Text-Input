@@ -1,4 +1,4 @@
-package me.jaffe2718.mcmti.util.neoforge;
+package me.jaffe2718.mcmti.util.forge;
 
 import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
@@ -15,6 +15,6 @@ public abstract class EventUtilImpl {
             SpeechRecognizer.destroy();
             AudioRecorder.destroy();
         });
-        Thread.ofVirtual().start(EventSystem::recognizeTask).setName("thread.mcmti.recognizer.loop");
+        new Thread(EventSystem::recognizeTask, "thread.mcmti.recognizer.loop").start();
     }
 }
