@@ -61,7 +61,7 @@ jobs:
                     MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
                 run: |
                     ./gradlew :fabric:modrinth
-                    ./gradlew :neoforge:modrinth
+                    ./gradlew :forge:modrinth
 
             -   name: Create Release
                 id: create_release
