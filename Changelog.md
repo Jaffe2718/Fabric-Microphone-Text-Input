@@ -1,12 +1,6 @@
 ## Changelog
 
-1. adjust: use `io.github.jaffe2718:whisper-jni:1.0.1` as Whisper dependency, use `musl` libc as default for
-   `Linux + CPU`, current version of the binary dynamic link library is not compatible with the old versions
-2. fix: split the message into multiple parts not longer than 256 characters to avoid overflow due to the limited chat
-   message length of Minecraft
-3. fix: auto switch to default native library if the custom library load failed
-4. optimize: use `SHA-256` checksum for built-in VAD
-5. adjust: description of the mod to include the link of the unofficial Whisper model
+1. adjust: optimize toast messages
 
 ## Download Whisper Model
 
