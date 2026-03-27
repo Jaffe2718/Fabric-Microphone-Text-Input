@@ -38,7 +38,7 @@ public interface EventSystem {
         }
     }
 
-    public static void onConfigAltered(MinecraftClient client) {
+    static void onConfigAltered(MinecraftClient client) {
         if (McmtiConfig.advancedConfig
                 && !MicrophoneTextInput.advancedConfig
                 && MinecraftClient.getInstance().currentScreen instanceof MidnightConfigScreen) {  // advanced config enabled
