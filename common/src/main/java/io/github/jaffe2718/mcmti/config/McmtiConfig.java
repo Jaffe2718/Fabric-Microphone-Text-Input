@@ -1,5 +1,6 @@
 package io.github.jaffe2718.mcmti.config;
 
+import eu.midnightdust.lib.config.EntryInfo;
 import eu.midnightdust.lib.config.MidnightConfig;
 import eu.midnightdust.lib.util.PlatformFunctions;
 import io.github.jaffe2718.whisperjni.LibraryUtils;
@@ -7,6 +8,9 @@ import io.github.jaffe2718.whisperjni.WhisperFullParams;
 import io.github.jaffe2718.mcmti.MicrophoneTextInput;
 import io.github.jaffe2718.mcmti.util.SpeechRecognizer;
 import io.github.jaffe2718.mcmti.util.whisper.WhisperSpeechRecognizer;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -14,11 +18,14 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.JFileChooser;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.AbstractMap;
+import java.util.function.Function;
 
 public class McmtiConfig extends MidnightConfig {
 

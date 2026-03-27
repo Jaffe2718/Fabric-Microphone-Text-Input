@@ -19,6 +19,7 @@ public final class MicrophoneTextInput {
     public static final KeyBinding.Category MICROPHONE_TEXT_INPUT_CATEGORY = new KeyBinding.Category(Identifier.ofVanilla(MOD_ID));
     public static final KeyBinding RECOGNIZE_KEY = new KeyBinding("key.mcmti.recognize", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_V, MICROPHONE_TEXT_INPUT_CATEGORY);
 
+    public static boolean advancedConfig = false;
 
     public static void init() {
         McmtiConfig.init(MOD_ID, McmtiConfig.class);
@@ -28,5 +29,6 @@ public final class MicrophoneTextInput {
         }
         SpeechRecognizer.init();
         EventUtil.register();
+        advancedConfig = McmtiConfig.advancedConfig;
     }
 }

@@ -1,6 +1,8 @@
 package io.github.jaffe2718.mcmti.event;
 
+import eu.midnightdust.lib.config.MidnightConfigScreen;
 import io.github.jaffe2718.mcmti.MicrophoneTextInput;
+import io.github.jaffe2718.mcmti.client.gui.screen.AdvancedConfigWarningScreen;
 import io.github.jaffe2718.mcmti.config.McmtiConfig;
 import io.github.jaffe2718.mcmti.util.AudioRecorder;
 import io.github.jaffe2718.mcmti.util.SpeechRecognizer;
@@ -34,6 +36,15 @@ public interface EventSystem {
                 player.sendMessage(Text.translatable("message.mcmti.recordingAudio"), true);
             }
         }
+    }
+
+    public static void onConfigAltered(MinecraftClient client) {
+        if (McmtiConfig.advancedConfig
+                && !MicrophoneTextInput.advancedConfig
+                && MinecraftClient.getInstance().currentScreen instanceof MidnightConfigScreen) {  // advanced config enabled
+            MinecraftClient.getInstance().setScreen(new AdvancedConfigWarningScreen(MinecraftClient.getInstance().currentScreen));
+        }
+        MicrophoneTextInput.advancedConfig = McmtiConfig.advancedConfig;    // synchronize with config
     }
 
 
