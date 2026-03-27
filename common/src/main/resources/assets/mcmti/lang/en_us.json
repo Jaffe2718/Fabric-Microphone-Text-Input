@@ -115,6 +115,7 @@
     "mcmti.midnightconfig.whisperSamplingStrategy.tooltip": "The WhisperContext enum to configure whisper's sampling strategy.",
     "message.mcmti.audioInputDeviceLoadFailed": "§cAudio Input Device Load Failed",
     "message.mcmti.messageSent": "§aMessage Sent",
+    "message.mcmti.noRecognizerAvailable": "§cNo recognizer available",
     "message.mcmti.recognizing": "§eRecognizing...",
     "message.mcmti.recordingAudio": "§eRecording Audio...",
     "message.mcmti.whisperModelLoadFailed": "§cWhisper Model Load Failed",

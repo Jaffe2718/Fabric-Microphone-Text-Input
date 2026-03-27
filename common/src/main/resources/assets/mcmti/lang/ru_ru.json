@@ -115,6 +115,7 @@
     "mcmti.midnightconfig.whisperSamplingStrategy.tooltip": "Перечисление WhisperContext для настройки стратегии семплирования Whisper.",
     "message.mcmti.audioInputDeviceLoadFailed": "§cНе удалось загрузить аудиоустройство ввода",
     "message.mcmti.messageSent": "§aСообщение отправлено",
+    "message.mcmti.noRecognizerAvailable": "§cНет доступных распознавателей",
     "message.mcmti.recognizing": "§eРаспознавание...",
     "message.mcmti.recordingAudio": "§eЗапись аудио...",
     "message.mcmti.whisperModelLoadFailed": "§cНе удалось загрузить модель Whisper",

@@ -115,6 +115,7 @@
     "mcmti.midnightconfig.whisperSamplingStrategy.tooltip": "La enumeración WhisperContext para configurar la estrategia de muestreo de Whisper.",
     "message.mcmti.audioInputDeviceLoadFailed": "§cError al cargar el dispositivo de entrada de audio",
     "message.mcmti.messageSent": "§aMensaje enviado",
+    "message.mcmti.noRecognizerAvailable": "§cNo hay reconocedor disponible",
     "message.mcmti.recognizing": "§eReconociendo...",
     "message.mcmti.recordingAudio": "§eGrabando audio...",
     "message.mcmti.whisperModelLoadFailed": "§cError al cargar el modelo Whisper",

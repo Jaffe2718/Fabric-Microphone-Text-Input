@@ -115,6 +115,7 @@
     "mcmti.midnightconfig.whisperSamplingStrategy.tooltip": "تعداد WhisperContext لتكوين استراتيجية أخذ العينات في Whisper.",
     "message.mcmti.audioInputDeviceLoadFailed": "§cفشل تحميل جهاز إدخال الصوت",
     "message.mcmti.messageSent": "§aتم إرسال الرسالة",
+    "message.mcmti.noRecognizerAvailable": "§cلا يوجد معترف متوفر",
     "message.mcmti.recognizing": "§eجاري التعرف...",
     "message.mcmti.recordingAudio": "§eجاري تسجيل الصوت...",
     "message.mcmti.whisperModelLoadFailed": "§cفشل تحميل نموذج Whisper",

@@ -15,6 +15,29 @@ repositories {
     }
 }
 
+sourceSets {
+    test {
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+        java {
+            srcDirs.add('src/test/java' as File)
+        }
+        resources {
+            srcDirs.add('src/test/resources' as File)
+        }
+    }
+}
+
+loom {
+    runs {
+        testClient {
+            client()
+            configName = "Test Minecraft Client"
+            source sourceSets.test
+        }
+    }
+}
+
 configurations {
     common {
         canBeResolved = true
@@ -23,6 +46,8 @@ configurations {
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentFabric.extendsFrom common
+    testCompileClasspath.extendsFrom common
+    testRuntimeClasspath.extendsFrom common
 
     // Files in this configuration will be bundled into your mod using the Shadow plugin.
     // Don't use the `shadow` configuration from the plugin itself as it's meant for excluding files.
@@ -39,6 +64,7 @@ dependencies {
 //    modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
     modImplementation "maven.modrinth:midnightlib:${rootProject.midnightlib_version}-fabric"
 //    modRuntimeOnly "com.terraformersmc:modmenu:${rootProject.modmenu_version}"
+    testImplementation "io.github.jaffe2718:qwen3asr4j:1.0.1"
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')

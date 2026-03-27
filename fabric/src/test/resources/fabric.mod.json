@@ -1,0 +1,33 @@
+{
+    "schemaVersion": 1,
+    "id": "qwen3asr_fabric",
+    "version": "0.0.1-alpha",
+    "name": "Qwen3 ASR",
+    "description": "Qwen3 ASR extension for Microphone Text Input.",
+    "authors": [
+        {
+            "name": "Jaffe2718",
+            "contact": {
+                "email": "qqyttwqeei@163.com",
+                "homepage": "https://space.bilibili.com/1671742926"
+            }
+        }
+    ],
+    "license": "MIT",
+    "icon": "assets/qwen3asr_fabric/icon.png",
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            "io.github.jaffe2718.qwen3asr_fabric.Qwen3ASRFabricClient"
+        ]
+    },
+    "depends": {
+        "fabricloader": ">=0.15.0",
+        "minecraft": "*",
+        "midnightlib": "*",
+        "mcmti": ">=3.0.0"
+    },
+    "suggests": {
+        "modmenu": "*"
+    }
+}

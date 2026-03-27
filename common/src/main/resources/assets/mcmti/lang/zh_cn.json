@@ -115,6 +115,7 @@
     "mcmti.midnightconfig.whisperSamplingStrategy.tooltip": "用于配置Whisper解码策略的枚举类型（WhisperContext）。",
     "message.mcmti.audioInputDeviceLoadFailed": "§c音频输入设备加载失败",
     "message.mcmti.messageSent": "§a消息已发送",
+    "message.mcmti.noRecognizerAvailable": "§c没有可用的ASR识别器",
     "message.mcmti.recognizing": "§e识别中...",
     "message.mcmti.recordingAudio": "§e音频录制中...",
     "message.mcmti.whisperModelLoadFailed": "§cWhisper模型加载失败",

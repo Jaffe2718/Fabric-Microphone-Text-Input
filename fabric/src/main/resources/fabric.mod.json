@@ -46,7 +46,7 @@
     "environment": "client",
     "entrypoints": {
         "client": [
-            "me.jaffe2718.mcmti.fabric.MicrophoneTextInputFabric"
+            "io.github.jaffe2718.mcmti.fabric.MicrophoneTextInputFabric"
         ]
     },
     "depends": {
