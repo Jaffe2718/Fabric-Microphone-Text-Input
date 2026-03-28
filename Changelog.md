@@ -1,6 +1,7 @@
 ## Changelog
 
-1. adjust: optimize toast messages
+1. feature:Support developers to extend custom speech recognition mod (need to refer to this mod as a dependency to develop new mod);
+2. fix:
 
 ## Download Whisper Model
 
