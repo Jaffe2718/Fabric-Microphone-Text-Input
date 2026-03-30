@@ -53,7 +53,7 @@
         "fabricloader": "${compatibility_fabricloader_versions}",
         "fabric-lifecycle-events-v1": "*",
         "fabric-key-binding-api-v1": "*",
-        "minecraft": "${compatibility_mc_versions}",
+        "minecraft": "${compatibility_minecraft_versions}",
         "midnightlib": "${compatibility_midnightlib_versions}"
     },
     "suggests": {

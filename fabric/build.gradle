@@ -19,12 +19,6 @@ sourceSets {
     test {
         compileClasspath += main.compileClasspath
         runtimeClasspath += main.runtimeClasspath
-        java {
-            srcDirs.add('src/test/java' as File)
-        }
-        resources {
-            srcDirs.add('src/test/resources' as File)
-        }
     }
 }
 
@@ -35,6 +29,9 @@ loom {
             configName = "Test Minecraft Client"
             source sourceSets.test
         }
+    }
+    runs.removeIf {
+        it.name == "server"
     }
 }
 
@@ -59,12 +56,12 @@ configurations {
 
 dependencies {
     include "io.github.jaffe2718:whisper-jni:$rootProject.whisper_jni_version"
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
+    modImplementation "net.fabricmc:fabric-loader:$project.fabric_loader_version"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:$project.fabric_api_version"
 //    modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
     modImplementation "maven.modrinth:midnightlib:${rootProject.midnightlib_version}-fabric"
-//    modRuntimeOnly "com.terraformersmc:modmenu:${rootProject.modmenu_version}"
-    testImplementation "io.github.jaffe2718:qwen3asr4j:1.0.1"
+    modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+    testImplementation "io.github.jaffe2718:qwen3asr4j:${project.qwen3asr4j_version}"
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
@@ -77,7 +74,7 @@ processResources {
     filesMatching("fabric.mod.json") {
         expand "version": project.version,
                 "compatibility_fabricloader_versions": project.compatibility_fabricloader_versions,
-                "compatibility_mc_versions": project.compatibility_mc_versions,
+                "compatibility_minecraft_versions": project.compatibility_minecraft_versions,
                 "compatibility_midnightlib_versions": project.compatibility_midnightlib_versions
     }
 }

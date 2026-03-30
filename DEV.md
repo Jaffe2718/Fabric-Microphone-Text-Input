@@ -104,7 +104,7 @@ public class MyModClient implements ClientModInitializer {
     public void onInitializeClient() {
         // register your custom SpeechRecognizer
         int priority = 1;  // smaller value means higher priority
-        SpeechRecognizer.register(priority, new MySpeechRecognizer());
+        SpeechRecognizer.register(priority, MySpeechRecognizer::new);
         // ...
     }
 }
@@ -127,13 +127,12 @@ public final class MyModNeoForge {
 ### 3. Declare dependencies
 
 - Fabric version: `fabric.mod.json`
-```javascript
+```json
 {
-    // other metadata
-    
+   "...": "...",
     "depends": {
-        "mcmti": ">=3.0.0"  // at least version 3.0.0
-        // ...
+        "mcmti": ">=3.0.0",
+         "...": "..."
     }
 }
 ```
@@ -185,39 +184,69 @@ qwen3asr_fabric/
 Create a configuration class to manage settings for your ASR extension. The example uses MidnightLib for configuration [Qwen3ASRConfig.java](fabric/src/test/java/io/github/jaffe2718/qwen3asr_fabric/config/Qwen3ASRConfig.java):
 
 ```java
-// Qwen3ASRConfig.java
+package io.github.jaffe2718.qwen3asr_fabric.config;
+
+// import ...;
+
 public class Qwen3ASRConfig extends MidnightConfig {
+    
+   @Override
+   public void writeChanges() {
+      super.writeChanges();
+      Thread.ofVirtual().start(SpeechRecognizer::init);  // async init
+   }
 
-    @Override
-    public void writeChanges() {
-        super.writeChanges();
-        Thread.ofVirtual().start(SpeechRecognizer::init);
-    }
+   @Entry
+   public static boolean enabled = true;
 
-    @Entry
-    public static boolean enabled = true;
+   @Entry
+   @Condition(requiredOption = "enabled", requiredValue = "true")
+   public static int priority = 0;
 
-    @Entry(selectionMode = JFileChooser.FILES_ONLY, fileExtensions = {"gguf"})
-    public static String modelPath = "";
+   @Entry(selectionMode = JFileChooser.FILES_ONLY, fileExtensions = {"gguf"})
+   @Condition(requiredOption = "enabled", requiredValue = "true")
+   public static String modelPath = "";
 
-    @Entry
-    public static boolean customLibrary = false;
+   @Entry
+   @Condition(requiredOption = "enabled", requiredValue = "true")
+   public static boolean customLibrary = false;
 
-    @Entry(selectionMode = JFileChooser.DIRECTORIES_ONLY)
-    @Condition(requiredOption = "customLibrary", requiredValue = "true")
-    public static String customLibraryDir = "";
+   @Entry(selectionMode = JFileChooser.DIRECTORIES_ONLY)
+   @Condition(requiredOption = "enabled", requiredValue = "true")
+   @Condition(requiredOption = "customLibrary", requiredValue = "true")
+   public static String customLibraryDir = "";
 
-    // Other configuration fields...
+   @Entry(min = 1)
+   @Condition(requiredOption = "enabled", requiredValue = "true")
+   public static int maxTokens = 1024;
 
-    public static @NonNull TranscribeParams getQwenParams() {
-        return new TranscribeParams(
-                maxTokens,
-                language,
-                nThreads,
-                printProgress,
-                printTiming
-        );
-    }
+   @Entry
+   @Condition(requiredOption = "enabled", requiredValue = "true")
+   public static String language = "";
+
+   @Entry(min = 0)
+   @Condition(requiredOption = "enabled", requiredValue = "true")
+   public static int nThreads = 4;
+
+   @Entry
+   @Condition(requiredOption = "enabled", requiredValue = "true")
+   public static boolean printProgress = true;
+
+   @Entry
+   @Condition(requiredOption = "enabled", requiredValue = "true")
+   public static boolean printTiming = false;
+
+   @Contract(value = " -> new", pure = true)
+   public static @NonNull TranscribeParams getQwenParams() {
+      return new TranscribeParams(
+              maxTokens,
+              language,
+              nThreads,
+              printProgress,
+              printTiming
+      );
+   }
+
 }
 ```
 
@@ -226,73 +255,78 @@ public class Qwen3ASRConfig extends MidnightConfig {
 Implement the `SpeechRecognizer` class with the following key methods in [Qwen3ASRSpeechRecognizer.java](fabric/src/test/java/io/github/jaffe2718/qwen3asr_fabric/util/Qwen3ASRSpeechRecognizer.java):
 
 ```java
-// Qwen3ASRSpeechRecognizer.java
+package io.github.jaffe2718.qwen3asr_fabric.util;
+
+// import ...; 
+
 public class Qwen3ASRSpeechRecognizer extends SpeechRecognizer {
 
-    private @Nullable Qwen3ASR ctx;
+   private @Nullable Qwen3ASR ctx;
 
-    @Override
-    public boolean enabled() {
-        return Qwen3ASRConfig.enabled;
-    }
+   @Override
+   public boolean enabled() {
+      return Qwen3ASRConfig.enabled;
+   }
 
-    @Override
-    protected @NotNull Text availableToast() {
-        return Text.literal("Qwen3 ASR is loaded!").setStyle(Style.EMPTY.withColor(0x55FF55));
-    }
+   @Override
+   protected @NotNull Text availableToast() {
+      return Text.literal("Qwen3 ASR is loaded!").setStyle(Style.EMPTY.withColor(0x55FF55));
+   }
 
-    @Override
-    protected @NotNull Text unavailableToast() {
-        return Text.literal("Failed to load Qwen3 ASR model!").setStyle(Style.EMPTY.withColor(0xFF5555));
-    }
+   @Override
+   protected @NotNull Text unavailableToast() {
+      return Text.literal("Failed to load Qwen3 ASR model!").setStyle(Style.EMPTY.withColor(0xFF5555));
+   }
 
-    @Override
-    protected boolean available() {
-        return super.available() && this.ctx != null && this.ctx.isLoaded();
-    }
+   @Override
+   protected boolean available() {
+      return super.available() && this.ctx != null && this.ctx.isLoaded();
+   }
 
-    @Override
-    public void activate() throws IOException {
-        this.deactivate();
-        this.ctx = new Qwen3ASR(Qwen3ASRConfig.modelPath, Qwen3ASRFabricClient.LOGGER);
-        super.activate();
-    }
+   @Override
+   protected void activate() throws FileNotFoundException {
+      this.deactivate();
+      this.ctx = new Qwen3ASR(Qwen3ASRConfig.modelPath, Qwen3ASRFabricClient.LOGGER);
+      try {
+         super.activate();
+      } catch (IOException ignored) {}
+   }
+   
+   @Override
+   protected void deactivate() {
+      if (this.ctx != null) {
+         this.ctx.close();
+      }
+      this.ctx = null;
+      super.deactivate();
+   }
 
-    @Override
-    public void deactivate() {
-        if (this.ctx != null) {
-            this.ctx.close();
-        }
-        this.ctx = null;
-        super.deactivate();
-    }
+   @Override
+   public @NotNull String transcribe(float[] audio) {
+      if (this.ctx != null && this.ctx.isLoaded()) {
+         TranscribeResult result = this.ctx.transcribe(audio, Qwen3ASRConfig.getQwenParams());
+         if (result.errorMsg().isBlank()) {
+            return result.text();
+         } else {
+            Qwen3ASRFabricClient.LOGGER.error("Qwen3 ASR error: {}", result.errorMsg());
+         }
+      }
+      return "";
+   }
 
-    @Override
-    public @NotNull String transcribe(float[] audio) {
-        if (this.ctx != null && this.ctx.isLoaded()) {
-            TranscribeResult result = this.ctx.transcribe(audio, Qwen3ASRConfig.getQwenParams());
-            if (result.errorMsg().isBlank()) {
-                return result.text();
-            } else {
-                Qwen3ASRFabricClient.LOGGER.error("Qwen3 ASR error: {}", result.errorMsg());
-            }
-        }
-        return "";
-    }
-
-    public static boolean loadNativeLibrary() {
-        try {
-            if (Qwen3ASRConfig.customLibrary) {
-                NativeManager.loadLibrary(Paths.get(Qwen3ASRConfig.customLibraryDir), Qwen3ASRFabricClient.LOGGER);
-            } else {
-                NativeManager.loadLibrary(Qwen3ASRFabricClient.LOGGER);
-            }
-        } catch (Exception ignored) {
-            return false;
-        }
-        GGUFModelWrapper.setGGMLGlobalLogger(Qwen3ASRFabricClient.LOGGER);
-        return true;
-    }
+   public static boolean loadNativeLibrary() {
+      try {
+         if (Qwen3ASRConfig.customLibrary) {
+            NativeManager.loadLibrary(Paths.get(Qwen3ASRConfig.customLibraryDir), Qwen3ASRFabricClient.LOGGER);
+         } else {
+            NativeManager.loadLibrary(Qwen3ASRFabricClient.LOGGER);
+         }
+      } catch (Exception ignored) {
+         return false;
+      }
+      GGUFModelWrapper.setGGMLGlobalLogger(Qwen3ASRFabricClient.LOGGER);
+      return true;
+   }
 }
 ```
 
@@ -301,19 +335,22 @@ public class Qwen3ASRSpeechRecognizer extends SpeechRecognizer {
 Register your custom `SpeechRecognizer` in the client initializer [Qwen3ASRFabricClient.java](fabric/src/test/java/io/github/jaffe2718/qwen3asr_fabric/Qwen3ASRFabricClient.java):
 
 ```java
-// Qwen3ASRFabricClient.java
+package io.github.jaffe2718.qwen3asr_fabric;
+
+// import ...;
+
 public class Qwen3ASRFabricClient implements ClientModInitializer {
 
-    public static final String MOD_ID = "qwen3asr_fabric";
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+   public static final String MOD_ID = "qwen3asr_fabric";
+   public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    @Override
-    public void onInitializeClient() {
-        MidnightConfig.init(MOD_ID, Qwen3ASRConfig.class);
-        if (Qwen3ASRSpeechRecognizer.loadNativeLibrary()) {
-            SpeechRecognizer.register(1024, new Qwen3ASRSpeechRecognizer());
-        }
-    }
+   @Override
+   public void onInitializeClient() {
+      MidnightConfig.init(MOD_ID, Qwen3ASRConfig.class);
+      if (Qwen3ASRSpeechRecognizer.loadNativeLibrary()) {
+         SpeechRecognizer.register(Qwen3ASRConfig.priority, Qwen3ASRSpeechRecognizer::new);
+      }
+   }
 }
 ```
 
@@ -321,7 +358,7 @@ public class Qwen3ASRFabricClient implements ClientModInitializer {
 
 Add the necessary dependencies in your [fabric.mod.json](fabric/src/test/resources/fabric.mod.json):
 
-```javascript
+```json
 {
     "schemaVersion": 1,
     "id": "qwen3asr_fabric",
@@ -340,7 +377,7 @@ Add the necessary dependencies in your [fabric.mod.json](fabric/src/test/resourc
         "midnightlib": "*",
         "mcmti": ">=3.0.0"
     },
-   // other metadata...
+   "...": "..."
 }
 ```
 
@@ -397,3 +434,7 @@ dependencies {
    - Ensure your mod has the necessary permissions to access the microphone
 
 By following this tutorial and the example code, you can successfully implement your own ASR extension for the Microphone Text Input mod.
+
+
+
+> **Note**: another example is [VoskNeoForge](neoforge/src/test/java/io/github/jaffe2718/vosk_neoforge/VoskNeoForge.java)

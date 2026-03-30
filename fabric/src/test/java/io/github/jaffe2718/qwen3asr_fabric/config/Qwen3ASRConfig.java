@@ -22,7 +22,7 @@ public class Qwen3ASRConfig extends MidnightConfig {
     @Override
     public void writeChanges() {
         super.writeChanges();
-        Thread.ofVirtual().start(SpeechRecognizer::init);
+        Thread.ofVirtual().start(SpeechRecognizer::init);  // async init
     }
 
     /**

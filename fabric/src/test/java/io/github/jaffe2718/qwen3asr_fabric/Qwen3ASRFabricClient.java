@@ -20,7 +20,7 @@ public class Qwen3ASRFabricClient implements ClientModInitializer {
     public void onInitializeClient() {
         MidnightConfig.init(MOD_ID, Qwen3ASRConfig.class);
         if (Qwen3ASRSpeechRecognizer.loadNativeLibrary()) {
-            SpeechRecognizer.register(Qwen3ASRConfig.priority, new Qwen3ASRSpeechRecognizer());
+            SpeechRecognizer.register(Qwen3ASRConfig.priority, Qwen3ASRSpeechRecognizer::new);
         }
     }
 }

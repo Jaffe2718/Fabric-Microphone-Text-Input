@@ -57,7 +57,7 @@ public class WhisperSpeechRecognizer extends SpeechRecognizer {
      * @throws IOException If the model loading fails.
      */
     @Override
-    public void activate() throws IOException {
+    protected void activate() throws IOException {
         if (this.ctx != null) {
             this.deactivate(true);
         }
@@ -76,7 +76,7 @@ public class WhisperSpeechRecognizer extends SpeechRecognizer {
      * Deactivate the recognizer, release whisper model.
      */
     @Override
-    public void deactivate() {
+    protected void deactivate() {
         if (this.ctx != null) {
             WHISPER.free(this.ctx);
         }

@@ -61,7 +61,7 @@ public class Qwen3ASRSpeechRecognizer extends SpeechRecognizer {
      * @throws FileNotFoundException if the model file is not found or is not a valid file.
      */
     @Override
-    public void activate() throws FileNotFoundException {
+    protected void activate() throws FileNotFoundException {
         this.deactivate();
         this.ctx = new Qwen3ASR(Qwen3ASRConfig.modelPath, Qwen3ASRFabricClient.LOGGER);
         try {
@@ -78,7 +78,7 @@ public class Qwen3ASRSpeechRecognizer extends SpeechRecognizer {
      * @see SpeechRecognizer#recognize(float[])
      */
     @Override
-    public void deactivate() {
+    protected void deactivate() {
         if (this.ctx != null) {
             this.ctx.close();
         }

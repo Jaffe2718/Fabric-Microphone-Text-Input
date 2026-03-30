@@ -1,0 +1,41 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+
+[[mods]]
+modId = "vosk_neoforge"
+version = "0.0.1"
+displayName = "Vosk extention for Microphone Text Input"
+authors = "Jaffe2718"
+description = '''
+Vosk extention for Microphone Text Input.
+'''
+logoFile = "assets/vosk_neoforge/icon.png"
+
+[[dependencies.vosk_neoforge]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.11,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.vosk_neoforge]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.11,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.vosk_neoforge]]
+modId = "mcmti"
+mandatory = true
+versionRange = "[3,)"
+ordering = "AFTER"
+side = "CLIENT"
+
+[[dependencies.vosk_neoforge]]
+modId = "architectury"
+mandatory = true
+versionRange = "[1.0,)"
+ordering = "AFTER"
+side = "CLIENT"

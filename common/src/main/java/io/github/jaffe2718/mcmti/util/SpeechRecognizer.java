@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Supplier;
 
 public abstract class SpeechRecognizer {
 
@@ -39,7 +40,7 @@ public abstract class SpeechRecognizer {
      * Check if the recognizer is enabled by config or other conditions.
      * Only the first enabled in priority will be activated and used.
      * @see SpeechRecognizer#instanceID
-     * @see SpeechRecognizer#register(int, SpeechRecognizer)
+     * @see SpeechRecognizer#register(int, Supplier)
      * @see SpeechRecognizer#activate()
      * @see SpeechRecognizer#deactivate()
      * @return true if the recognizer is enabled, false otherwise.
@@ -61,6 +62,13 @@ public abstract class SpeechRecognizer {
     protected abstract @NotNull Text unavailableToast();
 
     /**
+     * Transcribe the audio to text.
+     * @param audio The audio data.
+     * @return The transcribed text.
+     */
+    public abstract @NotNull String transcribe(float[] audio);
+
+    /**
      * Check if the recognizer is available,
      * only the <code>transcribe(float[])</code> method of available recognizers is valid,
      * otherwise it will return empty string. If the recognizer is not available,
@@ -79,7 +87,7 @@ public abstract class SpeechRecognizer {
      * Remember to call <code>super.activate()</code> in the end of the override method.
      * @throws IOException If the model loading fails.
      */
-    public void activate() throws IOException {
+    protected void activate() throws IOException {
         this.active = true;
         if (MinecraftClient.getInstance() != null
                 && MinecraftClient.getInstance().player != null) {
@@ -94,16 +102,9 @@ public abstract class SpeechRecognizer {
      * When you need to recognize again, call activate() to reload the model.
      * @see SpeechRecognizer#activate()
      */
-    public void deactivate() {
+    protected void deactivate() {
         this.active = false;
     }
-
-    /**
-     * Transcribe the audio to text.
-     * @param audio The audio data.
-     * @return The transcribed text.
-     */
-    public abstract @NotNull String transcribe(float[] audio);
 
     /**
      * Register the recognizer to the list.
@@ -111,12 +112,17 @@ public abstract class SpeechRecognizer {
      * If the priority is already used, the recognizer will be registered to the next available priority.
      * Auto activate the recognizer if it is enabled and has higher priority than the current instance.
      * @param priority The priority of the recognizer, smaller value means higher priority.
-     * @param recognizer The recognizer to register.
+     * @param constructor The constructor of the recognizer with no arguments.
      * @see SpeechRecognizer#instanceID
      * @see SpeechRecognizer#activate()
      * @see SpeechRecognizer#deactivate()
      */
-    public static void register(int priority, SpeechRecognizer recognizer) {
+    public static void register(int priority, @NonNull Supplier<? extends SpeechRecognizer> constructor) {
+        SpeechRecognizer recognizer = constructor.get();
+        if (recognizer == null) {
+            MicrophoneTextInput.LOGGER.warn("Failed to register recognizer because the constructor returns null");
+            return;
+        }
         while (recognizerRegistry.containsKey(priority)) {
             priority++;
         }
@@ -162,7 +168,7 @@ public abstract class SpeechRecognizer {
     /**
      * Release all the resources of the recognizers and clear the registry.
      */
-    public synchronized static void destroy() {
+    public synchronized static void deregister() {
         for (SpeechRecognizer recognizer : recognizerRegistry.values()) {
             recognizer.deactivate();
         }

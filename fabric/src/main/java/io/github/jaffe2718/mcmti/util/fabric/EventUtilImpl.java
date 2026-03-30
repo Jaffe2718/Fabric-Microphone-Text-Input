@@ -13,7 +13,7 @@ public abstract class EventUtilImpl {
         ClientTickEvents.END_CLIENT_TICK.register(EventSystem::onConfigAltered);
         ClientTickEvents.END_WORLD_TICK.register(EventSystem::showRecognizeStatus);
         ClientLifecycleEvents.CLIENT_STOPPING.register(client -> {
-            SpeechRecognizer.destroy();
+            SpeechRecognizer.deregister();
             AudioRecorder.destroy();
         });
         Thread.ofVirtual().start(EventSystem::recognizeTask).setName("thread.mcmti.recognizer.loop");
