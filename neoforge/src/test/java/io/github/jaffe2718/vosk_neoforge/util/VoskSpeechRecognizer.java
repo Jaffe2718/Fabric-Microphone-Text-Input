@@ -5,6 +5,7 @@ import io.github.jaffe2718.mcmti.util.SpeechRecognizer;
 import io.github.jaffe2718.vosk_neoforge.VoskNeoForge;
 import io.github.jaffe2718.vosk_neoforge.config.VoskConfig;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.vosk.Model;
@@ -15,6 +16,14 @@ import java.io.IOException;
 public class VoskSpeechRecognizer extends SpeechRecognizer {
 
     private @Nullable Recognizer ctx;
+
+    /**
+     * The constructor of the recognizer.
+     * @param regId The id of the recognizer when registered.
+     */
+    public VoskSpeechRecognizer(@NotNull Identifier regId) {
+        super(regId);
+    }
 
     @Override
     public boolean enabled() {

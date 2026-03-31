@@ -4,14 +4,17 @@ import io.github.jaffe2718.mcmti.MicrophoneTextInput;
 import io.github.jaffe2718.mcmti.config.McmtiConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public abstract class SpeechRecognizer {
 
@@ -32,15 +35,37 @@ public abstract class SpeechRecognizer {
     private static final Map<Integer, SpeechRecognizer> recognizerRegistry = new TreeMap<>();
 
     /**
+     * The set of registered ids.
+     * Each {@link SpeechRecognizer} instance with unique {@link SpeechRecognizer#id} can be registered once,
+     * otherwise it will throw an exception.
+     * @see SpeechRecognizer#register(int, Identifier, Function)
+     * @see SpeechRecognizer#id
+     */
+    private static final Set<Identifier> registeredIds = new HashSet<>();
+
+    /**
+     * The id of the recognizer.
+     */
+    public final @NotNull Identifier id;
+
+    /**
      * Whether the recognizer is active.
      */
     private boolean active;
 
     /**
+     * The constructor of the recognizer.
+     * @param regId The id of the recognizer when registered.
+     */
+    protected SpeechRecognizer(@NotNull Identifier regId) {
+        this.id = regId;
+    }
+
+    /**
      * Check if the recognizer is enabled by config or other conditions.
      * Only the first enabled in priority will be activated and used.
      * @see SpeechRecognizer#instanceID
-     * @see SpeechRecognizer#register(int, Supplier)
+     * @see SpeechRecognizer#register(int, Identifier, Function)
      * @see SpeechRecognizer#activate()
      * @see SpeechRecognizer#deactivate()
      * @return true if the recognizer is enabled, false otherwise.
@@ -112,13 +137,19 @@ public abstract class SpeechRecognizer {
      * If the priority is already used, the recognizer will be registered to the next available priority.
      * Auto activate the recognizer if it is enabled and has higher priority than the current instance.
      * @param priority The priority of the recognizer, smaller value means higher priority.
+     *                 If the priority is already used, the recognizer will be registered to the next available priority.
+     * @param regId The id of the recognizer when registered.
      * @param constructor The constructor of the recognizer with no arguments.
      * @see SpeechRecognizer#instanceID
      * @see SpeechRecognizer#activate()
      * @see SpeechRecognizer#deactivate()
+     * @throws IllegalStateException If the recognizer with the same id is already registered.
      */
-    public static void register(int priority, @NonNull Supplier<? extends SpeechRecognizer> constructor) {
-        SpeechRecognizer recognizer = constructor.get();
+    public static void register(int priority, @NotNull Identifier regId, @NotNull Function<Identifier, ? extends SpeechRecognizer> constructor) throws IllegalStateException {
+        SpeechRecognizer recognizer = constructor.apply(regId);
+        if (registeredIds.contains(regId)) {
+            throw new IllegalStateException(String.format("The id \"%s\" for recognizer instance \"%s\" is already registered", regId, recognizer.getClass().getTypeName()));
+        }
         if (recognizer == null) {
             MicrophoneTextInput.LOGGER.warn("Failed to register recognizer because the constructor returns null");
             return;
@@ -127,8 +158,9 @@ public abstract class SpeechRecognizer {
             priority++;
         }
         recognizerRegistry.put(priority, recognizer);
+        registeredIds.add(regId);
         // if the recognizer is enabled and has higher priority than the current instance
-        if (priority < instanceID &&recognizer.enabled()) {
+        if (priority < instanceID && recognizer.enabled()) {
             if (recognizerRegistry.containsKey(instanceID)) {
                 recognizerRegistry.get(instanceID).deactivate();
             }
@@ -139,6 +171,17 @@ public abstract class SpeechRecognizer {
                 MicrophoneTextInput.LOGGER.error("Failed to activate recognizer", ioe);
             }
         }
+    }
+
+    /**
+     * Release all the resources of the recognizers and clear the registry.
+     */
+    public synchronized static void deregister() {
+        for (SpeechRecognizer recognizer : recognizerRegistry.values()) {
+            recognizer.deactivate();
+        }
+        recognizerRegistry.clear();
+        registeredIds.clear();
     }
 
     /**
@@ -163,16 +206,6 @@ public abstract class SpeechRecognizer {
                 recognizer.deactivate();     // deactivate other recognizers to save RAM / vRAM
             }
         }
-    }
-
-    /**
-     * Release all the resources of the recognizers and clear the registry.
-     */
-    public synchronized static void deregister() {
-        for (SpeechRecognizer recognizer : recognizerRegistry.values()) {
-            recognizer.deactivate();
-        }
-        recognizerRegistry.clear();
     }
 
     /**

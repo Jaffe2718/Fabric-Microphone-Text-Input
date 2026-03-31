@@ -9,6 +9,7 @@ import io.github.jaffe2718.qwen3asr_fabric.Qwen3ASRFabricClient;
 import io.github.jaffe2718.qwen3asr_fabric.config.Qwen3ASRConfig;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,6 +24,14 @@ import java.nio.file.Paths;
 public class Qwen3ASRSpeechRecognizer extends SpeechRecognizer {
 
     private @Nullable Qwen3ASR ctx;
+
+    /**
+     * The constructor of the recognizer.
+     * @param regId The id of the recognizer when registered.
+     */
+    public Qwen3ASRSpeechRecognizer(@NotNull Identifier regId) {
+        super(regId);
+    }
 
     /**
      * Override the default enabled method to check the config.

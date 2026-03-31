@@ -25,7 +25,7 @@ public final class MicrophoneTextInput {
         McmtiConfig.init(MOD_ID, McmtiConfig.class);
         AudioRecorder.init();
         if (WhisperSpeechRecognizer.loadLibrary()) {
-            SpeechRecognizer.register(Integer.MAX_VALUE, WhisperSpeechRecognizer::new);
+            SpeechRecognizer.register(Integer.MAX_VALUE, Identifier.of(MOD_ID, "whisper"), WhisperSpeechRecognizer::new);
         }
         SpeechRecognizer.init();
         EventUtil.register();

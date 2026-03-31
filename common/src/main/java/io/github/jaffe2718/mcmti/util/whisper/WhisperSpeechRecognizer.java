@@ -8,6 +8,7 @@ import io.github.jaffe2718.mcmti.MicrophoneTextInput;
 import io.github.jaffe2718.mcmti.config.McmtiConfig;
 import io.github.jaffe2718.mcmti.util.SpeechRecognizer;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
@@ -28,6 +29,14 @@ public class WhisperSpeechRecognizer extends SpeechRecognizer {
     public static final WhisperJNI WHISPER = new WhisperJNI();
 
     private @Nullable WhisperContext ctx;
+
+    /**
+     * The constructor of the recognizer.
+     * @param regId The id of the recognizer when registered.
+     */
+    public WhisperSpeechRecognizer(@NotNull Identifier regId) {
+        super(regId);
+    }
 
     /**
      * @return true means always enabled.
@@ -132,6 +141,7 @@ public class WhisperSpeechRecognizer extends SpeechRecognizer {
             } else {
                 WhisperSpeechRecognizer.WHISPER.loadLibrary(MicrophoneTextInput.LOGGER);
             }
+            WhisperJNI.setLogger(MicrophoneTextInput.LOGGER);
         } catch (Exception e) {
             MicrophoneTextInput.LOGGER.error("Failed to load library", e);
             MicrophoneTextInput.LOGGER.warn("Using default library");

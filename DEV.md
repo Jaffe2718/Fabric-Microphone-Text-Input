@@ -100,11 +100,14 @@ public class MySpeechRecognizer extends SpeechRecognizer {
 
 // register your custom SpeechRecognizer in the client side
 public class MyModClient implements ClientModInitializer {
+    
+    public static final String MOD_ID = "my_mod";
+    
     @Override
     public void onInitializeClient() {
         // register your custom SpeechRecognizer
         int priority = 1;  // smaller value means higher priority
-        SpeechRecognizer.register(priority, MySpeechRecognizer::new);
+        SpeechRecognizer.register(priority, Identifier.of(MOD_ID, "my_recognizer"), MySpeechRecognizer::new);
         // ...
     }
 }
@@ -112,17 +115,23 @@ public class MyModClient implements ClientModInitializer {
 
 - NeoForge version
 ```java
-@Mod("my_mod")
+@Mod(MyModNeoForge.MOD_ID)
 public final class MyModNeoForge {
+    
+    public static final String MOD_ID = "my_mod";
+    
     public MyModNeoForge() {
         // register your custom SpeechRecognizer
         int priority = 1;  // smaller value means higher priority
-        SpeechRecognizer.register(priority, new MySpeechRecognizer());
+        SpeechRecognizer.register(priority, Identifier.of(MOD_ID, "my_recognizer"), MySpeechRecognizer::new);
         // ...
     }
     // ...
 }
 ```
+
+> **Warning**: Do not register your custom SpeechRecognizer with duplicate `Identifier`,
+> otherwise it will conflict with other `SpeechRecognizer` instances and throw an `IllegalStateException`.
 
 ### 3. Declare dependencies
 
@@ -348,7 +357,7 @@ public class Qwen3ASRFabricClient implements ClientModInitializer {
    public void onInitializeClient() {
       MidnightConfig.init(MOD_ID, Qwen3ASRConfig.class);
       if (Qwen3ASRSpeechRecognizer.loadNativeLibrary()) {
-         SpeechRecognizer.register(Qwen3ASRConfig.priority, Qwen3ASRSpeechRecognizer::new);
+         SpeechRecognizer.register(Qwen3ASRConfig.priority, Identifier.of(MOD_ID, "qwen3asr"), Qwen3ASRSpeechRecognizer::new);
       }
    }
 }
