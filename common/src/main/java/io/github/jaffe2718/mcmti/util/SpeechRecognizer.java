@@ -131,11 +131,15 @@ public abstract class SpeechRecognizer {
         this.active = false;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s[hash=0x%X,id=%s,active=%s]", this.getClass().getSimpleName(), System.identityHashCode(this), id, active);
+    }
+
     /**
      * Register the recognizer to the list.
      * The priority of the recognizer is the priority of the recognizer.
      * If the priority is already used, the recognizer will be registered to the next available priority.
-     * Auto activate the recognizer if it is enabled and has higher priority than the current instance.
      * @param priority The priority of the recognizer, smaller value means higher priority.
      *                 If the priority is already used, the recognizer will be registered to the next available priority.
      * @param regId The id of the recognizer when registered.
@@ -148,7 +152,7 @@ public abstract class SpeechRecognizer {
     public static void register(int priority, @NotNull Identifier regId, @NotNull Function<Identifier, ? extends SpeechRecognizer> constructor) throws IllegalStateException {
         SpeechRecognizer recognizer = constructor.apply(regId);
         if (registeredIds.contains(regId)) {
-            throw new IllegalStateException(String.format("The id \"%s\" for recognizer instance \"%s\" is already registered", regId, recognizer.getClass().getTypeName()));
+            throw new IllegalStateException(String.format("The id of recognizer \"%s\" is conflict with existing recognizers", recognizer));
         }
         if (recognizer == null) {
             MicrophoneTextInput.LOGGER.warn("Failed to register recognizer because the constructor returns null");
@@ -165,12 +169,8 @@ public abstract class SpeechRecognizer {
                 recognizerRegistry.get(instanceID).deactivate();
             }
             instanceID = priority;
-            try {
-                recognizer.activate();
-            } catch (IOException ioe) {
-                MicrophoneTextInput.LOGGER.error("Failed to activate recognizer", ioe);
-            }
         }
+        MicrophoneTextInput.LOGGER.info("Recognizer {} is registered with priority {}", recognizer, priority);
     }
 
     /**
@@ -200,7 +200,7 @@ public abstract class SpeechRecognizer {
                     activeFirst = true;
                     recognizer.activate();   // if failed, the recognizer will show toast message
                 } catch (IOException ioe) {
-                    MicrophoneTextInput.LOGGER.error("Failed to activate recognizer", ioe);
+                    MicrophoneTextInput.LOGGER.error("Failed to activate recognizer {}", recognizer, ioe);
                 }
             } else {
                 recognizer.deactivate();     // deactivate other recognizers to save RAM / vRAM

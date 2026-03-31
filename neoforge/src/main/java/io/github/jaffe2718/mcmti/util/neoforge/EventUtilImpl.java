@@ -12,6 +12,7 @@ public abstract class EventUtilImpl {
     public static void register() {
         ClientTickEvent.CLIENT_POST.register(EventSystem::onConfigAltered);
         ClientTickEvent.CLIENT_LEVEL_POST.register(EventSystem::showRecognizeStatus);
+        ClientLifecycleEvent.CLIENT_STARTED.register(client -> SpeechRecognizer.init());
         ClientLifecycleEvent.CLIENT_STOPPING.register(client -> {
             SpeechRecognizer.deregister();
             AudioRecorder.destroy();
