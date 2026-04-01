@@ -143,20 +143,18 @@ public abstract class SpeechRecognizer {
      * @param priority The priority of the recognizer, smaller value means higher priority.
      *                 If the priority is already used, the recognizer will be registered to the next available priority.
      * @param regId The id of the recognizer when registered.
-     * @param constructor The constructor of the recognizer with no arguments.
+     * @param constructor The constructor of the recognizer with one argument, the id of the recognizer when registered.
      * @see SpeechRecognizer#instanceID
      * @see SpeechRecognizer#activate()
      * @see SpeechRecognizer#deactivate()
-     * @throws IllegalStateException If the recognizer with the same id is already registered.
+     * @throws IllegalStateException If the recognizer with the same id is already registered or the constructor returns null.
      */
     public static void register(int priority, @NotNull Identifier regId, @NotNull Function<Identifier, ? extends SpeechRecognizer> constructor) throws IllegalStateException {
         SpeechRecognizer recognizer = constructor.apply(regId);
         if (registeredIds.contains(regId)) {
             throw new IllegalStateException(String.format("The id of recognizer \"%s\" is conflict with existing recognizers", recognizer));
-        }
-        if (recognizer == null) {
-            MicrophoneTextInput.LOGGER.warn("Failed to register recognizer because the constructor returns null");
-            return;
+        } else if (recognizer == null) {
+            throw new IllegalStateException("Recognizer constructor returns null");
         }
         while (recognizerRegistry.containsKey(priority)) {
             priority++;
