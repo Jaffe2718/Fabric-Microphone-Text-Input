@@ -2,6 +2,7 @@ package io.github.jaffe2718.mcmti.util;
 
 import io.github.jaffe2718.mcmti.MicrophoneTextInput;
 import io.github.jaffe2718.mcmti.config.McmtiConfig;
+import io.github.jaffe2718.mcmti.event.EventType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -118,6 +119,7 @@ public abstract class SpeechRecognizer {
                 && MinecraftClient.getInstance().player != null) {
             MinecraftClient.getInstance().player.sendMessage(this.availableToast(), true);
         }
+        EventUtil.triggerEvent(EventType.SPEECH_RECOGNIZER_ACTIVATED, this);
     }
 
     /**
@@ -129,6 +131,7 @@ public abstract class SpeechRecognizer {
      */
     protected void deactivate() {
         this.active = false;
+        EventUtil.triggerEvent(EventType.SPEECH_RECOGNIZER_DEACTIVATED, this);
     }
 
     @Override
@@ -150,6 +153,7 @@ public abstract class SpeechRecognizer {
      * @throws IllegalStateException If the recognizer with the same id is already registered or the constructor returns null.
      */
     public static void register(int priority, @NotNull Identifier regId, @NotNull Function<Identifier, ? extends SpeechRecognizer> constructor) throws IllegalStateException {
+        final int defaultPriority = priority;
         SpeechRecognizer recognizer = constructor.apply(regId);
         if (registeredIds.contains(regId)) {
             throw new IllegalStateException(String.format("The id of recognizer \"%s\" is conflict with existing recognizers", recognizer));
@@ -169,17 +173,21 @@ public abstract class SpeechRecognizer {
             instanceID = priority;
         }
         MicrophoneTextInput.LOGGER.info("Recognizer {} is registered with priority {}", recognizer, priority);
+        EventUtil.triggerEvent(EventType.SPEECH_RECOGNIZER_REGISTERED, defaultPriority, priority, recognizer);
     }
 
     /**
      * Release all the resources of the recognizers and clear the registry.
+     * Do not call this method anywhere except you want to deregister all recognizers.
      */
     public synchronized static void deregister() {
+        Identifier[] allIds = registeredIds.toArray(new Identifier[0]);
         for (SpeechRecognizer recognizer : recognizerRegistry.values()) {
             recognizer.deactivate();
         }
         recognizerRegistry.clear();
         registeredIds.clear();
+        EventUtil.triggerEvent(EventType.ALL_SPEECH_RECOGNIZERS_DEREGISTERED, (Object[]) allIds);
     }
 
     /**
@@ -224,6 +232,7 @@ public abstract class SpeechRecognizer {
                     }
                 }
                 String transcription = recognizer.transcribe(audio);
+                EventUtil.triggerEvent(EventType.SPEECH_RECOGNIZER_TRANSCRIBED, recognizer, audio, transcription);
                 if (McmtiConfig.encodingRepair) {
                     return repairEncoding(transcription, McmtiConfig.srcEncoding, McmtiConfig.dstEncoding);
                 }  else {

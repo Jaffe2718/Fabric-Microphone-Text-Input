@@ -1,8 +1,9 @@
 ## Changelog
 
-1. feature:Support developers to extend custom speech recognition mod (need to refer to this mod as a dependency to develop new mod);
-2. adjust: optimize lifecycle of the recognizers
-3. fix: resolved an issue where there was no warning when advanced config were turned on
+1. feature: support developers to extend custom speech recognition mod (need to refer to this mod as a dependency to develop new mod);
+2. adjust: optimize lifecycle of the recognizers;
+3. fix: resolved an issue where there was no warning when advanced config were turned on;
+4. feature: support event listeners for developers;
 
 ## Download Whisper Model
 

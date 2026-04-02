@@ -120,12 +120,27 @@ public final class MyModNeoForge {
     
     public static final String MOD_ID = "my_mod";
     
-    public MyModNeoForge() {
+    public MyModNeoForge(@NotNull IEventBus modBus, @NotNull ModContainer container) {
         // register your custom SpeechRecognizer
         int priority = 1;  // smaller value means higher priority
         SpeechRecognizer.register(priority, Identifier.of(MOD_ID, "my_recognizer"), MySpeechRecognizer::new);
+       
+        // if you are using NeoForge native config, you have to register after the config is loaded and before the client initialized completed
+        container.registerConfig(ModConfig.Type.CLIENT, MyConfig.CONFIG_SPEC);
+        container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+        modBus.addListener(ModConfigEvent.Loading.class, event -> {
+            if (event.getConfig().getModId().equals(MOD_ID)) {
+                SpeechRecognizer.register(
+                        MyConfig.CONFIG.priority.get(),            // get priority from config
+                        Identifier.of(MOD_ID, "my_recognizer2"),   // identifier must be unique among all mods that use mcmti
+                        MySpeechRecognizer::new
+                );
+            }
+        });
+        
         // ...
     }
+    
     // ...
 }
 ```
@@ -160,6 +175,152 @@ versionRange = "[3.x,)"
 ordering = "AFTER"
 side = "CLIENT"
 ```
+
+## Event Handling
+
+### Fabric
+
+Except mixins, the only way to handle events is registering event listeners by using [io.github.jaffe2718.mcmti.fabric.event.McmtiSpeechRecognizerEvents](fabric/src/main/java/io/github/jaffe2718/mcmti/fabric/event/McmtiSpeechRecognizerEvents.java).
+There are several events available, each with a different purpose.
+
+- `McmtiSpeechRecognizerEvents.SPEECH_RECOGNIZER_REGISTERED`:
+    Called when a new `SpeechRecognizer` is registered.
+    ```groovy
+    McmtiSpeechRecognizerEvents.SPEECH_RECOGNIZER_REGISTERED.register(
+            (/*int*/ defaultPriority, /*int*/ priority, /*SpeechRecognizer*/ recognizer) -> {
+                // ...
+            }
+    );
+    ```
+- `McmtiSpeechRecognizerEvents.SPEECH_RECOGNIZER_ACTIVATED`:
+    Called when a `SpeechRecognizer` is activated.
+    ```groovy
+    McmtiSpeechRecognizerEvents.SPEECH_RECOGNIZER_ACTIVATED.register(
+            (/*SpeechRecognizer*/ recognizer) -> {
+                // ...
+            }
+    );
+    ```
+- `McmtiSpeechRecognizerEvents.SPEECH_RECOGNIZER_DEACTIVATED`:
+    Called when a `SpeechRecognizer` is deactivated.
+    ```groovy
+    McmtiSpeechRecognizerEvents.SPEECH_RECOGNIZER_DEACTIVATED.register(
+            (/*SpeechRecognizer*/ recognizer) -> {
+                // ...
+            }
+    );
+    ```
+- `McmtiSpeechRecognizerEvents.SPEECH_RECOGNIZER_TRANSCRIBED`:
+    Called when a `SpeechRecognizer` finishes transcribing.
+    ```groovy
+    McmtiSpeechRecognizerEvents.SPEECH_RECOGNIZER_TRANSCRIBED.register(
+            (/*SpeechRecognizer*/ recognizer, /*float[]*/ audio, /*String*/ transcription) -> {
+                // ...
+            }
+    );
+    ```
+- `McmtiSpeechRecognizerEvents.ALL_SPEECH_RECOGNIZERS_DEREGISTERED`:
+    Called when all `SpeechRecognizer` instances are deregistered.
+    ```groovy
+    McmtiSpeechRecognizerEvents.ALL_SPEECH_RECOGNIZERS_DEREGISTERED.register(
+            (/*Identifier[]*/ ids) -> {
+                // ...
+            }
+    );
+    ```
+
+
+### NeoForge
+
+For NeoForge version, you can handle events by using [McmtiSpeechRecognizerEvents](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event/McmtiSpeechRecognizerEvents.java)
+or define your own event listeners based on NeoForge's event system besides using mixins.
+
+#### Architectury Impl
+
+Similar to Fabric, you can register event listeners by using [io.github.jaffe2718.mcmti.neoforge.event.McmtiSpeechRecognizerEvents](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event/McmtiSpeechRecognizerEvents.java).
+The only difference is the package name.
+
+#### NeoForge Event Handling
+
+There are some events available in package [io.github.jaffe2718.mcmti.neoforge.event](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event), each with a different purpose.
+You can use `@SubscribeEvent` or `@EventBusSubscriber` annotation to register event listeners, or define the callback method yourself.
+However, you have to get the event bus by calling `MicrophoneTextInputNeoForge.getEventBus()` to register event listeners for all the ways.
+
+- [RegisteredEvent](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event/RegisteredEvent.java):
+    Called when a new `SpeechRecognizer` is registered.
+    ```groovy
+    private void onRegistered(RegisteredEvent event) {
+        // ...
+    }
+  
+    // remember to use `MicrophoneTextInputNeoForge.getEventBus()` to get the event bus and register event listeners
+    MicrophoneTextInputNeoForge.getEventBus().addListener(this::onRegistered);
+    // or you can use the @SubscribeEvent or @EventBusSubscriber annotation
+    ```
+    Accessable methods:
+    - `SpeechRecognizer getRecognizer()`: get the registered recognizer.
+    - `int getDefaultPriority()`: get the default priority when registering the recognizer.
+    - `int getPriority()`: get the actual priority of the recognizer allocated by the event system.
+    <br>
+
+- [ActivatedEvent](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event/ActivatedEvent.java):
+    Called when a `SpeechRecognizer` is activated.
+    ```groovy
+    private void onActivated(ActivatedEvent event) {
+        // ...
+    }
+  
+    // in other method
+    MicrophoneTextInputNeoForge.getEventBus().addListener(this::onActivated);
+    ```
+    Accessable methods:
+    - `SpeechRecognizer getRecognizer()`: get the activated recognizer.
+    <br>
+
+- [DeactivatedEvent](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event/DeactivatedEvent.java):
+    Called when a `SpeechRecognizer` is deactivated.
+    ```groovy
+    private void onDeactivated(DeactivatedEvent event) {
+        // ...
+    }
+  
+    // in other method
+    MicrophoneTextInputNeoForge.getEventBus().addListener(this::onDeactivated);
+    ```
+    Accessable methods:
+    - `SpeechRecognizer getRecognizer()`: get the deactivated recognizer.
+    <br>
+
+- [TranscribedEvent](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event/TranscribedEvent.java):
+    Called when a `SpeechRecognizer` finishes transcribing.
+    ```groovy
+    private void onTranscribed(TranscribedEvent event) {
+        // ...
+    }
+  
+    // in other method
+    MicrophoneTextInputNeoForge.getEventBus().addListener(this::onTranscribed);
+    ```
+    Accessable methods:
+    - `SpeechRecognizer getRecognizer()`: get the transcribed recognizer.
+    - `float[] getAudio()`: get the audio data used for transcribing.
+    - `String getTranscription()`: get the transcribed text.
+    <br>
+
+- [DeregisteredEvent](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event/DeregisteredEvent.java):
+    Called when all `SpeechRecognizer` instances are deregistered.
+    ```groovy
+    private void onDeregistered(DeregisteredEvent event) {
+        // ...
+    }
+  
+    // in other method
+    MicrophoneTextInputNeoForge.getEventBus().addListener(this::onDeregistered);
+    ```
+    Accessable methods:
+    - `Identifier[] getIds()`: get the identifiers of the deregistered recognizers.
+    <br>
+
 
 ## Tutorial: Implementing Qwen3 ASR Extension
 
