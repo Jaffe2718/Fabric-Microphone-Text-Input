@@ -1,8 +1,8 @@
 package io.github.jaffe2718.mcmti;
 
 import io.github.jaffe2718.mcmti.config.McmtiConfig;
+import io.github.jaffe2718.mcmti.event.EventSystem;
 import io.github.jaffe2718.mcmti.util.AudioRecorder;
-import io.github.jaffe2718.mcmti.util.EventUtil;
 import io.github.jaffe2718.mcmti.util.SpeechRecognizer;
 import io.github.jaffe2718.mcmti.util.whisper.WhisperSpeechRecognizer;
 import net.minecraft.client.option.KeyBinding;
@@ -27,7 +27,7 @@ public final class MicrophoneTextInput {
         if (WhisperSpeechRecognizer.loadLibrary()) {
             SpeechRecognizer.register(Integer.MAX_VALUE, Identifier.of(MOD_ID, "whisper"), WhisperSpeechRecognizer::new);
         }
-        EventUtil.register();
         advancedConfig = McmtiConfig.advancedConfig;
+        Thread.ofVirtual().start(EventSystem::recognizeTask).setName("thread.mcmti.recognizer.loop");
     }
 }

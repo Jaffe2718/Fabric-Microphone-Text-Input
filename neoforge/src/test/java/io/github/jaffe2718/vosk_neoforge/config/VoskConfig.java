@@ -33,7 +33,7 @@ public final class VoskConfig {
 
     public static void onCongigAlter(@NotNull ModConfigEvent.Reloading event) {
         if (VoskNeoForge.MOD_ID.equals(event.getConfig().getModId())) {
-            SpeechRecognizer.init();
+            Thread.ofVirtual().start(SpeechRecognizer::init);
         }
     }
 }

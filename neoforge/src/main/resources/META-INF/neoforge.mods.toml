@@ -39,10 +39,3 @@ mandatory = true
 versionRange = "[1.0,)"
 ordering = "AFTER"
 side = "CLIENT"
-
-[[dependencies.mcmti]]
-modId = "architectury"
-mandatory = true
-versionRange = "${architectury_version_range}"
-ordering = "AFTER"
-side = "CLIENT"

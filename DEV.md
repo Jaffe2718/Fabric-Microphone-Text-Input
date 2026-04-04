@@ -232,24 +232,17 @@ There are several events available, each with a different purpose.
 
 ### NeoForge
 
-For NeoForge version, you can handle events by using [McmtiSpeechRecognizerEvents](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event/McmtiSpeechRecognizerEvents.java)
-or define your own event listeners based on NeoForge's event system besides using mixins.
-
-#### Architectury Impl
-
-Similar to Fabric, you can register event listeners by using [io.github.jaffe2718.mcmti.neoforge.event.McmtiSpeechRecognizerEvents](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event/McmtiSpeechRecognizerEvents.java).
-The only difference is the package name.
-
-#### NeoForge Event Handling
+For NeoForge version, you can use `@SubscribeEvent` or `@EventBusSubscriber` annotation to handle events by
+listening the subclass of [SpeechRecognizerEvent](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event/SpeechRecognizerEvent.java)
 
 There are some events available in package [io.github.jaffe2718.mcmti.neoforge.event](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event), each with a different purpose.
 You can use `@SubscribeEvent` or `@EventBusSubscriber` annotation to register event listeners, or define the callback method yourself.
 However, you have to get the event bus by calling `MicrophoneTextInputNeoForge.getEventBus()` to register event listeners for all the ways.
 
-- [RegisteredEvent](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event/RegisteredEvent.java):
+- `SpeechRecognizerEvent.Registered`:
     Called when a new `SpeechRecognizer` is registered.
     ```groovy
-    private void onRegistered(RegisteredEvent event) {
+    private void onRegistered(SpeechRecognizerEvent.Registered event) {
         // ...
     }
   
@@ -263,10 +256,10 @@ However, you have to get the event bus by calling `MicrophoneTextInputNeoForge.g
     - `int getPriority()`: get the actual priority of the recognizer allocated by the event system.
     <br>
 
-- [ActivatedEvent](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event/ActivatedEvent.java):
+- `SpeechRecognizerEvent.Activated`:
     Called when a `SpeechRecognizer` is activated.
     ```groovy
-    private void onActivated(ActivatedEvent event) {
+    private void onActivated(SpeechRecognizerEvent.Activated event) {
         // ...
     }
   
@@ -277,10 +270,10 @@ However, you have to get the event bus by calling `MicrophoneTextInputNeoForge.g
     - `SpeechRecognizer getRecognizer()`: get the activated recognizer.
     <br>
 
-- [DeactivatedEvent](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event/DeactivatedEvent.java):
+- `SpeechRecognizerEvent.Deactivated`:
     Called when a `SpeechRecognizer` is deactivated.
     ```groovy
-    private void onDeactivated(DeactivatedEvent event) {
+    private void onDeactivated(SpeechRecognizerEvent.Deactivated event) {
         // ...
     }
   
@@ -291,10 +284,10 @@ However, you have to get the event bus by calling `MicrophoneTextInputNeoForge.g
     - `SpeechRecognizer getRecognizer()`: get the deactivated recognizer.
     <br>
 
-- [TranscribedEvent](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event/TranscribedEvent.java):
+- `SpeechRecognizerEvent.Transcribed`:
     Called when a `SpeechRecognizer` finishes transcribing.
     ```groovy
-    private void onTranscribed(TranscribedEvent event) {
+    private void onTranscribed(SpeechRecognizerEvent.Transcribed event) {
         // ...
     }
   
@@ -307,10 +300,10 @@ However, you have to get the event bus by calling `MicrophoneTextInputNeoForge.g
     - `String getTranscription()`: get the transcribed text.
     <br>
 
-- [DeregisteredEvent](neoforge/src/main/java/io/github/jaffe2718/mcmti/neoforge/event/DeregisteredEvent.java):
+- `SpeechRecognizerEvent.Deregistered`:
     Called when all `SpeechRecognizer` instances are deregistered.
     ```groovy
-    private void onDeregistered(DeregisteredEvent event) {
+    private void onDeregistered(SpeechRecognizerEvent.Deregistered event) {
         // ...
     }
   

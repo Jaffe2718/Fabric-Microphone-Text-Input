@@ -5,11 +5,6 @@ import io.github.jaffe2718.mcmti.event.EventType;
 
 public abstract class EventUtil {
 
-    @ExpectPlatform
-    public static void register() {
-        throw new RuntimeException();
-    }
-
     @SuppressWarnings("unused")
     @ExpectPlatform
     public static void triggerEvent(EventType event, Object... args) {
