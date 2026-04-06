@@ -69,7 +69,7 @@ public final class AudioRecorder {
         ByteArrayOutputStream dynamicBuffer = new ByteArrayOutputStream();
         byte[] chunk = new byte[McmtiConfig.recordBufferSize];
         INSTANCE.line.start();
-        while (MicrophoneTextInput.RECOGNIZE_KEY.isPressed()) {
+        while (MicrophoneTextInput.RECOGNIZE_KEY.isDown()) {
             int read = INSTANCE.line.read(chunk, 0, chunk.length);
             if (read > 0) {
                 dynamicBuffer.write(chunk, 0, read);

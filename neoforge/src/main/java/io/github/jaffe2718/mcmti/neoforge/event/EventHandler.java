@@ -4,7 +4,7 @@ import io.github.jaffe2718.mcmti.MicrophoneTextInput;
 import io.github.jaffe2718.mcmti.event.EventSystem;
 import io.github.jaffe2718.mcmti.util.AudioRecorder;
 import io.github.jaffe2718.mcmti.util.SpeechRecognizer;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -22,13 +22,14 @@ public class EventHandler {
         event.register(MicrophoneTextInput.RECOGNIZE_KEY);
     }
 
+    @SuppressWarnings("ConstantValue")
     @SubscribeEvent
     public static void onClientTick(@NotNull ClientTickEvent.Post event) {
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         if (client == null) return;
         EventSystem.onConfigAltered(client);
-        if (client.world != null) {
-            EventSystem.showRecognizeStatus(client.world);
+        if (client.level != null) {
+            EventSystem.showRecognizeStatus(client.level);
         }
     }
 

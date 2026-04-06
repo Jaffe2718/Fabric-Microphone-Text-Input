@@ -11,7 +11,6 @@ public enum EventType {
      * Triggered when speech recognizer is registered, default priority, actual priority and recognizer is available.
      * <br>
      * Available arguments: {@link Integer defaultPriority}, {@link Integer priority}, {@link io.github.jaffe2718.mcmti.util.SpeechRecognizer recognizer}
-     * @see io.github.jaffe2718.mcmti.util.SpeechRecognizer#register(int, net.minecraft.util.Identifier, java.util.function.Function) SpeechRecognizer.register(int, Identifier, Function)
      */
     SPEECH_RECOGNIZER_REGISTERED,
 
@@ -19,7 +18,6 @@ public enum EventType {
      * Triggered when speech recognizer is activated.
      * <br>
      * Available arguments: {@link io.github.jaffe2718.mcmti.util.SpeechRecognizer recognizer}
-     * @see io.github.jaffe2718.mcmti.util.SpeechRecognizer#activate() SpeechRecognizer.activate()
      */
     SPEECH_RECOGNIZER_ACTIVATED,
 
@@ -27,7 +25,6 @@ public enum EventType {
      * Triggered when speech recognizer is deactivated.
      * <br>
      * Available arguments: {@link io.github.jaffe2718.mcmti.util.SpeechRecognizer recognizer}
-     * @see io.github.jaffe2718.mcmti.util.SpeechRecognizer#deactivate() SpeechRecognizer.deactivate()
      */
     SPEECH_RECOGNIZER_DEACTIVATED,
 
@@ -43,7 +40,7 @@ public enum EventType {
     /**
      * Triggered when all the recognizers are deregistered.
      * <br>
-     * Available arguments: {@link net.minecraft.util.Identifier ids[]} of the deregistered recognizers.
+     * Available arguments: {@link net.minecraft.resources.Identifier ids[]} of the deregistered recognizers.
      * @see io.github.jaffe2718.mcmti.util.SpeechRecognizer#deregister() SpeechRecognizer.deregister()
      */
     ALL_SPEECH_RECOGNIZERS_DEREGISTERED

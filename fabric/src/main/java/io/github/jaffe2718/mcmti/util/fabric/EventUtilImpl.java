@@ -3,7 +3,7 @@ package io.github.jaffe2718.mcmti.util.fabric;
 import io.github.jaffe2718.mcmti.event.EventType;
 import io.github.jaffe2718.mcmti.fabric.event.McmtiSpeechRecognizerEvents;
 import io.github.jaffe2718.mcmti.util.SpeechRecognizer;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;

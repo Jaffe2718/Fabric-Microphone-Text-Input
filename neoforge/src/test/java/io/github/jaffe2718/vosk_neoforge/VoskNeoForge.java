@@ -3,7 +3,7 @@ package io.github.jaffe2718.vosk_neoforge;
 import io.github.jaffe2718.mcmti.util.SpeechRecognizer;
 import io.github.jaffe2718.vosk_neoforge.config.VoskConfig;
 import io.github.jaffe2718.vosk_neoforge.util.VoskSpeechRecognizer;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -29,7 +29,7 @@ public final class VoskNeoForge {
             if (event.getConfig().getModId().equals(MOD_ID)) {
                 SpeechRecognizer.register(
                         VoskConfig.CONFIG.priority.get(),
-                        Identifier.of(MOD_ID, "vosk"),
+                        Identifier.fromNamespaceAndPath(MOD_ID, "vosk"),
                         VoskSpeechRecognizer::new
                 );
             }

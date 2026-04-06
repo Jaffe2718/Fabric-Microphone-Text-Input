@@ -7,9 +7,8 @@ import io.github.jaffe2718.qwen3asr4j.Qwen3ASR;
 import io.github.jaffe2718.qwen3asr4j.result.TranscribeResult;
 import io.github.jaffe2718.qwen3asr_fabric.Qwen3ASRFabricClient;
 import io.github.jaffe2718.qwen3asr_fabric.config.Qwen3ASRConfig;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,13 +44,13 @@ public class Qwen3ASRSpeechRecognizer extends SpeechRecognizer {
     }
 
     @Override
-    protected @NotNull Text availableToast() {
-        return Text.literal("Qwen3 ASR is loaded!").setStyle(Style.EMPTY.withColor(0x55FF55));
+    protected @NotNull Component availableToast() {
+        return Component.literal("Qwen3 ASR is loaded!").withColor(0x55FF55);
     }
 
     @Override
-    protected @NotNull Text unavailableToast() {
-        return Text.literal("Failed to load Qwen3 ASR model!").setStyle(Style.EMPTY.withColor(0xFF5555));
+    protected @NotNull Component unavailableToast() {
+        return Component.literal("Failed to load Qwen3 ASR model!").withColor(0xFF5555);
     }
 
     /**

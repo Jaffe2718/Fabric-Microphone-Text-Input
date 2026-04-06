@@ -1,7 +1,7 @@
 package io.github.jaffe2718.mcmti.neoforge.event;
 
 import io.github.jaffe2718.mcmti.util.SpeechRecognizer;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.Event;
 import net.neoforged.fml.event.IModBusEvent;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +10,10 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Base class for speech recognizer events.
  */
-public abstract class SpeechRecognizerEvent  extends Event implements IModBusEvent {
+public abstract class SpeechRecognizerEvent
+        extends Event
+        implements IModBusEvent {
+
     @Nullable
     protected final SpeechRecognizer recognizer;
 

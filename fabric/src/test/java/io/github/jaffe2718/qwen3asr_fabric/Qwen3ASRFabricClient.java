@@ -5,7 +5,7 @@ import io.github.jaffe2718.mcmti.util.SpeechRecognizer;
 import io.github.jaffe2718.qwen3asr_fabric.config.Qwen3ASRConfig;
 import io.github.jaffe2718.qwen3asr_fabric.util.Qwen3ASRSpeechRecognizer;
 import net.fabricmc.api.ClientModInitializer;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +21,7 @@ public class Qwen3ASRFabricClient implements ClientModInitializer {
     public void onInitializeClient() {
         MidnightConfig.init(MOD_ID, Qwen3ASRConfig.class);
         if (Qwen3ASRSpeechRecognizer.loadNativeLibrary()) {
-            SpeechRecognizer.register(Qwen3ASRConfig.priority, Identifier.of(MOD_ID, "qwen3asr"), Qwen3ASRSpeechRecognizer::new);
+            SpeechRecognizer.register(Qwen3ASRConfig.priority, Identifier.fromNamespaceAndPath(MOD_ID, "qwen3asr"), Qwen3ASRSpeechRecognizer::new);
         }
     }
 }

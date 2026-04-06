@@ -2,10 +2,10 @@ package io.github.jaffe2718.mcmti.client.gui.screen;
 
 import eu.midnightdust.lib.config.MidnightConfig;
 import io.github.jaffe2718.mcmti.MicrophoneTextInput;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ConfirmScreen;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.ConfirmScreen;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 
 public class AdvancedConfigWarningScreen extends ConfirmScreen {
 
@@ -13,10 +13,10 @@ public class AdvancedConfigWarningScreen extends ConfirmScreen {
 
     public AdvancedConfigWarningScreen(Screen parent) {
         super(AdvancedConfigWarningScreen::checkConfirmed,
-                Text.translatable("mcmti.gui.config.advanced.warn.title"),
-                Text.translatable("mcmti.gui.config.advanced.warn"),
-                Text.translatable("gui.proceed").withColor(0xFF5555),
-                Text.translatable("gui.cancel"));
+                Component.translatable("mcmti.gui.config.advanced.warn.title"),
+                Component.translatable("mcmti.gui.config.advanced.warn"),
+                Component.translatable("gui.proceed").withColor(0xFF5555),
+                Component.translatable("gui.cancel"));
         this.parent = parent;
     }
 
@@ -26,17 +26,13 @@ public class AdvancedConfigWarningScreen extends ConfirmScreen {
         } else {
             MidnightConfig.configInstances.get(MicrophoneTextInput.MOD_ID).loadValuesFromJson();
         }
-        if (MinecraftClient.getInstance().currentScreen instanceof AdvancedConfigWarningScreen screen) {
-            screen.close();
+        if (Minecraft.getInstance().screen instanceof AdvancedConfigWarningScreen screen) {
+            screen.onClose();
         }
     }
 
     @Override
-    public void close() {
-        if (this.client != null) {
-            this.client.setScreen(this.parent);
-        } else {
-            super.close();
-        }
+    public void onClose() {
+        this.minecraft.setScreen(this.parent);
     }
 }

@@ -17,9 +17,9 @@ public final class VoskConfig {
     public final ModConfigSpec.ConfigValue<String> voskModelDir;
 
     private VoskConfig(@NotNull ModConfigSpec.Builder builder) {
-        this.priority = builder.define("priority", 1);
-        this.enabled = builder.define("enabled", true);
-        this.voskModelDir = builder.define("vosk_model_dir", "");
+        this.priority = builder.translation("priority").define("priority", 1);
+        this.enabled = builder.translation("enabled").define("enabled", true);
+        this.voskModelDir = builder.translation("vosk model dir").define("vosk_model_dir", "");
     }
 
     static {

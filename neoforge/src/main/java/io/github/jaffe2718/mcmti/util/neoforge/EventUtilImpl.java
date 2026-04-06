@@ -4,7 +4,7 @@ import io.github.jaffe2718.mcmti.event.*;
 import io.github.jaffe2718.mcmti.neoforge.MicrophoneTextInputNeoForge;
 import io.github.jaffe2718.mcmti.neoforge.event.*;
 import io.github.jaffe2718.mcmti.util.SpeechRecognizer;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.IEventBus;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[2,)"
+loaderVersion = "[4,)"
 issueTrackerURL = "https://github.com/Jaffe2718/Microphone-Text-Input/issues"
 license = "MIT"
 

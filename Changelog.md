@@ -1,9 +1,11 @@
 ## Changelog
 
-1. feature: support developers to extend custom speech recognition mod (need to refer to this mod as a dependency to develop new mod);
-2. adjust: optimize lifecycle of the recognizers;
-3. fix: resolved an issue where there was no warning when advanced config were turned on;
-4. feature: support event listeners for developers;
+1. feature: support developers to extend custom speech recognition mod (need to refer to this mod as a dependency to
+   develop new mod);
+2. feature: support event listeners for developers;
+3. adjust: optimize lifecycle of the recognizers;
+4. adjust: remove architectury dependency;
+5. fix: resolved an issue where there was no warning when advanced config were turned on;
 
 ## Download Whisper Model
 
@@ -13,9 +15,10 @@
 
 ## Dependencies
 
-| Minecraft | Fabric                                                                                                                                                                                       | NeoForge                                                                                                                                                                                                     |
-|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1.21.11   | [fabric-api 0.141.3+1.21.11](https://modrinth.com/mod/fabric-api/version/0.141.3+1.21.11) <br> [midnightlib 1.9.2-fabric](https://modrinth.com/mod/midnightlib/version/1.9.2+1.21.11-fabric) | [architechury-api 19.0.1+neoforge](https://modrinth.com/mod/architectury-api/version/19.0.1+neoforge) <br> [midnightlib 1.9.2-neoforge](https://modrinth.com/mod/midnightlib/version/1.9.2+1.21.11-neoforge) |
+| Minecraft | Fabric                                                                                                                                                                                  | NeoForge                                                                                       |
+|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
+| 26.1      | [fabric-api 0.145.3+26.1.1](https://modrinth.com/mod/fabric-api/version/0.145.3+26.1.1) <br> [midnightlib 1.9.2-fabric](https://modrinth.com/mod/midnightlib/version/1.9.2+26.1-fabric) | [midnightlib 1.9.2-neoforge](https://modrinth.com/mod/midnightlib/version/1.9.2+26.1-neoforge) |
+| 26.1.1    | [fabric-api 0.145.3+26.1.1](https://modrinth.com/mod/fabric-api/version/0.145.3+26.1.1) <br> [midnightlib 1.9.2-fabric](https://modrinth.com/mod/midnightlib/version/1.9.2+26.1-fabric) | [midnightlib 1.9.2-neoforge](https://modrinth.com/mod/midnightlib/version/1.9.2+26.1-neoforge) |
 
 ## Compatibility
 

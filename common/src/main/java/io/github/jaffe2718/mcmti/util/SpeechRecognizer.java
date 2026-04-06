@@ -3,18 +3,16 @@ package io.github.jaffe2718.mcmti.util;
 import io.github.jaffe2718.mcmti.MicrophoneTextInput;
 import io.github.jaffe2718.mcmti.config.McmtiConfig;
 import io.github.jaffe2718.mcmti.event.EventType;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 public abstract class SpeechRecognizer {
@@ -24,7 +22,7 @@ public abstract class SpeechRecognizer {
      */
     private static volatile int instanceID = Integer.MAX_VALUE;
 
-    private static final Text GLOBAL_UNAVAILABLE_TOAST = Text.translatable("message.mcmti.noRecognizerAvailable");
+    private static final Component GLOBAL_UNAVAILABLE_TOAST = Component.translatable("message.mcmti.noRecognizerAvailable");
 
     /**
      * The recognizer registry.
@@ -42,7 +40,7 @@ public abstract class SpeechRecognizer {
      * @see SpeechRecognizer#register(int, Identifier, Function)
      * @see SpeechRecognizer#id
      */
-    private static final Set<Identifier> registeredIds = new HashSet<>();
+    private static final Map<Identifier, Integer> registeredIds = new ConcurrentHashMap<>();
 
     /**
      * The id of the recognizer.
@@ -78,14 +76,14 @@ public abstract class SpeechRecognizer {
      * @see SpeechRecognizer#activate()
      * @return The toast message when the recognizer is available.
      */
-    protected abstract @NotNull Text availableToast();
+    protected abstract @NotNull Component availableToast();
 
     /**
      * The toast message when the recognizer is unavailable.
      * @return The toast message when the recognizer is unavailable.
      * @see SpeechRecognizer#instanceUnavailableToast()
      */
-    protected abstract @NotNull Text unavailableToast();
+    protected abstract @NotNull Component unavailableToast();
 
     /**
      * Transcribe the audio to text.
@@ -113,11 +111,12 @@ public abstract class SpeechRecognizer {
      * Remember to call <code>super.activate()</code> in the end of the override method.
      * @throws IOException If the model loading fails.
      */
+    @SuppressWarnings("ConstantValue")
     protected void activate() throws IOException {
         this.active = true;
-        if (MinecraftClient.getInstance() != null
-                && MinecraftClient.getInstance().player != null) {
-            MinecraftClient.getInstance().player.sendMessage(this.availableToast(), true);
+        if (Minecraft.getInstance() != null
+                && Minecraft.getInstance().player != null) {
+            Minecraft.getInstance().player.sendOverlayMessage(this.availableToast());
         }
         EventUtil.triggerEvent(EventType.SPEECH_RECOGNIZER_ACTIVATED, this);
     }
@@ -155,7 +154,7 @@ public abstract class SpeechRecognizer {
     public static void register(int priority, @NotNull Identifier regId, @NotNull Function<Identifier, ? extends SpeechRecognizer> constructor) throws IllegalStateException {
         final int defaultPriority = priority;
         SpeechRecognizer recognizer = constructor.apply(regId);
-        if (registeredIds.contains(regId)) {
+        if (registeredIds.containsKey(regId)) {
             throw new IllegalStateException(String.format("The id of recognizer \"%s\" is conflict with existing recognizers", recognizer));
         } else if (recognizer == null) {
             throw new IllegalStateException("Recognizer constructor returns null");
@@ -164,7 +163,7 @@ public abstract class SpeechRecognizer {
             priority++;
         }
         recognizerRegistry.put(priority, recognizer);
-        registeredIds.add(regId);
+        registeredIds.put(regId, priority);
         // if the recognizer is enabled and has higher priority than the current instance
         if (priority < instanceID && recognizer.enabled()) {
             if (recognizerRegistry.containsKey(instanceID)) {
@@ -181,7 +180,7 @@ public abstract class SpeechRecognizer {
      * Do not call this method anywhere except you want to deregister all recognizers.
      */
     public synchronized static void deregister() {
-        Identifier[] allIds = registeredIds.toArray(new Identifier[0]);
+        Identifier[] allIds = registeredIds.keySet().toArray(new Identifier[0]);
         for (SpeechRecognizer recognizer : recognizerRegistry.values()) {
             recognizer.deactivate();
         }
@@ -247,7 +246,7 @@ public abstract class SpeechRecognizer {
     /**
      * Check if the instance recognizer is available.
      * @return true if the instance recognizer is available, false otherwise.
-     * @see io.github.jaffe2718.mcmti.event.EventSystem#showRecognizeStatus(net.minecraft.client.world.ClientWorld)
+     * @see io.github.jaffe2718.mcmti.event.EventSystem#showRecognizeStatus(net.minecraft.client.multiplayer.ClientLevel)
      */
     public static boolean instanceAvailable() {
         return recognizerRegistry.containsKey(instanceID) && recognizerRegistry.get(instanceID).available();
@@ -257,12 +256,26 @@ public abstract class SpeechRecognizer {
      * Get the unavailable toast message of the instance recognizer.
      * @return The unavailable toast message.
      * @see SpeechRecognizer#unavailableToast()
-     * @see io.github.jaffe2718.mcmti.event.EventSystem#showRecognizeStatus(net.minecraft.client.world.ClientWorld)
+     * @see io.github.jaffe2718.mcmti.event.EventSystem#showRecognizeStatus(net.minecraft.client.multiplayer.ClientLevel)
      */
-    public static @NonNull Text instanceUnavailableToast() {
+    public static @NonNull Component instanceUnavailableToast() {
         return recognizerRegistry.containsKey(instanceID) ?
                 recognizerRegistry.get(instanceID).unavailableToast() :
                 GLOBAL_UNAVAILABLE_TOAST;
+    }
+
+    /**
+     * Query the priority of the recognizer with the given identifier.
+     * @param id The identifier of the recognizer.
+     * @return The priority of the recognizer.
+     * @throws NoSuchElementException If the recognizer with the given identifier is not registered.
+     */
+    @SuppressWarnings("unused")
+    public static int queryPriority(Identifier id) throws NoSuchElementException {
+        if (registeredIds.containsKey(id)) {
+            return registeredIds.get(id);
+        }
+        throw new NoSuchElementException(String.format("Recognizer \"%s\" not registered", id));
     }
 
     private static @NotNull String repairEncoding(@NotNull String str, String srcEncoding, String dstEncoding) {

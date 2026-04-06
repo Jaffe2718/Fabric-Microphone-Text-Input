@@ -7,8 +7,8 @@ import io.github.jaffe2718.whisperjni.WhisperJNI;
 import io.github.jaffe2718.mcmti.MicrophoneTextInput;
 import io.github.jaffe2718.mcmti.config.McmtiConfig;
 import io.github.jaffe2718.mcmti.util.SpeechRecognizer;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
@@ -47,13 +47,13 @@ public class WhisperSpeechRecognizer extends SpeechRecognizer {
     }
 
     @Override
-    protected @NonNull Text availableToast() {
-        return Text.translatable("message.mcmti.whisperModelLoaded");
+    protected @NonNull Component availableToast() {
+        return Component.translatable("message.mcmti.whisperModelLoaded");
     }
 
     @Override
-    protected @NonNull Text unavailableToast() {
-        return Text.translatable("message.mcmti.whisperModelLoadFailed");
+    protected @NonNull Component unavailableToast() {
+        return Component.translatable("message.mcmti.whisperModelLoadFailed");
     }
 
     @Override

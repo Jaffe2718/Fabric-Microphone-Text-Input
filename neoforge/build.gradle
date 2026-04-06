@@ -69,9 +69,9 @@ loom {
 dependencies {
     include forgeDependencies("io.github.jaffe2718:whisper-jni:$rootProject.whisper_jni_version")
     neoForge "net.neoforged:neoforge:$project.neoforge_version"
-    modImplementation "maven.modrinth:midnightlib:${rootProject.midnightlib_version}-neoforge"
-    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
-    shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
+    implementation "maven.modrinth:midnightlib:${rootProject.midnightlib_version}-neoforge"
+    common(project(path: ':common')) { transitive false }
+    shadowBundle(project(path: ':common', configuration: 'transformProductionNeoForge')) { transitive false }
 
     testImplementation "com.alphacephei:vosk:$project.vosk_version"
 }
@@ -90,28 +90,31 @@ tasks.named('runClient') {
     jvmArgs '-Djava.awt.headless=false'
 }
 
-shadowJar {
-    configurations = [project.configurations.shadowBundle]
-    archiveClassifier = 'dev-shadow'
+jar {
+    archiveClassifier = "raw"
 }
 
-remapJar {
-    inputFile.set shadowJar.archiveFile
+shadowJar {
+    dependsOn(jar)
+    mainSpec.sourcePaths.clear()
+    from(jar)
+    configurations = [project.configurations.shadowBundle]
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveClassifier = null
     from(rootDir.toPath().toString() + "/LICENSE") {
         rename { "${it}_${rootProject.archives_name}"}
     }
-    archiveFileName = "${rootProject.archives_name}-${rootProject.version}+${project.minecraft_version}-${project.name}.jar"
+    archiveFileName = "${rootProject.archives_name}-${project.name}-${rootProject.version}+${project.minecraft_version}.jar"
 }
 
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = 'ynA13Vjn'
-    versionNumber = rootProject.mod_version + "-neoforge"
+    versionNumber = "${rootProject.mod_version}+${project.minecraft_version}-${project.name}"
     versionType = rootProject.getPublishVersionType()
-    uploadFile = remapJar
+    uploadFile = shadowJar
     loaders = ["neoforge"]
     dependencies {
-        required.project 'architectury-api'
         required.project 'midnightlib'
     }
     changelog = rootProject.ext.publish_changelog

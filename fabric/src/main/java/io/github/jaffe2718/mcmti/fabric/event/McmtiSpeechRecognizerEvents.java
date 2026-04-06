@@ -3,7 +3,7 @@ package io.github.jaffe2718.mcmti.fabric.event;
 import io.github.jaffe2718.mcmti.util.SpeechRecognizer;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 
 public final class McmtiSpeechRecognizerEvents {
 

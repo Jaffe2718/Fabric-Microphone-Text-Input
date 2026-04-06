@@ -4,8 +4,8 @@ import com.google.gson.JsonParser;
 import io.github.jaffe2718.mcmti.util.SpeechRecognizer;
 import io.github.jaffe2718.vosk_neoforge.VoskNeoForge;
 import io.github.jaffe2718.vosk_neoforge.config.VoskConfig;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.vosk.Model;
@@ -31,13 +31,13 @@ public class VoskSpeechRecognizer extends SpeechRecognizer {
     }
 
     @Override
-    protected @NotNull Text availableToast() {
-        return Text.literal("Vosk Speech Recognizer is loaded.").withColor(0x55FF55);
+    protected @NotNull Component availableToast() {
+        return Component.literal("Vosk Speech Recognizer is loaded.").withColor(0x55FF55);
     }
 
     @Override
-    protected @NotNull Text unavailableToast() {
-        return Text.literal("Vosk Speech Recognizer is not loaded.").withColor(0xFF5555);
+    protected @NotNull Component unavailableToast() {
+        return Component.literal("Vosk Speech Recognizer is not loaded.").withColor(0xFF5555);
     }
 
     @Override

@@ -29,43 +29,43 @@ public class Qwen3ASRConfig extends MidnightConfig {
      * This config field controls whether to enable the ASR extension.
      * @see io.github.jaffe2718.qwen3asr_fabric.util.Qwen3ASRSpeechRecognizer#enabled()
      */
-    @Entry
+    @Entry(name = "enabled")
     public static boolean enabled = true;
 
-    @Entry
+    @Entry(name = "priority")
     @Condition(requiredOption = "enabled", requiredValue = "true")
     public static int priority = 0;
 
-    @Entry(selectionMode = JFileChooser.FILES_ONLY, fileExtensions = {"gguf"})
+    @Entry(name = "model path", selectionMode = JFileChooser.FILES_ONLY, fileExtensions = {"gguf"})
     @Condition(requiredOption = "enabled", requiredValue = "true")
     public static String modelPath = "";
 
-    @Entry
+    @Entry(name = "custom library")
     @Condition(requiredOption = "enabled", requiredValue = "true")
     public static boolean customLibrary = false;
 
-    @Entry(selectionMode = JFileChooser.DIRECTORIES_ONLY)
+    @Entry(name = "custom library dir", selectionMode = JFileChooser.DIRECTORIES_ONLY)
     @Condition(requiredOption = "enabled", requiredValue = "true")
     @Condition(requiredOption = "customLibrary", requiredValue = "true")
     public static String customLibraryDir = "";
 
-    @Entry(min = 1)
+    @Entry(name = "max tokens", min = 1)
     @Condition(requiredOption = "enabled", requiredValue = "true")
     public static int maxTokens = 1024;
 
-    @Entry
+    @Entry(name = "language")
     @Condition(requiredOption = "enabled", requiredValue = "true")
     public static String language = "";
 
-    @Entry(min = 0)
+    @Entry(name = "n threads", min = 0)
     @Condition(requiredOption = "enabled", requiredValue = "true")
     public static int nThreads = 4;
 
-    @Entry
+    @Entry(name = "print progress")
     @Condition(requiredOption = "enabled", requiredValue = "true")
     public static boolean printProgress = true;
 
-    @Entry
+    @Entry(name = "print timing")
     @Condition(requiredOption = "enabled", requiredValue = "true")
     public static boolean printTiming = false;
 

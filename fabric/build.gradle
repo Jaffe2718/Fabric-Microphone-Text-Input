@@ -8,13 +8,6 @@ architectury {
     fabric()
 }
 
-repositories {
-    maven {
-        name = "Terraformers"
-        url = "https://maven.terraformersmc.com/"
-    }
-}
-
 sourceSets {
     test {
         compileClasspath += main.compileClasspath
@@ -56,15 +49,14 @@ configurations {
 
 dependencies {
     include "io.github.jaffe2718:whisper-jni:$rootProject.whisper_jni_version"
-    modImplementation "net.fabricmc:fabric-loader:$project.fabric_loader_version"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:$project.fabric_api_version"
-//    modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
-    modImplementation "maven.modrinth:midnightlib:${rootProject.midnightlib_version}-fabric"
-    modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+    implementation "net.fabricmc:fabric-loader:$project.fabric_loader_version"
+    implementation "net.fabricmc.fabric-api:fabric-api:$project.fabric_api_version"
+    implementation "maven.modrinth:midnightlib:${rootProject.midnightlib_version}-fabric"
+    runtimeOnly "maven.modrinth:modmenu:${project.modmenu_version}"
     testImplementation "io.github.jaffe2718:qwen3asr4j:${project.qwen3asr4j_version}"
 
-    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
-    shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
+    common(project(path: ':common')) { transitive false }
+    shadowBundle(project(path: ':common', configuration: 'transformProductionFabric')) { transitive false }
 
 }
 
@@ -79,25 +71,29 @@ processResources {
     }
 }
 
-shadowJar {
-    configurations = [project.configurations.shadowBundle]
-    archiveClassifier = 'dev-shadow'
+jar {
+    archiveClassifier = "raw"
 }
 
-remapJar {
-    inputFile.set shadowJar.archiveFile
+shadowJar {
+    dependsOn(jar)
+    mainSpec.sourcePaths.clear()
+    from(jar)
+    configurations = [project.configurations.shadowBundle]
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveClassifier = null
     from(rootDir.toPath().toString() + "/LICENSE") {
         rename { "${it}_${rootProject.archives_name}"}
     }
-    archiveFileName = "${rootProject.archives_name}-${rootProject.version}+${project.minecraft_version}-${project.name}.jar"
+    archiveFileName = "${rootProject.archives_name}-${project.name}-${rootProject.version}+${project.minecraft_version}.jar"
 }
 
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = 'ynA13Vjn'
-    versionNumber = rootProject.mod_version + "-fabric"
+    versionNumber = "${rootProject.mod_version}+${project.minecraft_version}-${project.name}"
     versionType = rootProject.getPublishVersionType()
-    uploadFile = remapJar
+    uploadFile = shadowJar
     loaders = ["fabric", "quilt"]
     dependencies {
         required.project 'fabric-api'
