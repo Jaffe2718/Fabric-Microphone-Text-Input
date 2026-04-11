@@ -3,6 +3,7 @@
     "key.mcmti.recognize": "Распознать речь",
     "mcmti.gui.config.advanced.warn": "ВНИМАНИЕ: Включение расширенной конфигурации изменит параметры по умолчанию конфигурации модели Whisper, что может серьезно повлиять на результаты распознавания речи. Некорректная настройка расширенных параметров может привести к проблемам, таким как неудачное распознавание речи, высокая загрузка ресурсов компьютера и сбои программы. Используйте с осторожностью.",
     "mcmti.gui.config.advanced.warn.title": "§l§cВключить расширенную конфигурацию",
+    "mcmti.midnightconfig.activatiedRecognizer": "Активированный распознаватель",
     "mcmti.midnightconfig.advancedConfig": "§cВключить расширенную конфигурацию",
     "mcmti.midnightconfig.advancedConfig.tooltip": "Включить расширенную конфигурацию.",
     "mcmti.midnightconfig.audioCtx": "audioCtx",

@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -219,24 +220,22 @@ public abstract class SpeechRecognizer {
      * @return The recognized text.
      */
     public static @NotNull String recognize(float[] audio) {
-        for (int priority : recognizerRegistry.keySet()) {
-            SpeechRecognizer recognizer = recognizerRegistry.get(priority);
-            if (recognizer.enabled()) {
-                if (!recognizer.active) {
-                    try {
-                        recognizer.activate();
-                    } catch (IOException ioe) {
-                        MicrophoneTextInput.LOGGER.error("Failed to activate recognizer", ioe);
-                        return "";
-                    }
+        SpeechRecognizer recognizer = recognizerRegistry.get(SpeechRecognizer.instanceID);
+        if (recognizer != null && recognizer.enabled()) {
+            if (!recognizer.active) {
+                try {
+                    recognizer.activate();
+                } catch (IOException ioe) {
+                    MicrophoneTextInput.LOGGER.error("Failed to activate recognizer", ioe);
+                    return "";
                 }
-                String transcription = recognizer.transcribe(audio);
-                EventUtil.triggerEvent(EventType.SPEECH_RECOGNIZER_TRANSCRIBED, recognizer, audio, transcription);
-                if (McmtiConfig.encodingRepair) {
-                    return repairEncoding(transcription, McmtiConfig.srcEncoding, McmtiConfig.dstEncoding);
-                }  else {
-                    return transcription;
-                }
+            }
+            String transcription = recognizer.transcribe(audio);
+            EventUtil.triggerEvent(EventType.SPEECH_RECOGNIZER_TRANSCRIBED, recognizer, audio, transcription);
+            if (McmtiConfig.encodingRepair) {
+                return repairEncoding(transcription, McmtiConfig.srcEncoding, McmtiConfig.dstEncoding);
+            }  else {
+                return transcription;
             }
         }
         MicrophoneTextInput.LOGGER.warn("No enabled SpeechRecognizer found");
@@ -276,6 +275,17 @@ public abstract class SpeechRecognizer {
             return registeredIds.get(id);
         }
         throw new NoSuchElementException(String.format("Recognizer \"%s\" not registered", id));
+    }
+
+    /**
+     * Get the identifier of the instance recognizer.
+     * @return The identifier of the instance recognizer.
+     */
+    public static @Nullable Identifier getInstanceID() {
+        if (SpeechRecognizer.recognizerRegistry.containsKey(SpeechRecognizer.instanceID)) {
+            return SpeechRecognizer.recognizerRegistry.get(SpeechRecognizer.instanceID).id;
+        }
+        return null;
     }
 
     private static @NotNull String repairEncoding(@NotNull String str, String srcEncoding, String dstEncoding) {

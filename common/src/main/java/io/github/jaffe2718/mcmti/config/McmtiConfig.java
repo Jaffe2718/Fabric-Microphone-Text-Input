@@ -33,6 +33,14 @@ public class McmtiConfig extends MidnightConfig {
         Thread.ofVirtual().start(SpeechRecognizer::init);
     }
 
+    public enum ActivatiedRecognizer {
+        INSTANCE;        // TODO: for midnightlib without format
+        @Override
+        public String toString() {
+            return String.valueOf(SpeechRecognizer.getInstanceID());
+        }
+    }
+
     public enum Mode {
         AUTO_SEND,
         RELEASE_KEY_TO_SEND,
@@ -58,6 +66,14 @@ public class McmtiConfig extends MidnightConfig {
         BUILT_IN,
         CUSTOM,
     }
+
+    /**
+     * Show the activatied recognizer instance
+     */
+    // TODO: use comment after midnightlib support format
+    @Entry(category = "general")
+    @SuppressWarnings("unused")
+    public static ActivatiedRecognizer activatiedRecognizer = ActivatiedRecognizer.INSTANCE;
 
     /**
      * Whisper model path or url
