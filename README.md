@@ -29,7 +29,6 @@ experience.
 |------------------|------------------------------------------------------------------|-----------------------------------------------------------------------------------|
 | Java             | 21                                                               | 21                                                                                |
 | Fabric API       | see [fabric.mod.json](fabric/src/main/resources/fabric.mod.json) | ❌                                                                                 |
-| Architectury API | ❌                                                                | see [neoforge.mods.toml](neoforge/src/main/resources/META-INF/neoforge.mods.toml) |
 | MidnightLib      | see [fabric.mod.json](fabric/src/main/resources/fabric.mod.json) | see [neoforge.mods.toml](neoforge/src/main/resources/META-INF/neoforge.mods.toml) |
 
 ## Configuration
