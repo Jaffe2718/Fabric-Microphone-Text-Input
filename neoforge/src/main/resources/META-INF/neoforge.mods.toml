@@ -36,6 +36,6 @@ side = "CLIENT"
 [[dependencies.mcmti]]
 modId = "midnightlib"
 mandatory = true
-versionRange = "[1.0,)"
+versionRange = "[1.9,)"
 ordering = "AFTER"
 side = "CLIENT"

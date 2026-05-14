@@ -1,11 +1,6 @@
 ## Changelog
 
-1. feature: support developers to extend custom speech recognition mod (need to refer to this mod as a dependency to
-   develop new mod);
-2. feature: support event listeners for developers;
-3. adjust: optimize lifecycle of the recognizers;
-4. adjust: remove architectury dependency;
-5. fix: resolved an issue where there was no warning when advanced config were turned on;
+1. adjust: use comment format for recognizer;
 
 ## Download Whisper Model
 
@@ -17,8 +12,9 @@
 
 | Minecraft | Fabric                                                                                                                                                                                  | NeoForge                                                                                       |
 |-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| 26.1      | [fabric-api 0.145.3+26.1.1](https://modrinth.com/mod/fabric-api/version/0.145.3+26.1.1) <br> [midnightlib 1.9.2-fabric](https://modrinth.com/mod/midnightlib/version/1.9.2+26.1-fabric) | [midnightlib 1.9.2-neoforge](https://modrinth.com/mod/midnightlib/version/1.9.2+26.1-neoforge) |
-| 26.1.1    | [fabric-api 0.145.3+26.1.1](https://modrinth.com/mod/fabric-api/version/0.145.3+26.1.1) <br> [midnightlib 1.9.2-fabric](https://modrinth.com/mod/midnightlib/version/1.9.2+26.1-fabric) | [midnightlib 1.9.2-neoforge](https://modrinth.com/mod/midnightlib/version/1.9.2+26.1-neoforge) |
+| 26.1      | [fabric-api 0.148.2+26.1.2](https://modrinth.com/mod/fabric-api/version/0.148.2+26.1.2) <br> [midnightlib 1.9.3-fabric](https://modrinth.com/mod/midnightlib/version/1.9.3+26.1-fabric) | [midnightlib 1.9.3-neoforge](https://modrinth.com/mod/midnightlib/version/1.9.3+26.1-neoforge) |
+| 26.1.1    | [fabric-api 0.148.2+26.1.2](https://modrinth.com/mod/fabric-api/version/0.148.2+26.1.2) <br> [midnightlib 1.9.3-fabric](https://modrinth.com/mod/midnightlib/version/1.9.3+26.1-fabric) | [midnightlib 1.9.3-neoforge](https://modrinth.com/mod/midnightlib/version/1.9.3+26.1-neoforge) |
+| 26.1.2    | [fabric-api 0.148.2+26.1.2](https://modrinth.com/mod/fabric-api/version/0.148.2+26.1.2) <br> [midnightlib 1.9.3-fabric](https://modrinth.com/mod/midnightlib/version/1.9.3+26.1-fabric) | [midnightlib 1.9.3-neoforge](https://modrinth.com/mod/midnightlib/version/1.9.3+26.1-neoforge) |
 
 ## Compatibility
 

@@ -3,7 +3,7 @@
     "key.mcmti.recognize": "التعرف",
     "mcmti.gui.config.advanced.warn": "تحذير: تفعيل التكوين المتقدم سيتغير المعلمات الافتراضية لتكوين نموذج Whisper، مما سيكون له تأثير كبير على نتائج التعرف على الكلام. قد يؤدي التكوين غير المناسب للمعلمات المتقدمة إلى مشاكل مثل فشل التعرف على الكلام، استخدام موارد الكمبيوتر العالية، وتعطل البرنامج. يرجى استخدامها بحذر.",
     "mcmti.gui.config.advanced.warn.title": "§l§cتفعيل التكوين المتقدم",
-    "mcmti.midnightconfig.activatiedRecognizer": "التعرف المنشط",
+    "mcmti.midnightconfig.activatiedRecognizer": "§eالتعرف المنشط: %s",
     "mcmti.midnightconfig.advancedConfig": "§cتفعيل التكوين المتقدم",
     "mcmti.midnightconfig.advancedConfig.tooltip": "تفعيل التكوين المتقدم.",
     "mcmti.midnightconfig.audioCtx": "audioCtx",

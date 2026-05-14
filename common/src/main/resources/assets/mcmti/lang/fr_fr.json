@@ -3,7 +3,7 @@
     "key.mcmti.recognize": "Reconnaître",
     "mcmti.gui.config.advanced.warn": "AVERTISSEMENT : L'activation de la configuration avancée changera les paramètres par défaut de la configuration du modèle Whisper, ce qui aura un impact critique sur les résultats de la reconnaissance vocale. Une configuration inappropriée des paramètres avancés peut entraîner des problèmes tels que l'échec de la reconnaissance vocale, une utilisation élevée des ressources de l'ordinateur et des plantages de programme. Veuillez utiliser avec prudence.",
     "mcmti.gui.config.advanced.warn.title": "§l§cActiver la configuration avancée",
-    "mcmti.midnightconfig.activatiedRecognizer": "Reconnaissanceur activé",
+    "mcmti.midnightconfig.activatiedRecognizer": "§eReconnaissanceur activé: %s",
     "mcmti.midnightconfig.advancedConfig": "§cActiver la configuration avancée",
     "mcmti.midnightconfig.advancedConfig.tooltip": "Activer la configuration avancée.",
     "mcmti.midnightconfig.audioCtx": "audioCtx",

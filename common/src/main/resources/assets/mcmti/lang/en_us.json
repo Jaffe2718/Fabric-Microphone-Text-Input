@@ -3,7 +3,7 @@
     "key.mcmti.recognize": "Recognize",
     "mcmti.gui.config.advanced.warn": "WARNING: Activating the advanced configuration will change the default parameters of the Whisper model configuration, which will have a critical impact on the speech recognition results. Inappropriate configuration of advanced parameters can lead to problems such as speech recognition failure, high computer resource usage, and program crashes. Please use with caution.",
     "mcmti.gui.config.advanced.warn.title": "§l§cEnable Advanced Config",
-    "mcmti.midnightconfig.activatiedRecognizer": "Activatied Recognizer",
+    "mcmti.midnightconfig.activatiedRecognizer": "§eActivatied Recognizer: %s",
     "mcmti.midnightconfig.advancedConfig": "§cEnable Advanced Config",
     "mcmti.midnightconfig.advancedConfig.tooltip": "Enable advanced configuration.",
     "mcmti.midnightconfig.audioCtx": "audioCtx",

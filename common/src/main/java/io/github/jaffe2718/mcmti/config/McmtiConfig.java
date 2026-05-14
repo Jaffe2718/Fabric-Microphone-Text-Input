@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.function.Supplier;
 
 public class McmtiConfig extends MidnightConfig {
 
@@ -31,14 +32,6 @@ public class McmtiConfig extends MidnightConfig {
     public void writeChanges() {
         super.writeChanges();
         Thread.ofVirtual().start(SpeechRecognizer::init);
-    }
-
-    public enum ActivatiedRecognizer {
-        INSTANCE;        // TODO: for midnightlib without format
-        @Override
-        public String toString() {
-            return String.valueOf(SpeechRecognizer.getInstanceID());
-        }
     }
 
     public enum Mode {
@@ -70,10 +63,9 @@ public class McmtiConfig extends MidnightConfig {
     /**
      * Show the activatied recognizer instance
      */
-    // TODO: use comment after midnightlib support format
-    @Entry(category = "general")
+    @Comment(category = "general", centered = true)
     @SuppressWarnings("unused")
-    public static ActivatiedRecognizer activatiedRecognizer = ActivatiedRecognizer.INSTANCE;
+    public static Supplier<String> activatiedRecognizer = () -> String.valueOf(SpeechRecognizer.getInstanceID());
 
     /**
      * Whisper model path or url
